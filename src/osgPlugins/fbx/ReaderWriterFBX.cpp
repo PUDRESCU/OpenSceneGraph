@@ -129,10 +129,15 @@ void resolveBindMatrices(
     const BindMatrixMap& boneBindMatrices,
     const std::map<FbxNode*, osg::Node*>& nodeMap)
 {
-    std::set<std::string> nodeNames;
+    std::vector<std::string> nodeNames;
+    //std::set<std::string> nodeNames;
+
     for (std::map<FbxNode*, osg::Node*>::const_iterator it = nodeMap.begin(); it != nodeMap.end(); ++it)
     {
-        nodeNames.insert(it->second->getName());
+      if(std::find(nodeNames.begin(), nodeNames.end(), it->second->getName()) == nodeNames.end())
+      {
+        nodeNames.push_back(it->second->getName());
+      }
     }
 
     for (BindMatrixMap::const_iterator it = boneBindMatrices.begin();
@@ -157,11 +162,19 @@ void resolveBindMatrices(
                         std::stringstream ss;
                         ss << osgBone.getName() << '_' << i;
                         name = ss.str();
-                        if (nodeNames.insert(name).second)
+                      
+                        if(std::find(nodeNames.begin(), nodeNames.end(), name) == nodeNames.end())
                         {
-                            break;
+                          nodeNames.push_back(name);
+                          break;
                         }
+                      
+//                        if (nodeNames.insert(name).second)
+//                        {
+//                            break;
+//                        }
                     }
+
                     osgAnimation::Bone* newBone = new osgAnimation::Bone(name);
                     newBone->setDefaultUpdateCallback();
                     newBone->setInvBindMatrixInSkeletonSpace(it->second);
@@ -172,6 +185,7 @@ void resolveBindMatrices(
                     osgAnimation::VertexInfluenceMap* vertexInfluences = pRigGeometry->getInfluenceMap();
 
                     osgAnimation::VertexInfluenceMap::iterator vimIt = vertexInfluences->find(osgBone.getName());
+
                     if (vimIt != vertexInfluences->end())
                     {
                         osgAnimation::VertexInfluence vi;
@@ -353,7 +367,6 @@ ReaderWriterFBX::readNode(const std::string& filenameInit,
             if (res.success())
             {
                 fbxMaterialToOsgStateSet.checkInvertTransparency();
-
                 resolveBindMatrices(*res.getNode(), reader.boneBindMatrices, reader.nodeMap);
 
                 osg::Node* osgNode = res.getNode();
@@ -451,6 +464,7 @@ ReaderWriterFBX::readNode(const std::string& filenameInit,
                 }
 
                 osgNode->setName(filenameInit);
+
                 return osgNode;
             }
         }

@@ -35,6 +35,9 @@ struct StateSetContent
     osg::ref_ptr<osg::Texture2D> reflectionTexture;
     osg::ref_ptr<osg::Texture2D> emissiveTexture;
     osg::ref_ptr<osg::Texture2D> ambientTexture;
+    osg::ref_ptr<osg::Texture2D> normalMapTexture;
+    osg::ref_ptr<osg::Texture2D> specularTexture;
+
     // more textures types here...
 
     // textures maps channels names...
@@ -43,6 +46,9 @@ struct StateSetContent
     std::string reflectionChannel;
     std::string emissiveChannel;
     std::string ambientChannel;
+    std::string normalMapChannel;
+    std::string specularChannel;
+
     // more channels names here...
 
     // combining factors...
@@ -50,6 +56,9 @@ struct StateSetContent
     double reflectionFactor;
     double emissiveFactor;
     double ambientFactor;
+    double normalMapFactor;
+    double specularFactor;
+
     // more combining factors here...
 
     double diffuseScaleU;
@@ -60,7 +69,11 @@ struct StateSetContent
     double emissiveScaleV;
     double ambientScaleU;
     double ambientScaleV;
-
+    double normalMapScaleU;
+    double normalMapScaleV;
+    double specularScaleU;
+    double specularScaleV;
+  
     // texture units (eventually used for each texture map)...
     enum TextureUnit
     {
@@ -68,7 +81,9 @@ struct StateSetContent
         OPACITY_TEXTURE_UNIT,
         REFLECTION_TEXTURE_UNIT,
         EMISSIVE_TEXTURE_UNIT,
-        AMBIENT_TEXTURE_UNIT
+        AMBIENT_TEXTURE_UNIT,
+        NORMALMAP_TEXTURE_UNIT,
+        SPECULAR_TEXTURE_UNIT
         // more texture units here...
     };
 };
