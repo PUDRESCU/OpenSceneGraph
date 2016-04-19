@@ -1,9 +1,39 @@
 SET(TARGET_SRC
     OrientationConverter.cpp 
     osgconv.cpp
+    ShaderBase.cpp
+    ShaderConstants.cpp
+    Material.cpp
+    ShaderManager.cpp
+    MaterialParameterNode.cpp
+    TriggerParameterNode.cpp
+    IMTexture2DOSG.cpp
+    BackgroundRenderPass.cpp
+    AlignmentInfoNode.cpp
+    Texture2DImageSequence.cpp
+    OverlayRenderPass.cpp
+    Shader_Generic.cpp
 )
 SET(TARGET_H
     OrientationConverter.h
+    ShaderBase.h
+    ShaderConstants.h
+    TargetConditionals.h
+    Light.h
+    Material.h
+    ShaderManager.h
+    MaterialParameterNode.h
+    TriggerParameterNode.h
+    NodeVisitorHelper.h
+    IMImageOSG.h
+    IMTexture2DOSG.h
+    BackgroundRenderPass.hpp
+    AlignmentInfoNode.h
+    Texture2DImageSequence.h
+    OverlayRenderPass.hpp
+    Shader_Generic.h
 )
+SET(TARGET_ADDED_LIBRARIES osgAnimation)
+
 
 SETUP_APPLICATION(osgconv)
