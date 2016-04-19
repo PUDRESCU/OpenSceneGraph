@@ -39,6 +39,22 @@ Material::Material()
     _shininessFrontAndBack = true;
     _shininessFront = 0.0f;
     _shininessBack = 0.0f;
+  
+    _transparentFrontAndBack = true;
+    _transparentFront.set(0.0f, 0.0f, 0.0f, 1.0f);
+    _transparentBack.set(0.0f, 0.0f, 0.0f, 1.0f);
+  
+    _transparencyFactorFrontAndBack = true;
+    _transparencyFactorFront = 1.0f;
+    _transparencyFactorBack = 1.0f;
+  
+    _reflectionFrontAndBack = true;
+    _reflectionFront.set(0.0f, 0.0f, 0.0f, 1.0f);
+    _reflectionBack.set(0.0f, 0.0f, 0.0f, 1.0f);
+  
+    _reflectionFactorFrontAndBack = true;
+    _reflectionFactorFront = 0.0f;
+    _reflectionFactorBack = 0.0f;
 }
 
 
@@ -66,7 +82,18 @@ Material& Material:: operator = (const Material& rhs)
     _shininessFrontAndBack= rhs._shininessFrontAndBack;
     _shininessFront= rhs._shininessFront;
     _shininessBack= rhs._shininessBack;
-
+    _transparentFrontAndBack= rhs._transparentFrontAndBack;
+    _transparentFront= rhs._transparentFront;
+    _transparentBack= rhs._transparentBack;
+    _transparencyFactorFrontAndBack= rhs._transparencyFactorFrontAndBack;
+    _transparencyFactorFront= rhs._transparencyFactorFront;
+    _transparencyFactorBack= rhs._transparencyFactorBack;
+    _reflectionFrontAndBack= rhs._reflectionFrontAndBack;
+    _reflectionFront= rhs._reflectionFront;
+    _reflectionBack= rhs._reflectionBack;
+    _reflectionFactorFrontAndBack= rhs._reflectionFactorFrontAndBack;
+    _reflectionFactorFront= rhs._reflectionFactorFront;
+    _reflectionFactorBack= rhs._reflectionFactorBack;
     return *this;
 }
 
@@ -264,7 +291,7 @@ const Vec4& Material::getEmission(Face face) const
 
 void Material::setShininess(Face face, float shininess )
 {
-    clampBetweenRange(shininess,0.0f,128.0f,"Material::setShininess()");
+    //clampBetweenRange(shininess,0.0f,128.0f,"Material::setShininess()");
 
     switch(face)
     {
@@ -348,6 +375,181 @@ void Material::setAlpha(Face face,float alpha)
         _specularBack[3] = alpha;
         _emissionBack[3] = alpha;
     }
+}
+
+void Material::setTransparent( Face face, const Vec4& transparent )
+{
+  switch(face)
+  {
+    case(FRONT):
+      _transparentFrontAndBack = false;
+      _transparentFront = transparent;
+      break;
+    case(BACK):
+      _transparentFrontAndBack = false;
+      _transparentBack = transparent;
+      break;
+    case(FRONT_AND_BACK):
+      _transparentFrontAndBack = true;
+      _transparentFront = transparent;
+      _transparentBack = transparent;
+      break;
+    default:
+      OSG_NOTICE<<"Notice: invalid Face passed to Material::setTransparent()."<< std::endl;
+      break;
+  }
+}
+
+const Vec4& Material::getTransparent(Face face) const
+{
+  switch(face)
+  {
+    case(FRONT):
+      return _transparentFront;
+    case(BACK):
+      return _transparentBack;
+    case(FRONT_AND_BACK):
+      if (!_transparentFrontAndBack)
+      {
+        OSG_NOTICE<<"Notice: Material::getTransparent(FRONT_AND_BACK) called on material "<< std::endl;
+        OSG_NOTICE<<"        with separate FRONT and BACK transparent colors."<< std::endl;
+      }
+      return _transparentFront;
+  }
+  OSG_NOTICE<<"Notice: invalid Face passed to Material::getTransparent()."<< std::endl;
+  return _transparentFront;
+}
+
+
+void Material::setTransparencyFactor( Face face, float transparencyFactor )
+{
+  switch(face)
+  {
+    case(FRONT):
+      _transparencyFactorFrontAndBack = false;
+      _transparencyFactorFront = transparencyFactor;
+      break;
+    case(BACK):
+      _transparencyFactorFrontAndBack = false;
+      _transparencyFactorBack = transparencyFactor;
+      break;
+    case(FRONT_AND_BACK):
+      _transparencyFactorFrontAndBack = true;
+      _transparencyFactorFront = transparencyFactor;
+      _transparencyFactorBack = transparencyFactor;
+      break;
+    default:
+      OSG_NOTICE<<"Notice: invalid Face passed to Material::setTransparencyFactor()."<< std::endl;
+      break;
+  }
+}
+
+float Material::getTransparencyFactor(Face face) const
+{
+  switch(face)
+  {
+    case(FRONT):
+      return _transparencyFactorFront;
+    case(BACK):
+      return _transparencyFactorBack;
+    case(FRONT_AND_BACK):
+      if (!_transparencyFactorFrontAndBack)
+      {
+        OSG_NOTICE<<"Notice: Material::getTransparencyFactor(FRONT_AND_BACK) called on material "<< std::endl;
+        OSG_NOTICE<<"        with separate FRONT and BACK transparency factor."<< std::endl;
+      }
+      return _transparencyFactorFront;
+  }
+  OSG_NOTICE<<"Notice: invalid Face passed to Material::getTransparencyFactor()."<< std::endl;
+  return _transparencyFactorFront;
+}
+
+
+void Material::setReflection( Face face, const Vec4& reflection )
+{
+  switch(face)
+  {
+    case(FRONT):
+      _reflectionFrontAndBack = false;
+      _reflectionFront = reflection;
+      break;
+    case(BACK):
+      _reflectionFrontAndBack = false;
+      _reflectionBack = reflection;
+      break;
+    case(FRONT_AND_BACK):
+      _reflectionFrontAndBack = true;
+      _reflectionFront = reflection;
+      _reflectionBack = reflection;
+      break;
+    default:
+      OSG_NOTICE<<"Notice: invalid Face passed to Material::setReflection()."<< std::endl;
+      break;
+  }
+}
+
+const Vec4& Material::getReflection(Face face) const
+{
+  switch(face)
+  {
+    case(FRONT):
+      return _reflectionFront;
+    case(BACK):
+      return _reflectionBack;
+    case(FRONT_AND_BACK):
+      if (!_reflectionFrontAndBack)
+      {
+        OSG_NOTICE<<"Notice: Material::getReflection(FRONT_AND_BACK) called on material "<< std::endl;
+        OSG_NOTICE<<"        with separate FRONT and BACK reflection colors."<< std::endl;
+      }
+      return _reflectionFront;
+  }
+  OSG_NOTICE<<"Notice: invalid Face passed to Material::getReflection()."<< std::endl;
+  return _reflectionFront;
+}
+
+
+void Material::setReflectionFactor( Face face, float reflectionFactor )
+{
+  switch(face)
+  {
+    case(FRONT):
+      _reflectionFactorFrontAndBack = false;
+      _reflectionFactorFront = reflectionFactor;
+      break;
+    case(BACK):
+      _reflectionFactorFrontAndBack = false;
+      _reflectionFactorBack = reflectionFactor;
+      break;
+    case(FRONT_AND_BACK):
+      _reflectionFactorFrontAndBack = true;
+      _reflectionFactorFront = reflectionFactor;
+      _reflectionFactorBack = reflectionFactor;
+      break;
+    default:
+      OSG_NOTICE<<"Notice: invalid Face passed to Material::setTransparentFactor()."<< std::endl;
+      break;
+  }
+}
+
+float Material::getReflectionFactor(Face face) const
+{
+  switch(face)
+  {
+    case(FRONT):
+      return _reflectionFactorFront;
+    case(BACK):
+      return _reflectionFactorBack;
+    case(FRONT_AND_BACK):
+      if (!_reflectionFactorFrontAndBack)
+      {
+        OSG_NOTICE<<"Notice: Material::getReflectionFactor(FRONT_AND_BACK) called on material "<< std::endl;
+        OSG_NOTICE<<"        with separate FRONT and BACK reflection factor."<< std::endl;
+      }
+      return _reflectionFactorFront;
+  }
+  OSG_NOTICE<<"Notice: invalid Face passed to Material::getReflectionFactor()."<< std::endl;
+  return _reflectionFactorFront;
 }
 
 void Material::apply(State&) const

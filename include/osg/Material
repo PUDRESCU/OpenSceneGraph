@@ -52,7 +52,20 @@ class OSG_EXPORT Material : public StateAttribute
             _emissionBack(mat._emissionBack),
             _shininessFrontAndBack(mat._shininessFrontAndBack),
             _shininessFront(mat._shininessFront),
-            _shininessBack(mat._shininessBack) {}
+            _shininessBack(mat._shininessBack),
+            _transparentFrontAndBack(mat._transparentFrontAndBack),
+            _transparentFront(mat._transparentFront),
+            _transparentBack(mat._transparentBack), 
+            _transparencyFactorFrontAndBack(mat._transparencyFactorFrontAndBack),
+            _transparencyFactorFront(mat._transparencyFactorFront),
+            _transparencyFactorBack(mat._transparencyFactorBack), 
+            _reflectionFrontAndBack(mat._reflectionFrontAndBack),
+            _reflectionFront(mat._reflectionFront),
+            _reflectionBack(mat._reflectionBack), 
+            _reflectionFactorFrontAndBack(mat._reflectionFactorFrontAndBack),
+            _reflectionFactorFront(mat._reflectionFactorFront),
+            _reflectionFactorBack(mat._reflectionFactorBack)
+            {}
 
         META_StateAttribute(osg, Material, MATERIAL);
 
@@ -80,7 +93,19 @@ class OSG_EXPORT Material : public StateAttribute
             COMPARE_StateAttribute_Parameter(_shininessFrontAndBack)
             COMPARE_StateAttribute_Parameter(_shininessFront)
             COMPARE_StateAttribute_Parameter(_shininessBack)
-
+            COMPARE_StateAttribute_Parameter(_transparentFrontAndBack)
+            COMPARE_StateAttribute_Parameter(_transparentFront)
+            COMPARE_StateAttribute_Parameter(_transparentBack)
+            COMPARE_StateAttribute_Parameter(_transparencyFactorFrontAndBack)
+            COMPARE_StateAttribute_Parameter(_transparencyFactorFront)
+            COMPARE_StateAttribute_Parameter(_transparencyFactorBack)
+            COMPARE_StateAttribute_Parameter(_reflectionFrontAndBack)
+            COMPARE_StateAttribute_Parameter(_reflectionFront)
+            COMPARE_StateAttribute_Parameter(_reflectionBack)
+            COMPARE_StateAttribute_Parameter(_reflectionFactorFrontAndBack)
+            COMPARE_StateAttribute_Parameter(_reflectionFactorFront)
+            COMPARE_StateAttribute_Parameter(_reflectionFactorBack)
+            
             return 0; // passed all the above comparison macros, must be equal.
         }
 
@@ -172,6 +197,22 @@ class OSG_EXPORT Material : public StateAttribute
         */
         void setAlpha(Face face,float alpha);
 
+        void setTransparent( Face face, const Vec4& transparent );
+        const Vec4& getTransparent(Face face) const;
+        inline bool getTransparentFrontAndBack() const { return _transparentFrontAndBack; }
+
+        void setTransparencyFactor( Face face, float transparencyFactor );
+        float getTransparencyFactor(Face face) const;
+        inline bool getTransparencyFactorFrontAndBack() const { return _transparencyFactorFrontAndBack; }
+
+        void setReflection( Face face, const Vec4& reflection );
+        const Vec4& getReflection(Face face) const;
+        inline bool getReflectionFrontAndBack() const { return _reflectionFrontAndBack; }
+
+        void setReflectionFactor( Face face, float reflectionFactor );
+        float getReflectionFactor(Face face) const;
+        inline bool getReflectionFactorFrontAndBack() const { return _reflectionFactorFrontAndBack; }
+
     protected :
 
         virtual ~Material();
@@ -198,6 +239,22 @@ class OSG_EXPORT Material : public StateAttribute
         float  _shininessFront;                      // values 0 - 128.0
         float  _shininessBack;                       // values 0 - 128.0
 
+        bool  _transparentFrontAndBack;
+        Vec4  _transparentFront;                      // r, g, b, w
+        Vec4  _transparentBack;                       // r, g, b, w
+        
+        bool   _transparencyFactorFrontAndBack;
+        float  _transparencyFactorFront;              // 
+        float  _transparencyFactorBack;               // 
+        
+        bool  _reflectionFrontAndBack;
+        Vec4  _reflectionFront;                      // r, g, b, w
+        Vec4  _reflectionBack;                       // r, g, b, w
+        
+        bool   _reflectionFactorFrontAndBack;
+        float  _reflectionFactorFront;              // 
+        float  _reflectionFactorBack;               // 
+        
 };
 
 }
