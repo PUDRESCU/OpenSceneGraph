@@ -991,10 +991,17 @@ public:
     std::string texFolder = osgDB::getFilePath(destTexFileName);
     
     // if texture is inside a subfolder
+#if defined(WIN32)
+    if(texFolder != "" &&  _access(texFolder.c_str(), 0) != 0)
+    {
+      _mkdir(texFolder.c_str());
+    }
+#else
     if(texFolder != "" &&  access(texFolder.c_str(), 0) != 0)
     {
       mkdir(texFolder.c_str(), 0777);
     }
+#endif
     
     osg::ImageSequence* imgSeq = dynamic_cast<osg::ImageSequence*>(imageObj);
     if(imgSeq)

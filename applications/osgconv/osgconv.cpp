@@ -1039,18 +1039,29 @@ void createPackage(osg::ref_ptr<osg::Node> root, const std::string& absoluteOsgt
 
   std::string curDir = osgDB::getFilePath(absoluteOsgtFileName);
   std::string packageDir = osgDB::concatPaths(curDir, "osg_package");
+ 
+#if defined(WIN32)
+  // The packagDir exists, then delete it
+  if(_access(packageDir.c_str(), 0) == 0)
+  {
+    osg::notify(osg::NOTICE)<<"path: "<<packageDir<<" exist"<<std::endl;
+    std::string rmCommand = "rd /s /q \""+packageDir+"\"";
+    std::system(rmCommand.c_str());
+  }
   
+  _mkdir(packageDir.c_str());
+#else
   // The packagDir exists, then delete it
   if(access(packageDir.c_str(), 0) == 0)
   {
     osg::notify(osg::NOTICE)<<"path: "<<packageDir<<" exist"<<std::endl;
-    
     std::string rmCommand = "rm -fr \""+packageDir+"\"";
     std::system(rmCommand.c_str());
   }
   
   mkdir(packageDir.c_str(), 0777);
-   
+#endif
+ 
   // Find image files and copy them into packge folder
   CopyImageVisitor copyImageVisitor(curDir, packageDir);
   root->accept(copyImageVisitor);
