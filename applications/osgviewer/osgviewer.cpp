@@ -961,13 +961,13 @@ void setupSkeletonAnimation(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> r
 
 void setupBillboards(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
 {
-  FindGeodeNodeVisitor findGeodeNodeVisitor("facemask");
+  FindGeodeNodeVisitor findGeodeNodeVisitor("pPlane4");
   root->accept(findGeodeNodeVisitor);
 
-  osg::Node* faceNode = findGeodeNodeVisitor.getFirst();
-  if(faceNode)
+  osg::Node* bbNode = findGeodeNodeVisitor.getFirst();
+  if(bbNode)
   {
-    osg::ref_ptr<osg::Geode> node = dynamic_cast<osg::Geode*>(faceNode);
+    osg::ref_ptr<osg::Geode> node = dynamic_cast<osg::Geode*>(bbNode);
 
     std::vector<osg::Group*> parents = node->getParents();
     
@@ -975,7 +975,7 @@ void setupBillboards(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
     billBoard->setMode(osg::Billboard::AXIAL_ROT);
     billBoard->setAxis(osg::Vec3(0.0f,0.0f,1.0f));
     billBoard->setNormal(osg::Vec3(0.0f,-1.0f,0.0f));
-    
+    osg::notify(osg::NOTICE)<<"add billboard"<<std::endl;
     for (int i = 0; i < node->getNumDrawables(); i++)
     {
       osg::Drawable* dr = node->getDrawable(i);
@@ -1240,6 +1240,8 @@ int main(int argc, char** argv)
 
     viewer.realize();
   
+    //osgDB::ReaderWriter::WriteResult result = osgDB::Registry::instance()->writeNode(*loadedModel, "test_billboard.osgt",new osgDB::Options("WriteImageHint=UseExternal"));
+
     while(!viewer.done())
     {
       viewer.advance();

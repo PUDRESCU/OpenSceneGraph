@@ -583,7 +583,11 @@ public:
                    (oneMaterial.GetName() == oneParam->getName())))
                  {
                    osg::notify(osg::NOTICE)<<"set material type: "<<oneParam->getType()<<std::endl;
-                   oneMaterial.SetType(oneParam->getType());
+                   // we only set shader type when it is not default
+                   if(oneParam->getType() != "phong")
+                   {
+                     oneMaterial.SetType(oneParam->getType());
+                   }
                    
                    oneMaterial.SetMojoLightingWeight(oneParam->getMojoLightingWeight());
                    oneMaterial.SetMojoPaintReferenceIntensity(oneParam->getMojoPaintReferenceIntensity());
