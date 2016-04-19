@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IMTools>
+	<shelfItem icon="shader.png" cmds="import OSGAddShaders; osgAddShaders = OSGAddShaders.OSGAddShaders();" ann="Add custom shaders"/>
+	<shelfItem icon="trigger.png" cmds="import OSGAddTrigger; osgAddTrigger = OSGAddTrigger.OSGAddTrigger();" ann="Add trigger to selected object"/>
+	<shelfItem icon="export.png" cmds="import OSGExporter; osgExporter = OSGExporter.OSGExporter();" ann="Export selected objects to OSG file"/>
+</IMTools>
