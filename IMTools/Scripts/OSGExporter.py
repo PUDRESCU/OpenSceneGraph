@@ -20,7 +20,6 @@ class OSGExporter:
 
     def get_image_sequence_name_pattern(self, file_name, scene_file_folder):
         relative_path = os.path.relpath(file_name, scene_file_folder)
-        #file_name = file_name[file_name.rfind('/')+1:];
         if '.<f>.' in relative_path:
             return relative_path;
         p1 = relative_path.rfind('.');
@@ -293,6 +292,7 @@ class OSGExporter:
         transforms = maya.cmds.ls(transforms=True);
         for one_transform in transforms:
             # if transform nodes also connect to a shape node
+            print(one_transform);
             shapes = maya.cmds.listRelatives(one_transform, shapes=True);
             if shapes:
                 for one_shape in shapes:
@@ -349,7 +349,7 @@ class OSGExporter:
 
         # Get current scene name
         scene_full_path = maya.cmds.file(q=True, sceneName=True);
-        scene_file_folder = scene_full_path[:scene_full_path.rfind('/')];
+        scene_file_folder = os.path.abspath(os.path.join(scene_full_path, os.pardir));
 
         # We save temporary osg export related files into CURRENT_SCENE/osg_export folder
         osg_export_folder = os.path.join(scene_file_folder, 'osg_export');
@@ -472,9 +472,13 @@ class OSGExporter:
                 maya.cmds.confirmDialog( title='Error', message='Incorrect OSG path: \nPlease put IMTools into %s'%IMTOOLS_PLUGIN_FOLDER, button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
             else:
                 #save current path
-                cur_path = os.getcwd();
-                print('current path:'+os.getcwd());
-    
+                try:
+                    cur_path = os.getcwd();
+                    print('current path:'+os.getcwd());
+                except:
+                    print('Error happened while exporting, please reopen this maya file');
+                    return;
+
                 #change to current scene folder
                 os.chdir(osg_export_folder);
                 print('scene file path:'+os.getcwd());
@@ -484,14 +488,17 @@ class OSGExporter:
                 osgt_file_name = os.path.join(osg_export_folder, scene_file_name+'.osgt'); 
     
                 print('osgt file: '+osgt_file_name);
-                print('%s/osgconv "%s" "%s" --param "%s"'%(osg_execute_path, fbx_file_name, osgt_file_name, osg_param_file_name));
-                os.system('%s/osgconv "%s" "%s" --param "%s"'%(osg_execute_path, fbx_file_name, osgt_file_name, osg_param_file_name));
+                osgconvCommand = os.path.join(osg_execute_path, 'osgconv');
+                
+                print('%s "%s" "%s" --param "%s"'%(osgconvCommand, fbx_file_name, osgt_file_name, osg_param_file_name));
+                os.system('%s "%s" "%s" --param "%s"'%(osgconvCommand, fbx_file_name, osgt_file_name, osg_param_file_name));
         
                 #display osgt file in osgviewer
                 shouldLoadViewer = maya.cmds.confirmDialog( title='Confirm', message='Check OSG file in viewer?', button=['Yes','No'], defaultButton='Yes', cancelButton='No', dismissString='No' );
                 if shouldLoadViewer == 'Yes':
                     print('--------  check OSG file in viewer  --------');
-                    os.system('%s/osgviewer "%s"'%(osg_execute_path, osgt_file_name));
+                    osgviewerCommand = os.path.join(osg_execute_path, 'osgviewer');
+                    os.system('%s "%s"'%(osgviewerCommand, osgt_file_name));
         
                 shouldCreateDeviceFile = maya.cmds.confirmDialog( title='Confirm', message='Create a deployment OSG file for device?', button=['Yes','No'], defaultButton='Yes', cancelButton='No', dismissString='No' );
                 if shouldCreateDeviceFile == 'Yes':
@@ -499,12 +506,12 @@ class OSGExporter:
                    # export device file as binary format
                    osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgb'); 
                    print('device osgb file: '+osgt_device_file_name);
-                   print('%s/osgconv "%s" "%s" --param "%s" --device --package'%(osg_execute_path, fbx_file_name, osgt_device_file_name, osg_param_file_name));
-                   os.system('%s/osgconv "%s" "%s" --param "%s" --device --package'%(osg_execute_path, fbx_file_name, osgt_device_file_name, osg_param_file_name));
+                   print('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
+                   os.system('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
            
                    # package osg file and images into a *_deployment.zip file
                    package_zip_file_name = os.path.join(osg_export_folder, scene_file_name+'_deployment'); 
-                   package_folder = osg_export_folder + '/osg_package';
+                   package_folder = os.path.join(osg_export_folder, 'osg_package');
                    shutil.make_archive(package_zip_file_name, 'zip', package_folder);
                    # delete osg_package folder
                    shutil.rmtree(package_folder);
@@ -516,4 +523,4 @@ class OSGExporter:
             maya.cmds.confirmDialog( title='Error', message='No object selected!', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
 
         print('--------  done  --------');
-     
+  

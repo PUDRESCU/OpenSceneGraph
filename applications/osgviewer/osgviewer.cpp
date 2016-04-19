@@ -727,6 +727,13 @@ void setupTriggers(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
   root->accept(finder);
   g_animationManager = finder._am;
   
+  // Play default 3D animation
+  for (osgAnimation::AnimationList::const_iterator animIter = g_animationManager->getAnimationList().begin();
+       animIter != g_animationManager->getAnimationList().end(); ++animIter)
+  {
+    g_animationManager->playAnimation(*animIter);
+  }
+  
   FindNodeVisitor findNodeVisitor("trigger");
   root->accept(findNodeVisitor);
   std::vector<osg::Node*> triggerList = findNodeVisitor.getNodeList();
