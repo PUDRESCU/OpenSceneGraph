@@ -255,25 +255,29 @@ class OSGExporter:
          
 
     def createTransparentMaterialForOcclusionMesh(self):
-        OcclusionMeshShape = maya.cmds.listRelatives('OcclusionMesh', shapes=True);
-        material = maya.cmds.listConnections(OcclusionMeshShape[0], s=True, type='shadingEngine');
-        print(material);  
-        # already set some material
-        if material:
+        try:
+            OcclusionMeshShape = maya.cmds.listRelatives('OcclusionMesh', shapes=True);
+    
+            material = maya.cmds.listConnections(OcclusionMeshShape[0], s=True, type='shadingEngine');
+            print(material);  
+            # already set some material
+            if material:
+                maya.cmds.sets(material, rm='initialShadingGroup');
+            
+            newShader = maya.cmds.shadingNode('phong', asShader=True, name='OcclusionMeshPhong');
+            newSG = maya.cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name='OcclusionMeshPhongSG');
+            maya.cmds.connectAttr((newShader+'.outColor'),(newSG+'.surfaceShader'),f=True);
+            maya.cmds.sets('OcclusionMesh', e=True, forceElement=newSG);
+            maya.cmds.setAttr("%s.transparency"%newShader, 1, 1, 1);
+            maya.cmds.setAttr("%s.color"%newShader, 0, 0, 0);
+            maya.cmds.setAttr("%s.reflectivity"%newShader, 0);
+            maya.cmds.setAttr("%s.specularColor"%newShader, 0, 0, 0);
+            maya.cmds.setAttr("occlusion.scaleX", 0.99);
+            maya.cmds.setAttr("occlusion.scaleY", 0.99);
+            maya.cmds.setAttr("occlusion.scaleZ", 0.99);
+        except:
             return;
-        
-        newShader = maya.cmds.shadingNode('phong', asShader=True, name='OcclusionMeshPhong');
-        newSG = maya.cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name='OcclusionMeshPhongSG');
-        maya.cmds.connectAttr((newShader+'.outColor'),(newSG+'.surfaceShader'),f=True);
-        maya.cmds.sets('OcclusionMesh', e=True, forceElement=newSG);
-        maya.cmds.setAttr("%s.transparency"%newShader, 1, 1, 1);
-        maya.cmds.setAttr("%s.color"%newShader, 0, 0, 0);
-        maya.cmds.setAttr("%s.reflectivity"%newShader, 0);
-        maya.cmds.setAttr("%s.specularColor"%newShader, 0, 0, 0);
-        maya.cmds.setAttr("occlusion.scaleX", 0.99);
-        maya.cmds.setAttr("occlusion.scaleY", 0.99);
-        maya.cmds.setAttr("occlusion.scaleZ", 0.99);
-
+            
     # Get shaders connect to SG node
     #    shaders = maya.cmds.listNodeTypes('shader'); 
     #    if shaders:

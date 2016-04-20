@@ -569,26 +569,16 @@ public:
         switchValue = false;
       }
       
-      // If it is regular trigger node
-      osg::Switch* oneSwitch = dynamic_cast<osg::Switch*>(info.m_node.get());
-      if(oneSwitch)
+      osg::Geode* oneGeode = dynamic_cast<osg::Geode*>(info.m_node.get());
+      if(oneGeode)
       {
-        // Check if there is image sequence animation under switch node
-        FindGeodeVisitor findGeodeVisitor;
-        oneSwitch->accept(findGeodeVisitor);
+        osg::StateSet* stateSet =  oneGeode->getOrCreateStateSet();
+        resetImageSequence(stateSet, switchValue);
         
-        std::vector<osg::ref_ptr<osg::Geode> > geodes = findGeodeVisitor.getGeodes();
-        
-        for(size_t i = 0; i < geodes.size(); i++)
+        for(size_t j = 0; j < oneGeode->getNumDrawables(); j++)
         {
-          osg::StateSet* stateSet =  geodes[i]->getOrCreateStateSet();
-          resetImageSequence(stateSet, switchValue);
-          
-          for(size_t j = 0; j < geodes[i]->getNumDrawables(); j++)
-          {
-            osg::StateSet* drawableStateSet = dynamic_cast<osg::Geometry *>(geodes[i]->getDrawable(j))->getOrCreateStateSet();
-            resetImageSequence(drawableStateSet, switchValue);
-          }
+          osg::StateSet* drawableStateSet = dynamic_cast<osg::Geometry *>(oneGeode->getDrawable(j))->getOrCreateStateSet();
+          resetImageSequence(drawableStateSet, switchValue);
         }
       }
       
@@ -617,11 +607,17 @@ public:
         switchValue = false;
       }
       
-      osg::Switch* oneSwitch = dynamic_cast<osg::Switch*>(info.m_node.get());
-      if(oneSwitch)
+      osg::Geode* oneGeode = dynamic_cast<osg::Geode*>(info.m_node.get());
+      if(oneGeode)
       {
-        setSwitchValueForChild(oneSwitch, switchValue);
-        setSwitchValueForParent(oneSwitch, switchValue);
+        if(switchValue)
+        {
+          oneGeode->setNodeMask(0xffffffff);
+        }
+        else
+        {
+          oneGeode->setNodeMask(0x0);
+        }
       }
     }
 
@@ -726,12 +722,17 @@ void setupTriggers(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
   AnimationManagerFinder finder;
   root->accept(finder);
   g_animationManager = finder._am;
-  
-  // Play default 3D animation
-  for (osgAnimation::AnimationList::const_iterator animIter = g_animationManager->getAnimationList().begin();
-       animIter != g_animationManager->getAnimationList().end(); ++animIter)
+  std::vector<osg::ref_ptr<osg::Node> > shouldTurnOffNodes;
+
+  if(g_animationManager.valid())
   {
-    g_animationManager->playAnimation(*animIter);
+    // Play default 3D animation
+    for (osgAnimation::AnimationList::const_iterator animIter = g_animationManager->getAnimationList().begin();
+         animIter != g_animationManager->getAnimationList().end(); ++animIter)
+    {
+      g_animationManager->playAnimation(*animIter);
+    }
+    root->setUpdateCallback(g_animationManager.get());
   }
   
   FindNodeVisitor findNodeVisitor("trigger");
@@ -812,25 +813,17 @@ void setupTriggers(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
           
           for(size_t j = 0; j < nodes.size(); j++)
           {
-            std::vector<osg::Group*> parents = nodes[j]->getParents();
+            nodes[j]->setNodeMask(0xffffffff);
             
-            //Add a switch node as the parent of given node
-            osg::ref_ptr<osg::Switch> oneSwitch = new osg::Switch;
-            oneSwitch->addChild(nodes[j]);
-            
-            for(size_t k = 0; k < parents.size(); k++)
+            // Base on the value turn on/off node
+            if(!defaultValue)
             {
-              osg::Group* parentNode = parents[k];
-              parentNode->removeChild(nodes[j]);
-              parentNode->addChild(oneSwitch);
+              shouldTurnOffNodes.push_back(nodes[j]);
             }
-            
-            TriggerHandler::setSwitchValueForChild(oneSwitch, defaultValue);
-            TriggerHandler::setSwitchValueForParent(oneSwitch, defaultValue);
 
             // Add this switch node into trigger map
             TriggerNodeWithInfo oneNode;
-            oneNode.m_node = oneSwitch;
+            oneNode.m_node = nodes[j];
             oneNode.m_triggerType = oneParam->getTriggerType();
             oneNode.m_triggerAction = oneParam->getTriggerAction();
             oneNode.m_triggerAutoTimeout = oneParam->getTriggerAutoTimeout();
@@ -915,6 +908,11 @@ void setupTriggers(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
   
   TriggerHandler* triggerEventHandler = new TriggerHandler(g_triggerMap, g_animationManager);
   viewer->addEventHandler(triggerEventHandler);
+  // Turn off nodes if they should be hidden
+  for(size_t i = 0; i < shouldTurnOffNodes.size(); i++)
+  {
+    shouldTurnOffNodes[i]->setNodeMask(0x0);
+  }
 }
 
 void setupSkeletonAnimation(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
