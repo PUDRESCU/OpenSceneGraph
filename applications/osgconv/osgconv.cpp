@@ -20,6 +20,7 @@
 #include <osg/Timer>
 #include <osg/Material>
 #include <osg/ImageSequence>
+#include <osg/Node>
 
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -55,10 +56,13 @@
 #include "AlignmentInfoNode.h"
 #include "OverlayRenderPass.hpp"
 #include "Texture2DImageSequence.h"
+#include "AnimationSplitHelper.h"
+#include "AnimationParameterNode.h"
 
 typedef std::vector<std::string> FileNameList;
 
 std::map<std::string, ImageMetrics::ShaderBase*> gShaderLibrary;
+osg::ref_ptr<osgAnimation::BasicAnimationManager> g_animationManager;
 
 
 //REGISTER_OBJECT_WRAPPER(StateAttributeCallback_WRAPPER,
@@ -1074,7 +1078,52 @@ void createPackage(osg::ref_ptr<osg::Node> root, const std::string& absoluteOsgt
   std::system(cpOsgCommand.c_str());
 }
 
+void splitAnimations(osg::ref_ptr<osg::Node> root, osg::ref_ptr<osg::Group> params)
+{
+  if(params == NULL)
+  {
+    return;
+  }
+  
+  osg::Group* animationParams = NULL;
+  for(int i = 0; i < params->getNumChildren(); i++)
+  {
+    if(params->getChild(i)->getName() == "animation")
+    {
+      animationParams = dynamic_cast<osg::Group*>(params->getChild(i));
+      break;
+    }
+  }
+  
+  if(animationParams != NULL && animationParams->getNumChildren() > 0)
+  {
+    //get the name of the source animation
+    FindOsgAnimationByName findAniVis("Take 001");
+    root->accept(findAniVis);
+    if(findAniVis.p_ani != NULL)
+    {
+      //the animation was found, we need to copy it so it can be replaced with the new split animations
+      osg::ref_ptr<osgAnimation::Animation> originalAnimation = osg::clone(findAniVis.p_ani, osg::CopyOp::DEEP_COPY_ALL);
 
+      //delete the original (at this point findAniVis.p_ani will probably become invalid, which is ok as we copied it above)
+      findAniVis.p_manager->unregisterAnimation(findAniVis.p_ani);
+      
+      for(int n = 0; n < animationParams->getNumChildren(); n++)
+      {
+        osg::ref_ptr<osg::AnimationParameterNode> oneParam = dynamic_cast<osg::AnimationParameterNode*>(animationParams->getChild(n));
+      
+        //get the split info
+        osg::ref_ptr<osgAnimation::Animation> newAnimation = AnimationUtils::ResampleAnimation(originalAnimation.get(), oneParam->getStartTime(), oneParam->getEndTime(), oneParam->getDuration(), oneParam->getAnimationName());
+        if(newAnimation.get())
+        {
+          findAniVis.p_manager->registerAnimation(newAnimation.get());
+        }
+      }
+    }
+  }
+
+  
+}
 
 int main( int argc, char **argv )
 {
@@ -1522,6 +1571,9 @@ int main( int argc, char **argv )
     addTriggerNodes(root, params);
     
     osg::notify(osg::NOTICE)<<"===================== STEP: postprocess    ====================="<<std::endl;
+    
+    splitAnimations(root, params);
+    
     // post process for device deployment
     root = postProcess(root, isDeviceDeployment, width, height);
     

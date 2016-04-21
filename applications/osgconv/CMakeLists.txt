@@ -13,6 +13,7 @@ SET(TARGET_SRC
     Texture2DImageSequence.cpp
     OverlayRenderPass.cpp
     Shader_Generic.cpp
+    AnimationParameterNode.cpp
 )
 SET(TARGET_H
     OrientationConverter.h
@@ -32,6 +33,9 @@ SET(TARGET_H
     Texture2DImageSequence.h
     OverlayRenderPass.hpp
     Shader_Generic.h
+    AnimationSplitHelper.h
+    AnimationParameterNode.h
+
 )
 SET(TARGET_ADDED_LIBRARIES osgAnimation)
 
