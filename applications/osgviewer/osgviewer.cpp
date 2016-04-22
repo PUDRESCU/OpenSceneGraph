@@ -673,11 +673,11 @@ public:
         {
           case '1':
           {
-            static int count = 0;
+            static int count1 = 0;
             std::string event;
             
             // Simulate mouth open
-            if(count % 2 == 0)
+            if(count1 % 2 == 0)
             {
               event = "mouthopen:start";
             }
@@ -685,7 +685,157 @@ public:
             {
               event = "mouthopen:end";
             }
-            count++;
+            count1++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '2':
+          {
+            static int count2 = 0;
+            std::string event;
+            
+            // Simulate eye open
+            if(count2 % 2 == 0)
+            {
+              event = "eyesclosed:start";
+            }
+            else
+            {
+              event = "eyesclosed:end";
+            }
+            count2++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '3':
+          {
+            static int count3 = 0;
+            std::string event;
+            
+            // Simulate browsraised
+            if(count3 % 2 == 0)
+            {
+              event = "browsraised:start";
+            }
+            else
+            {
+              event = "browsraised:end";
+            }
+            count3++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '4':
+          {
+            static int count4 = 0;
+            std::string event;
+            
+            // Simulate head up
+            if(count4 % 2 == 0)
+            {
+              event = "headup:start";
+            }
+            else
+            {
+              event = "headup:end";
+            }
+            count4++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '5':
+          {
+            static int count5 = 0;
+            std::string event;
+            
+            // Simulate head down
+            if(count5 % 2 == 0)
+            {
+              event = "headdown:start";
+            }
+            else
+            {
+              event = "headdown:end";
+            }
+            count5++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '6':
+          {
+            static int count6 = 0;
+            std::string event;
+            
+            // Simulate head left
+            if(count6 % 2 == 0)
+            {
+              event = "headleft:start";
+            }
+            else
+            {
+              event = "headleft:end";
+            }
+            count6++;
+            
+            std::cout << " t key pressed: "<<event<< std::endl;
+            osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
+            if(viewer)
+            {
+              viewer->getEventQueue()->userEvent(new TriggerEventInfo(event));
+            }
+            return false;
+            break;
+          }
+          case '7':
+          {
+            static int count7 = 0;
+            std::string event;
+            
+            // Simulate head right
+            if(count7 % 2 == 0)
+            {
+              event = "headright:start";
+            }
+            else
+            {
+              event = "headright:end";
+            }
+            count7++;
             
             std::cout << " t key pressed: "<<event<< std::endl;
             osgViewer::Viewer* viewer = dynamic_cast<osgViewer::Viewer*>(&aa);
@@ -1094,6 +1244,13 @@ int main(int argc, char** argv)
 //    }
   
     arguments.getApplicationUsage()->addKeyboardMouseBinding('1', "Toggling Triggers: Mouth Open/Close");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('2', "Toggling Triggers: Eye Open/Close");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('3', "Toggling Triggers: Brows Raised Start/End");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('4', "Toggling Triggers: Head Up Start/End");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('5', "Toggling Triggers: Head Down Start/End");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('6', "Toggling Triggers: Head Left Start/End");
+    arguments.getApplicationUsage()->addKeyboardMouseBinding('7', "Toggling Triggers: Head Right Start/End");
+
   
     viewer.setCameraManipulator( new osgGA::TrackballManipulator() );
   
