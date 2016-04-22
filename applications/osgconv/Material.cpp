@@ -57,7 +57,7 @@ namespace ImageMetrics
     m_reflectivity = 0.0;
     m_refractiveindex = 0.99f;
     
-    m_animationFPS = 16;
+    m_animationFPS = 24;
     
     m_cubeMapImages.clear();
     m_cubeMapImages.push_back("");

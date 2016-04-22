@@ -598,7 +598,8 @@ public:
                    
                    oneMaterial.SetShouldPlayAnimation(oneParam->getShouldPlayAnimation());
                    oneMaterial.SetLoopingMode(oneParam->getLoopingMode());
-                   
+                   oneMaterial.SetAnimationFPS(oneParam->getAnimationFPS());
+
                    if(oneParam->getTransparencyTextureFileName() != "")
                    {
                      oneMaterial.SetTransparencyTextureFileName(oneParam->getTransparencyTextureFileName());

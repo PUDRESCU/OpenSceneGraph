@@ -12,7 +12,7 @@ MaterialParameterNode::MaterialParameterNode()
 ,m_type("phong")
 ,m_shouldPlayAnimation(true)
 ,m_animationLoopingMode(osg::ImageSequence::LOOPING)
-,m_animationFPS(16)
+,m_animationFPS(24)
 ,m_mojoLightingWeight(1.0f)
 ,m_mojoPaintReferenceIntensity(0.5f)
 ,m_mojoImageReferenceIntensity(0.5f)
@@ -136,7 +136,7 @@ REGISTER_OBJECT_WRAPPER( MaterialParameterNode_Wrapper,
   ADD_ENUM_CLASS_VALUE(osg::ImageSequence, NO_LOOPING);
   ADD_ENUM_CLASS_VALUE(osg::ImageSequence, LOOPING);
   END_ENUM_SERIALIZER();
-  ADD_FLOAT_SERIALIZER(AnimationFPS, 16);
+  ADD_FLOAT_SERIALIZER(AnimationFPS, 24);
 
 }
 
