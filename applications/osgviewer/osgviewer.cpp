@@ -679,11 +679,11 @@ public:
             // Simulate mouth open
             if(count % 2 == 0)
             {
-              event = "mouthopen";
+              event = "mouthopen:start";
             }
             else
             {
-              event = "mouthclose";
+              event = "mouthopen:end";
             }
             count++;
             

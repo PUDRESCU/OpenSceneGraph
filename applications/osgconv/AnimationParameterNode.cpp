@@ -12,5 +12,6 @@ REGISTER_OBJECT_WRAPPER( AnimationParameterNode_Wrapper,
   ADD_FLOAT_SERIALIZER(StartTime, 0.0f );
   ADD_FLOAT_SERIALIZER(EndTime, 0.0f );
   ADD_FLOAT_SERIALIZER(Duration, 0.0f );
+  ADD_FLOAT_SERIALIZER(OriginalFPS, 24.0f );
 }
 

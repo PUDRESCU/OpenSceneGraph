@@ -14,7 +14,11 @@ osg_execute_path = os.path.join(IMTOOLS_PLUGIN_FOLDER , 'bin');
 
 # define all custom shaders
 CUSTOM_SHADERS = {'texture_rgba', 'mojo_rgba'};
-
+            
+#define triggers dictionary and action dictionary
+triggers_dict = dict([(0, 'none'), (1, 'mouthopen:start'), (2, 'mouthopen:end'), (3, 'eyesclosed:start'), (4, 'eyesclosed:end'), (5, 'browsraised:start'), (6, 'browsraised:end'), (7, 'headup:start'), (8, 'headup:end'), (9, 'headdown:start'), (10, 'headdown:end'), (11, 'headleft:start'), (12, 'headleft:end'), (13, 'headright:start'), (14, 'headright:end')]);
+action_dict = dict([(0, 'run'), (1, 'pause'), (2, 'hide'), (3, 'show')]);
+            
 class OSGExporter:
     
 
@@ -145,16 +149,18 @@ class OSGExporter:
             print('catch exception in writing image sequence');
  
     # Write triggers
-    def write_triggers(self, f, unique_id_count):
+    def write_triggers(self, f, unique_id_count, animation_list):
         try:
             print('enter write_triggers');
             trigger_node_list = set();
-            triggers_dict = dict([(0, 'none'), (1, 'mouthopen'), (2, 'mouthclose')]);
-            action_dict = dict([(0, 'run'), (1, 'pause'), (2, 'hide'), (3, 'show')]);
-        
+
             nodes = maya.cmds.ls(geometry=True, lights=True, transforms=True);
             global_3danimation_trigger_list = set();
             triggers_count = 0;
+            scene_fps = maya.cmds.playbackOptions(query = True, framesPerSecond = True);
+            scene_start_frame = maya.cmds.playbackOptions(query = True, minTime = True);
+            scene_end_frame = maya.cmds.playbackOptions(query = True, maxTime = True);
+
             if nodes:
                 for one_node in nodes:
                     attrExist = maya.cmds.attributeQuery('triggers', node=one_node, exists=True);
@@ -230,7 +236,8 @@ class OSGExporter:
                                 unique_id_count += 1;
                                 f.write('        TriggerType "%s" \n'%triggers_dict[trigger_type]);
                                 # Global 3d animation using default animation clip name 'Take 001'
-                                f.write('        NodeName "Take 001" \n');
+                                trigger_anim_name = maya.cmds.getAttr(one_trigger_node+'.'+one_trigger+'.animationName');
+                                f.write('        NodeName "%s" \n'%trigger_anim_name);
                                 trigger_action = maya.cmds.getAttr(one_trigger_node+'.'+one_trigger+'.action');
                                 f.write('        TriggerAction "%s" \n'%action_dict[trigger_action]);
                                 timeout_secs = maya.cmds.getAttr(one_trigger_node+'.'+one_trigger+'.timeoutSecs');
@@ -250,10 +257,35 @@ class OSGExporter:
                                 f.write('      } \n');             
 
             f.write('    } \n');
+            return unique_id_count;
         except:
             print('catch exception in writing triggers ');
+            return unique_id_count;
          
 
+
+    # Write animations
+    def write_animations(self, f, unique_id_count, animation_list):
+        try:
+            print('enter write_animations');
+                     
+            f.write('    Children %d { \n'%len(animation_list));            
+            # Find all non-global 3d animation triggers attributes
+            for one_animation in animation_list:
+                f.write('      osg::AnimationParameterNode { \n');    
+                f.write('        UniqueID %d \n'%unique_id_count);
+                unique_id_count += 1;
+                f.write('        AnimationName "%s" \n'%one_animation[0]);
+                f.write('        StartTime %f \n'%one_animation[1]);
+                f.write('        EndTime %f \n'%one_animation[2]);
+                f.write('        Duration %f \n'%one_animation[3]);
+                f.write('        OriginalFPS %f \n'%one_animation[4]);
+                f.write('      } \n');
+         
+            f.write('    } \n');
+        except:
+            print('catch exception in writing animations ');
+            
     def createTransparentMaterialForOcclusionMesh(self):
         try:
             OcclusionMeshShape = maya.cmds.listRelatives('OcclusionMesh', shapes=True);
@@ -406,7 +438,7 @@ class OSGExporter:
             f.write('osg::Group {\n');
             f.write('  UniqueID %d \n'%unique_id_count);
             unique_id_count += 1;
-            f.write('  Children 2 { \n');
+            f.write('  Children 3 { \n');
             f.write('  osg::Group { \n');
             f.write('    UniqueID %d \n'%unique_id_count);
             unique_id_count += 1;
@@ -432,8 +464,6 @@ class OSGExporter:
                 f.write('        Name "%s" \n'%one_mat);
                 self.write_texture_sequence(one_mat, f, unique_id_count, start_frame, end_frame, osg_export_folder);
                 f.write('      } \n');
-        
-
             f.write('    } \n');
             f.write('  } \n');
     
@@ -444,11 +474,22 @@ class OSGExporter:
             f.write('    Name "trigger" \n');
     
             # Check and write triggers
-            self.write_triggers(f, unique_id_count);
-    
-    
+            animation_list = set();
+            unique_id_count = self.write_triggers(f, unique_id_count, animation_list);
             f.write('  } \n');
-            f.write('} \n');
+
+            # Write animation parameters
+            f.write('  osg::Group { \n');
+            f.write('    UniqueID %d \n'%unique_id_count);
+            unique_id_count += 1;
+            f.write('    Name "animation" \n');
+    
+            # Check and write animations
+            self.write_animations(f, unique_id_count, animation_list);
+            f.write('  } \n');
+            
+            
+            f.write('} \n'); #for root group
 
             f.close();
         except:

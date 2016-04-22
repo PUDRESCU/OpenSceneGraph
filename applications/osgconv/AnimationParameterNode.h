@@ -17,6 +17,7 @@ namespace osg {
     ,m_startTime(0.0f)
     ,m_endTime(0.0f)
     ,m_duration(0.0f)
+    ,m_originalFPS(24.0f)
     {}
     
     AnimationParameterNode(const AnimationParameterNode& copy,
@@ -39,11 +40,15 @@ namespace osg {
     void setDuration(float value) {m_duration = value;}
     float getDuration() const {return m_duration;}
 
+    void setOriginalFPS(float value) {m_originalFPS = value;}
+    float getOriginalFPS() const {return m_originalFPS;}
+    
   protected:
     std::string m_animationName;
     float m_startTime;
     float m_endTime;
     float m_duration;
+    float m_originalFPS;
   };
   
 }
