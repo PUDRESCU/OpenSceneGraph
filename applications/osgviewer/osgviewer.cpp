@@ -593,6 +593,8 @@ public:
         else
         {
           m_animationManager->stopAnimation(oneAnim);
+          //FIXME: reset animation to start frame
+          oneAnim->update(0);
         }
       }
     }
