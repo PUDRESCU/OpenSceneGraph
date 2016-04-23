@@ -428,7 +428,7 @@ namespace ImageMetrics
       unsigned int rInd, gInd, bInd;
       rInd = 0; gInd = 1; bInd = 2;
       
-      if(!shader->IsBGRAColorChannels())
+      //if(!shader->IsBGRAColorChannels())
       {
         rInd = 2;
         gInd = 1;
