@@ -986,7 +986,7 @@ public:
     //FIXME: should put all images inside a sub folder?
     std::string imageFolder = "";
     
-    std::string srcTexFileName = osgDB::concatPaths(m_srcFolder, imageFileName);
+    std::string srcTexFileName =  osgDB::isAbsolutePath(imageFileName) ? imageFileName : osgDB::concatPaths(m_srcFolder, imageFileName);
     std::string simpleImageName = osgDB::getSimpleFileName(imageFileName);
     std::string destTexFileName = osgDB::concatPaths(m_destFolder, osgDB::concatPaths(imageFolder, simpleImageName));
     std::string texFolder = osgDB::getFilePath(destTexFileName);
