@@ -220,7 +220,7 @@ class OSGExporter:
         
             print('add 3d animation triggers');    
             print(global_3danimation_trigger_list);          
-            animationData = OSGAnimation.OSGAnimation.importData(OSGAnimation.animation_def_file_path);  
+            animationData = OSGAnimation.OSGAnimation.importData();  
             animationNameList = {};
             if animationData:
                 animationNameList = animationData.keys();
@@ -278,7 +278,7 @@ class OSGExporter:
             scene_start_frame = maya.cmds.playbackOptions(query = True, minTime = True);
             scene_end_frame = maya.cmds.playbackOptions(query = True, maxTime = True);
                         
-            animationData = OSGAnimation.OSGAnimation.importData(OSGAnimation.animation_def_file_path);  
+            animationData = OSGAnimation.OSGAnimation.importData();  
             if animationData:
                 animationNameList = animationData.keys()
     
@@ -571,7 +571,7 @@ class OSGExporter:
                 if shouldCreateDeviceFile == 'Yes':
                    print('--------  create device deployment file  --------');
                    # export device file as binary format
-                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgb'); 
+                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgt'); 
                    print('device osgb file: '+osgt_device_file_name);
                    print('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
                    os.system('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));

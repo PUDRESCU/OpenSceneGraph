@@ -5,13 +5,31 @@ import json;
 import os;
 
 DEFAULT_ANIMATION_NAME = 'Take 001';
-scene_full_path = maya.cmds.file(q=True, sceneName=True);
-scene_file_folder = os.path.abspath(os.path.join(scene_full_path, os.pardir));
-scene_file_name = os.path.splitext(os.path.basename(scene_full_path))[0];
-animation_def_file_path = os.path.join(scene_file_folder, scene_file_name+'_animationdef.json');
+
                    
 class OSGAnimation:
-    def exportData(self, filePath):
+    
+    @staticmethod
+    def getAnimationDefFilePath():
+        scene_full_path = maya.cmds.file(q=True, sceneName=True);
+        scene_file_folder = os.path.abspath(os.path.join(scene_full_path, os.pardir));
+        scene_file_name = os.path.splitext(os.path.basename(scene_full_path))[0];
+        animation_def_file_path = os.path.join(scene_file_folder, scene_file_name+'_animationdef.json');
+        return animation_def_file_path;
+       
+    @staticmethod                    
+    def importData():
+        filePath = OSGAnimation.getAnimationDefFilePath();
+        try:
+            f=open(filePath, 'r')
+            animationData= json.loads(f.readline())
+            f.close()
+        except:
+            animationData = None;
+        return animationData;
+         
+    def exportData(self):
+        filePath = OSGAnimation.getAnimationDefFilePath();
         animationsDict = {};
         
         rowColumnLayouts = maya.cmds.scrollLayout(self.scrollLayout, query=True, ca=True);
@@ -37,13 +55,8 @@ class OSGAnimation:
         f.write(json.dumps(animationsDict));
         f.close();                
     
-    @staticmethod                    
-    def importData(filePath):
-        f=open(filePath, 'r')
-        animationData= json.loads(f.readline())
-        f.close()
-        
-        return animationData;
+
+
         
         
             
@@ -90,11 +103,11 @@ class OSGAnimation:
         except:
             print();
             
-    def SaveButtonClick(self, filePath, *args):
-        self.exportData(filePath);
+    def SaveButtonClick(self, *args):
+        self.exportData();
         
-    def LoadButtonClick(self, filePath, *args):
-        animationData = OSGAnimation.importData(filePath);
+    def LoadButtonClick(self, *args):
+        animationData = OSGAnimation.importData();
         # delete old animation data
         rowColumnLayouts = maya.cmds.scrollLayout(self.scrollLayout, query=True, ca=True);
         if rowColumnLayouts:
@@ -102,6 +115,8 @@ class OSGAnimation:
                 maya.cmds.deleteUI(oneRow);
                 
         #list of keys(objects)
+        if not animationData:
+            return;
         animationNameList = animationData.keys()
         for oneName in animationNameList:
             oneAnimation = animationData[oneName];
@@ -128,13 +143,6 @@ class OSGAnimation:
             self.SaveButtonClick(filePath);
             
     def createUI(self):
-        
-        ## Create Window
-        #scene_full_path = maya.cmds.file(q=True, sceneName=True);
-        #scene_file_folder = os.path.abspath(os.path.join(scene_full_path, os.pardir));
-        #scene_file_name = os.path.splitext(os.path.basename(scene_full_path))[0];
-        
-        #self.animation_def_file_path = os.path.join(scene_file_folder, scene_file_name+'_animationdef.json');
         self.animationList = {};
 
         createWin = maya.cmds.window(self.winName, title=self.winTitle, widthHeight=(400, 600));
@@ -149,8 +157,8 @@ class OSGAnimation:
         buttonsLayout = maya.cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1, 120), (2, 120), (3, 120)], columnSpacing=[(1, 0), (2, 20), (3, 20)]);
 
         addButton = maya.cmds.button(label="Add", command=self.AddButtonClick);
-        saveButton = maya.cmds.button(label="Save", command=functools.partial(self.SaveButtonClick, animation_def_file_path)); 
-        loadButton = maya.cmds.button(label="Load", command=functools.partial(self.LoadButtonClick, animation_def_file_path));
+        saveButton = maya.cmds.button(label="Save", command=functools.partial(self.SaveButtonClick)); 
+        loadButton = maya.cmds.button(label="Load", command=functools.partial(self.LoadButtonClick));
         maya.cmds.setParent("..");
         
         maya.cmds.setParent("..");
@@ -166,4 +174,4 @@ class OSGAnimation:
         
         self.deleteUI();
         self.createUI();
-        
+
