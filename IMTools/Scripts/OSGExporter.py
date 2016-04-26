@@ -571,7 +571,7 @@ class OSGExporter:
                 if shouldCreateDeviceFile == 'Yes':
                    print('--------  create device deployment file  --------');
                    # export device file as binary format
-                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgt'); 
+                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgb'); 
                    print('device osgb file: '+osgt_device_file_name);
                    print('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
                    os.system('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
