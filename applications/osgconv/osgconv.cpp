@@ -1121,9 +1121,41 @@ void splitAnimations(osg::ref_ptr<osg::Node> root, osg::ref_ptr<osg::Group> para
       }
     }
   }
-
-  
 }
+
+
+void setupBillboards(osg::ref_ptr<osg::Node> root)
+{
+  FindGeodeNodeVisitor findGeodeNodeVisitor("pPlane4");
+  root->accept(findGeodeNodeVisitor);
+  
+  osg::Node* bbNode = findGeodeNodeVisitor.getFirst();
+  if(bbNode)
+  {
+    osg::ref_ptr<osg::Geode> node = dynamic_cast<osg::Geode*>(bbNode);
+    
+    std::vector<osg::Group*> parents = node->getParents();
+    
+    osg::ref_ptr<osg::Billboard> billBoard = new osg::Billboard();
+    billBoard->setMode(osg::Billboard::AXIAL_ROT);
+    billBoard->setAxis(osg::Vec3(0.0f,0.0f,1.0f));
+    billBoard->setNormal(osg::Vec3(0.0f,-1.0f,0.0f));
+    osg::notify(osg::NOTICE)<<"add billboard"<<std::endl;
+    for (int i = 0; i < node->getNumDrawables(); i++)
+    {
+      osg::Drawable* dr = node->getDrawable(i);
+      billBoard->addDrawable(dr);
+    }
+    
+    for(size_t k = 0; k < parents.size(); k++)
+    {
+      osg::Group* parentNode = parents[k];
+      parentNode->removeChild(node);
+      parentNode->addChild(billBoard);
+    }
+  }
+}
+
 
 int main( int argc, char **argv )
 {
@@ -1576,6 +1608,9 @@ int main( int argc, char **argv )
     
     // post process for device deployment
     root = postProcess(root, isDeviceDeployment, width, height);
+    
+    //setupBillboards(root);
+
     
     //osgDB::ReaderWriter::WriteResult result = osgDB::Registry::instance()->writeNode(*root,fileNameOut,new osgDB::Options("WriteImageHint=UseExternal Compressor=zlib"));
     osgDB::ReaderWriter::WriteResult result = osgDB::Registry::instance()->writeNode(*root,fileNameOut,new osgDB::Options("WriteImageHint=UseExternal"));

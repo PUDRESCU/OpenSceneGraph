@@ -422,6 +422,8 @@ namespace ImageMetrics
       osg::ref_ptr<osg::Image> image = osgDB::readImageFile(textureFileName);
       image->setPixelFormat(GL_RGBA);
       texture->setImage(image);
+      texture->setFilter(osg::Texture::MIN_FILTER,osg::Texture::LINEAR);
+      texture->setFilter(osg::Texture::MAG_FILTER,osg::Texture::LINEAR);
     }
     else
     {
