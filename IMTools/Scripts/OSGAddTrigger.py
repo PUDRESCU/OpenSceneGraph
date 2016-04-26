@@ -21,7 +21,7 @@ class OSGAddTrigger:
         select_nodes = maya.cmds.ls(selection=True);
         
         ANIMATION_NAME_DEF = '';
-        animationData = OSGAnimation.OSGAnimation.importData(OSGAnimation.animation_def_file_path);  
+        animationData = OSGAnimation.OSGAnimation.importData();  
         if animationData:
             index = 0;
             animationNameList = animationData.keys()
