@@ -327,9 +327,9 @@ class OSGExporter:
             maya.cmds.setAttr("%s.color"%newShader, 0, 0, 0);
             maya.cmds.setAttr("%s.reflectivity"%newShader, 0);
             maya.cmds.setAttr("%s.specularColor"%newShader, 0, 0, 0);
-            maya.cmds.setAttr("occlusion.scaleX", 0.99);
-            maya.cmds.setAttr("occlusion.scaleY", 0.99);
-            maya.cmds.setAttr("occlusion.scaleZ", 0.99);
+            maya.cmds.setAttr("occlusion.scaleX", 0.97);
+            maya.cmds.setAttr("occlusion.scaleY", 0.97);
+            maya.cmds.setAttr("occlusion.scaleZ", 0.97);
         except:
             return;
             
@@ -413,7 +413,9 @@ class OSGExporter:
         # We save temporary osg export related files into CURRENT_SCENE/osg_export folder
         osg_export_folder = os.path.join(scene_file_folder, 'osg_export');
         scene_file_name = os.path.splitext(os.path.basename(scene_full_path))[0];
-
+        if not scene_file_name:
+            maya.cmds.confirmDialog( title='Error', message='Scene is not saved: \nPlease save your scene first', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
+            return;
         mat_list = set();      
         texture_nodes = [
             i for i in maya.cmds.ls(type='file')
@@ -571,7 +573,7 @@ class OSGExporter:
                 if shouldCreateDeviceFile == 'Yes':
                    print('--------  create device deployment file  --------');
                    # export device file as binary format
-                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgb'); 
+                   osgt_device_file_name = os.path.join(osg_export_folder, scene_file_name+'_device.osgt'); 
                    print('device osgb file: '+osgt_device_file_name);
                    print('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
                    os.system('%s "%s" "%s" --param "%s" --device --package'%(osgconvCommand, fbx_file_name, osgt_device_file_name, osg_param_file_name));
