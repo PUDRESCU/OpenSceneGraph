@@ -7,7 +7,7 @@ namespace osg {
 
 
 /** Image class for encapsulating the storage texture image data. */
-class OSG_EXPORT Texture2DImageSequence : public Texture2D
+class Texture2DImageSequence : public Texture2D
 {
   public :
 

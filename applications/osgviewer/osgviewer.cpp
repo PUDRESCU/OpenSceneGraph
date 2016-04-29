@@ -48,6 +48,7 @@
 
 #include <osg/ShapeDrawable>
 
+
 struct TriggerNodeWithInfo;
 
 osg::ref_ptr<osg::Texture2D> g_texture;

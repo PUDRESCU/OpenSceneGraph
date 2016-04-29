@@ -6,7 +6,7 @@ namespace osg {
 
 
 /** Image class for encapsulating the storage texture image data. */
-class OSG_EXPORT IMImageOSG : public Image
+class IMImageOSG : public Image
 {
   public :
 

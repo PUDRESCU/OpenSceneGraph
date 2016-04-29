@@ -6,6 +6,7 @@
 //  Copyright © 2016 Image Metrics, Inc. All rights reserved.
 //
 
+#include <osg/GL>
 #include "BackgroundRenderPass.hpp"
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -84,7 +85,7 @@ struct BackgroundPostDrawFBOCallback : public osg::Camera::DrawCallback
   
   virtual void operator () (osg::RenderInfo& renderInfo) const
   {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0 );
+    //glBindFramebuffer(GL_FRAMEBUFFER, 0 );
   }
 };
   

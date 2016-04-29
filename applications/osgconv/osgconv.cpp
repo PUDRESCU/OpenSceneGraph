@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <algorithm>
 #include <string>
+#if defined(WIN32)
+#include <direct.h>
+#include <io.h>   // For access().
+#else
 #include <unistd.h>
-//#include <io.h>   // For access().
+#endif
 #include <sys/types.h>  // For stat().
 #include <sys/stat.h>   // For stat().
 #include <cstdlib>
