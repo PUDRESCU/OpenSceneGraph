@@ -665,22 +665,22 @@ osg::ref_ptr<osg::Node> postProcess(osg::ref_ptr<osg::Node> root, bool isDeviceD
   if(isDeviceDeployment)
   {
     osg::ref_ptr<osg::Node> rootGroup = new osg::Group;
-    
-    osg::ref_ptr<osg::IMImageOSG> inputImage = new osg::IMImageOSG();
-    osg::ref_ptr<osg::IMTexture2DOSG> inputTexture = new osg::IMTexture2DOSG;
-    inputTexture->setDataVariance(osg::Object::DYNAMIC);
-    inputTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
-    inputTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
-    inputTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE);
-    inputTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE);
-    inputTexture->setIMImageOSG(inputImage);
-    inputTexture->setResizeNonPowerOfTwoHint(false);
-    
-    // Add background render pass
-    ImageMetrics::BackgroundRenderPass* backgroundRenderPass = new ImageMetrics::BackgroundRenderPass(inputTexture, width, height, NULL);
-    
-    osg::ref_ptr<osg::Camera> backgroundCamera = backgroundRenderPass->getCamera();
-    rootGroup->asGroup()->addChild(backgroundCamera.get());
+//    
+//    osg::ref_ptr<osg::IMImageOSG> inputImage = new osg::IMImageOSG();
+//    osg::ref_ptr<osg::IMTexture2DOSG> inputTexture = new osg::IMTexture2DOSG;
+//    inputTexture->setDataVariance(osg::Object::DYNAMIC);
+//    inputTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+//    inputTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+//    inputTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE);
+//    inputTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE);
+//    inputTexture->setIMImageOSG(inputImage);
+//    inputTexture->setResizeNonPowerOfTwoHint(false);
+//    
+//    // Add background render pass
+//    ImageMetrics::BackgroundRenderPass* backgroundRenderPass = new ImageMetrics::BackgroundRenderPass(inputTexture, width, height, NULL);
+//    
+//    osg::ref_ptr<osg::Camera> backgroundCamera = backgroundRenderPass->getCamera();
+//    rootGroup->asGroup()->addChild(backgroundCamera.get());
     
     // Add scene render pass
     osg::ref_ptr<osg::Camera> sceneCamera = new osg::Camera;
@@ -694,6 +694,7 @@ osg::ref_ptr<osg::Node> postProcess(osg::ref_ptr<osg::Node> root, bool isDeviceD
     sceneCamera->setViewport(0, 0, width, height);
     sceneCamera->setClearMask(GL_DEPTH_BUFFER_BIT);
     sceneCamera->addChild(root.get());
+    
     rootGroup->asGroup()->addChild(sceneCamera.get());
     
     RemoveGLModeForGLESVisitor removeGLModeForGLESVisitor;
@@ -701,7 +702,7 @@ osg::ref_ptr<osg::Node> postProcess(osg::ref_ptr<osg::Node> root, bool isDeviceD
     
     //addAlignmentInfo(rootGroup);
     
-    delete backgroundRenderPass;
+    //delete backgroundRenderPass;
     return rootGroup;
   }
 
