@@ -18,6 +18,7 @@ namespace ImageMetrics
   private:
     bool IsMojoRGBAShader();
     bool IsTextureRGBAShader();
-
+    bool IsOcclusionRGBAShader();
+    
   };
 }

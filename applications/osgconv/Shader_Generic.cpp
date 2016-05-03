@@ -51,6 +51,12 @@ namespace ImageMetrics
   }
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////
+  bool Shader_Generic::IsOcclusionRGBAShader()
+  {
+    return (m_name.find("occlusion_rgba") != std::string::npos);
+  }
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
   void Shader_Generic::PrepareToRender(osg::ref_ptr<osg::StateSet> stateSet)
   {
     m_nLights = m_lights.size();
@@ -188,6 +194,17 @@ namespace ImageMetrics
       
       m_Uniforms[ShaderConstants::UNIFORM_MVP] = -1;
     }
+    else if(IsOcclusionRGBAShader())
+    {
+      m_VertexShaderCode +=
+      "uniform mat4 " + ShaderConstants::UNIFORM_MVP + ";"
+      "void main() {"
+      "  gl_Position = " + ShaderConstants::UNIFORM_MVP + " * gl_Vertex;"
+      "}";
+      
+      m_Uniforms[ShaderConstants::UNIFORM_MVP] = -1;
+    }
+    
     
     // Fragment shader
     std::string fragmentShaderPrefix =
@@ -427,6 +444,13 @@ namespace ImageMetrics
       
       m_Uniforms[ShaderConstants::UNIFORM_TEXTURESAMPLER] = -1;
     }
+    else if(IsOcclusionRGBAShader())
+    {
+      m_FragmentShaderCode +=
+      "void main() {"
+      "  gl_FragColor = vec4(0, 0, 0, 0); "
+      "}";
+    }
     
     ShaderBase::PrepareToRender(stateSet);
    
@@ -458,6 +482,10 @@ namespace ImageMetrics
 //      m_UniformMap[ShaderConstants::UNIFORM_MOJO_IMAGEREFERENCEINTENSITY] = new osg::Uniform(ShaderConstants::UNIFORM_MOJO_IMAGEREFERENCEINTENSITY.c_str(), 0.5f);
     }
     else if(IsTextureRGBAShader())
+    {
+      m_UniformMap[ShaderConstants::UNIFORM_MVP] = new osg::Uniform(ShaderConstants::UNIFORM_MVP.c_str(), osg::Matrixf());
+    }
+    else if(IsOcclusionRGBAShader())
     {
       m_UniformMap[ShaderConstants::UNIFORM_MVP] = new osg::Uniform(ShaderConstants::UNIFORM_MVP.c_str(), osg::Matrixf());
     }

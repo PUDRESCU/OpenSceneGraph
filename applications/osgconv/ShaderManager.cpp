@@ -97,6 +97,10 @@ namespace ImageMetrics
       {
         shaderType = "texture_rgba";
       }
+      else if(lowerStrMaterial.find("occlusion_rgba") != std::string::npos)
+      {
+        shaderType = "occlusion_rgba";
+      }
     }
     else
     {
@@ -119,6 +123,10 @@ namespace ImageMetrics
       else if(materialType.find("texture_rgba") != std::string::npos)
       {
         shaderType = "texture_rgba";
+      }
+      else if(materialType.find("occlusion_rgba") != std::string::npos)
+      {
+        shaderType = "occlusion_rgba";
       }
       else
       {

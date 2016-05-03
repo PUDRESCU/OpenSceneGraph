@@ -4,7 +4,7 @@ import subprocess;
 import zipfile;
 import shutil;
 import OSGAnimation;
-
+import OSGAddShaders;
 
 ### OpenSceneGraph library and bin path setting ###
 #default script folder:
@@ -15,7 +15,7 @@ osg_execute_path = os.path.join(IMTOOLS_PLUGIN_FOLDER , 'bin');
 ###################################################
 
 # define all custom shaders
-CUSTOM_SHADERS = {'texture_rgba', 'mojo_rgba'};
+CUSTOM_SHADERS = {'texture_rgba', 'mojo_rgba', 'occlusion_rgba'};
             
 #define triggers dictionary and action dictionary
 triggers_dict = dict([(0, 'none'), (1, 'mouthopen:start'), (2, 'mouthopen:end'), (3, 'eyesclosed:start'), (4, 'eyesclosed:end'), (5, 'browsraised:start'), (6, 'browsraised:end'), (7, 'headup:start'), (8, 'headup:end'), (9, 'headdown:start'), (10, 'headdown:end'), (11, 'headleft:start'), (12, 'headleft:end'), (13, 'headright:start'), (14, 'headright:end')]);
@@ -318,20 +318,17 @@ class OSGExporter:
             # already set some material
             if material:
                 maya.cmds.sets(material, rm='initialShadingGroup');
-            
-            newShader = maya.cmds.shadingNode('phong', asShader=True, name='OcclusionMeshPhong');
-            newSG = maya.cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name='OcclusionMeshPhongSG');
-            maya.cmds.connectAttr((newShader+'.outColor'),(newSG+'.surfaceShader'),f=True);
+            newSG = maya.cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name='occlusion_rgbaSG1');
+            maya.cmds.connectAttr(('occlusion_rgba.outColor'),(newSG+'.surfaceShader'),f=True);
             maya.cmds.sets('OcclusionMesh', e=True, forceElement=newSG);
-            maya.cmds.setAttr("%s.transparency"%newShader, 1, 1, 1);
-            maya.cmds.setAttr("%s.color"%newShader, 0, 0, 0);
-            maya.cmds.setAttr("%s.reflectivity"%newShader, 0);
-            maya.cmds.setAttr("%s.specularColor"%newShader, 0, 0, 0);
-            maya.cmds.setAttr("occlusion.scaleX", 0.97);
-            maya.cmds.setAttr("occlusion.scaleY", 0.97);
-            maya.cmds.setAttr("occlusion.scaleZ", 0.97);
         except:
-            return;
+            print("createTransparentMaterialForOcclusionMesh error");
+        
+        print("set occlusion scale");
+        maya.cmds.setAttr("occlusion.scaleX", 0.97);
+        maya.cmds.setAttr("occlusion.scaleY", 0.97);
+        maya.cmds.setAttr("occlusion.scaleZ", 0.97);    
+        return;
             
     # Get shaders connect to SG node
     #    shaders = maya.cmds.listNodeTypes('shader'); 
@@ -405,7 +402,8 @@ class OSGExporter:
     def __init__(self):               
         print('\n\n==========================');
         print('--------  Start --------');
-
+        OSGAddShaders.OSGAddShaders();
+        
         # Get current scene name
         scene_full_path = maya.cmds.file(q=True, sceneName=True);
         scene_file_folder = os.path.abspath(os.path.join(scene_full_path, os.pardir));
@@ -427,6 +425,9 @@ class OSGExporter:
         print('--------  find material including texture sequence:  --------');
         print(mat_list);
 
+        # Check and create transparent material to occlusion
+        print('--------  create material for occlusion mesh  --------');
+        self.createTransparentMaterialForOcclusionMesh();
 
         print('--------  find custom shaders: --------');
         custom_mat_dict = {};
@@ -521,9 +522,7 @@ class OSGExporter:
 
         select_nodes = maya.cmds.ls(selection=True);
 
-        # Check and create transparent material to occlusion
-        print('--------  create material for occlusion mesh  --------');
-        self.createTransparentMaterialForOcclusionMesh();
+
  
         maya.cmds.select(select_nodes);
         #export fbx file
@@ -592,3 +591,5 @@ class OSGExporter:
             maya.cmds.confirmDialog( title='Error', message='No object selected!', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
 
         print('--------  done  --------');
+
+
