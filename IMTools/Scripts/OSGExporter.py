@@ -402,6 +402,8 @@ class OSGExporter:
     def __init__(self):               
         print('\n\n==========================');
         print('--------  Start --------');
+        select_nodes = maya.cmds.ls(selection=True);
+
         OSGAddShaders.OSGAddShaders();
         
         # Get current scene name
@@ -520,7 +522,6 @@ class OSGExporter:
         except:
             print('write file error: make sure you have the permission to write file at %s'%osg_param_file_name);
 
-        select_nodes = maya.cmds.ls(selection=True);
 
 
  
@@ -591,5 +592,4 @@ class OSGExporter:
             maya.cmds.confirmDialog( title='Error', message='No object selected!', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
 
         print('--------  done  --------');
-
 
