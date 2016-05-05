@@ -481,7 +481,7 @@ namespace ImageMetrics
   {
     osg::ref_ptr<osg::ImageSequence> imageSequence = new osg::ImageSequence;
     //imageSequence->setMode(osg::ImageSequence::PAGE_AND_RETAIN_IMAGES);
-    imageSequence->setMode(osg::ImageSequence::PAGE_AND_DISCARD_USED_IMAGES);
+    imageSequence->setMode(osg::ImageSequence::LOAD_AND_DISCARD_IN_UPDATE_TRAVERSAL);
 
     double length = -1.0;
     double fps = m_animationFPS;
