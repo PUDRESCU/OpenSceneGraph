@@ -325,9 +325,9 @@ class OSGExporter:
             print("createTransparentMaterialForOcclusionMesh error");
         
         print("set occlusion scale");
-        maya.cmds.setAttr("occlusion.scaleX", 0.97);
-        maya.cmds.setAttr("occlusion.scaleY", 0.97);
-        maya.cmds.setAttr("occlusion.scaleZ", 0.97);    
+        maya.cmds.setAttr("occlusion.scaleX", 0.99);
+        maya.cmds.setAttr("occlusion.scaleY", 0.99);
+        maya.cmds.setAttr("occlusion.scaleZ", 0.99);    
         return;
             
     # Get shaders connect to SG node
