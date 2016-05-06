@@ -37,7 +37,8 @@ trigger to hide.
 * Export scene
 selec the objects you want to export (usually should be the “assets” node): notice the hidden objects will be exported if they are inside the selected objects. Click “Export” button inside IMTools shelf. This script will first add a occlusion_rgba shader to occlusionMesh if there is no material found. Then it will create an extra parameter file for image sequences and triggers. After that it will export a .fbx file and convert it to a .osgt file. There will be a popup dialog to ask you to view the osgt file. If you click "Yes", then the OSG viewer will appear and load
 the .osgt file. You can press Esc button to quit the viewer. Finally, there will be a popup dialog to ask you to 
-create a device deployment package. If you click "Yes", then there is a *_deployment.zip file will be created inside your "maya scene file folder/osg_export" which can be sent to run on device.
+create a device deployment package. If you click "Yes", then there is a *_deployment.zip file will be created inside your "maya scene file folder/osg_export" which can be sent to run on device. In order to test the asset on an iOS device, you 
+can use iExplorer to open your device, find Apps->FacePaintInternalDemo->Library->Caches, then can uncompress the *_deployment.zip file inside osg_export folder and upload the files into your device’s Caches folder. Exit FacePaintInternalDemo and restart.
 
 Hints:
 * occlusion mesh should be named as “OcclusionMesh" (just keep it unchanged)
