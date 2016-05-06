@@ -8,14 +8,14 @@ import OSGAddShaders;
 
 ### OpenSceneGraph library and bin path setting ###
 #default script folder:
-IMTOOLS_PLUGIN_FOLDER = os.environ.get('IMAGEMETRICS_TOOLS_PLUGIN_PATH', None)
+IMTOOLS_PLUGIN_FOLDER = os.environ.get('IMAGEMETRICS_TOOLS_PLUGIN_PATH', None);
 
 osg_library_path = os.path.join(IMTOOLS_PLUGIN_FOLDER , 'bin');
 osg_execute_path = os.path.join(IMTOOLS_PLUGIN_FOLDER , 'bin');
 ###################################################
 
 # define all custom shaders
-CUSTOM_SHADERS = {'texture_rgba', 'mojo_rgba', 'occlusion_rgba'};
+CUSTOM_SHADERS = ['texture_rgba', 'mojo_rgba', 'occlusion_rgba'];
             
 #define triggers dictionary and action dictionary
 triggers_dict = dict([(0, 'none'), (1, 'mouthopen:start'), (2, 'mouthopen:end'), (3, 'eyesclosed:start'), (4, 'eyesclosed:end'), (5, 'browsraised:start'), (6, 'browsraised:end'), (7, 'headup:start'), (8, 'headup:end'), (9, 'headdown:start'), (10, 'headdown:end'), (11, 'headleft:start'), (12, 'headleft:end'), (13, 'headright:start'), (14, 'headright:end')]);
@@ -325,9 +325,12 @@ class OSGExporter:
             print("createTransparentMaterialForOcclusionMesh error");
         
         print("set occlusion scale");
-        maya.cmds.setAttr("occlusion.scaleX", 0.99);
-        maya.cmds.setAttr("occlusion.scaleY", 0.99);
-        maya.cmds.setAttr("occlusion.scaleZ", 0.99);    
+        try:
+            maya.cmds.setAttr("occlusion.scaleX", 0.99);
+            maya.cmds.setAttr("occlusion.scaleY", 0.99);
+            maya.cmds.setAttr("occlusion.scaleZ", 0.99);    
+        except:
+            print('set occlusionMesh scale error');
         return;
             
     # Get shaders connect to SG node
@@ -403,8 +406,11 @@ class OSGExporter:
         print('\n\n==========================');
         print('--------  Start --------');
         select_nodes = maya.cmds.ls(selection=True);
-
-        OSGAddShaders.OSGAddShaders();
+        
+        try:
+            OSGAddShaders.OSGAddShaders();
+        except:
+            print("Add shaders error");
         
         # Get current scene name
         scene_full_path = maya.cmds.file(q=True, sceneName=True);
@@ -531,6 +537,7 @@ class OSGExporter:
             print('--------  export fbx file  --------');
             maya.cmds.loadPlugin("fbxmaya");
             fbx_file_name = os.path.join(osg_export_folder, scene_file_name+'.fbx');
+            fbx_file_name = fbx_file_name.replace('\\', '/')
             print('fbx file: '+fbx_file_name);
             maya.mel.eval('FBXExport -f "%s" -s' % fbx_file_name); 
     
@@ -592,4 +599,3 @@ class OSGExporter:
             maya.cmds.confirmDialog( title='Error', message='No object selected!', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
 
         print('--------  done  --------');
-
