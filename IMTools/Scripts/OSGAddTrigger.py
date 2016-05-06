@@ -52,4 +52,5 @@ class OSGAddTrigger:
                 for i in range(100):
                     maya.cmds.scriptJob(runOnce=False, attributeChange=[one_select+'.triggers[%d].action'%i, functools.partial(self.updateUI, '%s.triggers[%d]'%(one_select, i))] );
                     maya.cmds.scriptJob(runOnce=False, attributeChange=[one_select+'.triggers[%d].applyToGlobal3DAnimation'%i, functools.partial(self.updateUI, '%s.triggers[%d]'%(one_select, i))] );
-
+            maya.cmds.select(clear=True);
+            maya.cmds.select(select_nodes);
