@@ -1575,7 +1575,7 @@ int main( int argc, char **argv )
     osg::notify(osg::NOTICE)<<"===================== STEP: add geode property ====================="<<std::endl;
     
     // Add geode property nodes
-    addGeodeProperty(root, params);
+    addGeodePropertyNodes(root, params);
     
     
     osg::notify(osg::NOTICE)<<"===================== STEP: postprocess    ====================="<<std::endl;
