@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <algorithm>
 #include <string>
@@ -58,7 +60,7 @@
 #include "MaterialParameterNode.h"
 #include "ShaderConstants.h"
 #include "TriggerParameterNode.h"
-
+#include "GeodePropertyParameterNode.h"
 
 // Get attribute by name
 class GetAttributeByNameVisitor : public osg::NodeVisitor

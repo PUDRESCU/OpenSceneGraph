@@ -14,6 +14,7 @@ SET(TARGET_SRC
     OverlayRenderPass.cpp
     Shader_Generic.cpp
     AnimationParameterNode.cpp
+    GeodePropertyParameterNode.cpp
 )
 SET(TARGET_H
     OrientationConverter.h
@@ -35,7 +36,7 @@ SET(TARGET_H
     Shader_Generic.h
     AnimationSplitHelper.h
     AnimationParameterNode.h
-
+    GeodePropertyParameterNode.h
 )
 SET(TARGET_ADDED_LIBRARIES osgAnimation)
 

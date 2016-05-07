@@ -586,61 +586,6 @@ static void usage( const char *prog, const char *msg )
         "    --addOverlay       - add an overlay layer."<< std::endl;
 }
 
-void replaceShaderMaterial(osg::ref_ptr<osg::Node> root)
-{
-  // Init shader library
-  //gShaderLibrary["GLSLShader1"] = new ImageMetrics::ShaderBrix();
-  
-  for(std::map<std::string, ImageMetrics::ShaderBase*>::iterator itr = gShaderLibrary.begin(); itr != gShaderLibrary.end(); itr++)
-  {
-    GetAttributeByNameVisitor visitor(itr->first);
-    root->accept(visitor);
-    osg::ref_ptr<osg::Drawable> findNode = visitor.getResult();
-    if (findNode)
-    {
-      osg::ref_ptr<osg::StateSet> stateSet = findNode->getOrCreateStateSet();
-      
-      // Get standard materail parameters
-      osg::ref_ptr<osg::Material> material = dynamic_cast<osg::Material*>(stateSet->getAttribute(osg::StateAttribute::MATERIAL));
-      if(material)
-      {
-        osg::notify(osg::NOTICE)<<material->getName()<<std::endl;
-
-        osg::Vec4 ambient = material->getAmbient(osg::Material::FRONT);
-        osg::Vec4 diffuse = material->getDiffuse(osg::Material::FRONT);
-        osg::Vec4 specular = material->getSpecular(osg::Material::FRONT);
-        osg::Vec4 emission = material->getEmission(osg::Material::FRONT);
-        float shiness = material->getShininess(osg::Material::FRONT);
-        osg::notify(osg::NOTICE)<<"Material parameter: "<<std::endl;
-        osg::notify(osg::NOTICE)<<"ambient: "<<ambient.r()<<", "<<ambient.g()<<", "<<ambient.b()<<", "<<ambient.a()<<std::endl;
-        osg::notify(osg::NOTICE)<<"diffuse: "<<diffuse.r()<<", "<<diffuse.g()<<", "<<diffuse.b()<<", "<<diffuse.a()<<std::endl;
-        osg::notify(osg::NOTICE)<<"specular: "<<specular.r()<<", "<<specular.g()<<", "<<specular.b()<<", "<<specular.a()<<std::endl;
-        osg::notify(osg::NOTICE)<<"emission: "<<emission.r()<<", "<<emission.g()<<", "<<emission.b()<<", "<<emission.a()<<std::endl;
-        osg::notify(osg::NOTICE)<<"shiness: "<<shiness<<std::endl;
-      }
-      
-      // Remove old material
-      stateSet->removeAttribute(osg::StateAttribute::MATERIAL);
-      osg::notify(osg::NOTICE)<<findNode->getName()<<std::endl;
-      
-      itr->second->PrepareToRender(stateSet);
-     
-      //Add uniforms
-      for(std::map<std::string, osg::ref_ptr<osg::Uniform> >::iterator unifomr_itr = itr->second->m_UniformMap.begin();
-          unifomr_itr != itr->second->m_UniformMap.end(); unifomr_itr++)
-      {
-        stateSet->addUniform(unifomr_itr->second);
-      }
-    }
-  }
-  
-  
-  for(std::map<std::string, ImageMetrics::ShaderBase*>::iterator itr = gShaderLibrary.begin(); itr != gShaderLibrary.end(); itr++)
-  {
-    delete itr->second;
-  }
-}
-
 //void addAlignmentInfo(osg::ref_ptr<osg::Node> root)
 //{
 //  osg::ref_ptr<osg::Node> alignmentGroup = new osg::Group;
@@ -1034,6 +979,29 @@ void addTriggerNodes(osg::ref_ptr<osg::Node> root, osg::ref_ptr<osg::Group> para
   if(triggerParams != NULL)
   {
     root->asGroup()->addChild(triggerParams);
+  }
+}
+
+void addGeodePropertyNodes(osg::ref_ptr<osg::Node> root, osg::ref_ptr<osg::Group> params)
+{
+  if(params == NULL)
+  {
+    return;
+  }
+  
+  osg::Group* geodePropertyParams = NULL;
+  for(int i = 0; i < params->getNumChildren(); i++)
+  {
+    if(params->getChild(i)->getName() == "geodeproperty")
+    {
+      geodePropertyParams = dynamic_cast<osg::Group*>(params->getChild(i));
+      break;
+    }
+  }
+  
+  if(geodePropertyParams != NULL)
+  {
+    root->asGroup()->addChild(geodePropertyParams);
   }
 }
 
@@ -1584,9 +1552,6 @@ int main( int argc, char **argv )
     ReplaceMaterialVisitor replaceStandardMaterialVisitor(params, osgDB::getFilePath(absoluteOutPath));
     root->accept(replaceStandardMaterialVisitor);
 
-    // Replace with customize GLSL shader
-    replaceShaderMaterial(root);
-
     //prepareNormalMap(root);
     
     // Set matrix uniform to be dynamic
@@ -1606,6 +1571,12 @@ int main( int argc, char **argv )
     
     // Add trigger nodes
     addTriggerNodes(root, params);
+    
+    osg::notify(osg::NOTICE)<<"===================== STEP: add geode property ====================="<<std::endl;
+    
+    // Add geode property nodes
+    addGeodeProperty(root, params);
+    
     
     osg::notify(osg::NOTICE)<<"===================== STEP: postprocess    ====================="<<std::endl;
     
