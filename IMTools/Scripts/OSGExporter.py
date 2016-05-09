@@ -303,11 +303,33 @@ class OSGExporter:
                     f.write('      } \n');
              
                 f.write('    } \n');
-                return unique_id_count;
+            return unique_id_count;
         except:
             print('catch exception in writing animations ');
             return unique_id_count;
 
+    
+    # Write geode property
+    def write_geode_property(self, f, unique_id_count):
+        try:
+            print('enter write_geode_property');
+            staticNodes = maya.cmds.listRelatives('static', children=True, noIntermediate=True, fullPath=False);
+            print(staticNodes);
+            if staticNodes:
+                f.write('    Children %d { \n'%len(staticNodes));            
+                for oneNode in staticNodes:                    
+                    f.write('      osg::GeodePropertyParameterNode { \n');    
+                    f.write('        UniqueID %d \n'%unique_id_count);
+                    unique_id_count += 1;
+                    f.write('        NodeName "%s" \n'%oneNode);
+                    f.write('        IsStaticNode TRUE \n');
+                    f.write('      } \n');
+                f.write('    } \n');
+            return unique_id_count;
+        except:
+            print('catch exception in writing geode property');
+            return unique_id_count;
+            
             
     def createTransparentMaterialForOcclusionMesh(self):
         try:
@@ -468,11 +490,11 @@ class OSGExporter:
             f = open(osg_param_file_name, 'w+');
             f.write('#Ascii Scene \n');
             f.write('#Version 141 \n');
-            f.write('#Generator OpenSceneGraph 3.5.1 \n\n');
+            f.write('#Generator OpenSceneGraph 3.5.2 \n\n');
             f.write('osg::Group {\n');
             f.write('  UniqueID %d \n'%unique_id_count);
             unique_id_count += 1;
-            f.write('  Children 3 { \n');
+            f.write('  Children 4 { \n');
             f.write('  osg::Group { \n');
             f.write('    UniqueID %d \n'%unique_id_count);
             unique_id_count += 1;
@@ -501,6 +523,17 @@ class OSGExporter:
             f.write('    } \n');
             f.write('  } \n');
     
+            # Write geode property parameters
+            f.write('  osg::Group { \n');
+            f.write('    UniqueID %d \n'%unique_id_count);
+            unique_id_count += 1;
+            f.write('    Name "geodeproperty" \n');
+    
+            # Check and write geode property
+            unique_id_count = self.write_geode_property(f, unique_id_count);
+            f.write('  } \n');
+
+            
             # Write trigger parameters
             f.write('  osg::Group { \n');
             f.write('    UniqueID %d \n'%unique_id_count);
@@ -510,7 +543,9 @@ class OSGExporter:
             # Check and write triggers
             unique_id_count = self.write_triggers(f, unique_id_count);
             f.write('  } \n');
-
+            
+            
+            
             # Write animation parameters
             f.write('  osg::Group { \n');
             f.write('    UniqueID %d \n'%unique_id_count);
