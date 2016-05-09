@@ -440,9 +440,10 @@ namespace ImageMetrics
       //Generate the texture
       unsigned char* data = new unsigned char[4];
       //add color with gamma correction
-      data[0] = static_cast<unsigned char>(pow(defaultColor[bInd], 1.0/2.2) * 255.0);
-      data[1] = static_cast<unsigned char>(pow(defaultColor[gInd], 1.0/2.2) * 255.0);
-      data[2] = static_cast<unsigned char>(pow(defaultColor[rInd], 1.0/2.2) * 255.0);
+      //FIXME: apply gamma correction twice to make it looks as maya display
+      data[0] = static_cast<unsigned char>(pow(pow(defaultColor[bInd], 1.0/2.2), 1.0/2.2) * 255.0);
+      data[1] = static_cast<unsigned char>(pow(pow(defaultColor[gInd], 1.0/2.2), 1.0/2.2) * 255.0);
+      data[2] = static_cast<unsigned char>(pow(pow(defaultColor[rInd], 1.0/2.2), 1.0/2.2) * 255.0);
       data[3] = static_cast<unsigned char>(opacity * 255.0);
       osg::ref_ptr<osg::Image> image = new osg::Image;
       image->setImage( 1, 1, 1,								// 1=r? depth perhaps?
