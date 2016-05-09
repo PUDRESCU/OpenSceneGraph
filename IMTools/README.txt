@@ -1,6 +1,7 @@
 * How to install
 modify the maya.env file IMAGEMETRICS_TOOLS_PLUGIN_PATH to your install path, 
-then copy maya.env to your maya folder (usually it is located at ~/Library/Preferences/Autodesk/maya/2016)
+then copy maya.env to your maya folder (usually it is located at /Users/username/Library/Preferences/Autodesk/maya/version for mac,
+and drive:\Documents and Settings\username\My Documents\maya\version for windows)
 run maya and select Windows->Settings/Preferences->Plug-in Manager 
 You should see there is IMToolsShelf.py plugin check it as load and autoload.
 
