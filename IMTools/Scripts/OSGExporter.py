@@ -574,7 +574,7 @@ class OSGExporter:
             fbx_file_name = os.path.join(osg_export_folder, scene_file_name+'.fbx');
             fbx_file_name = fbx_file_name.replace('\\', '/')
             print('fbx file: '+fbx_file_name);
-            maya.mel.eval('FBXExport -f "%s" -s' % fbx_file_name); 
+            maya.mel.eval('FBXExportInAscii -v true -f "%s" -s' % fbx_file_name); 
     
             print('--------  convert to osg file  --------');
     
