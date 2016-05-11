@@ -374,7 +374,7 @@ class OSGExporter:
         for one_transform in transforms:
             # if transform nodes also connect to a shape node
             print(one_transform);
-            shapes = maya.cmds.listRelatives(one_transform, shapes=True);
+            shapes = maya.cmds.listRelatives(one_transform, shapes=True, fullPath=True);
             if shapes:
                 for one_shape in shapes:
                     materials = maya.cmds.listConnections(one_shape, s=True, type='shadingEngine');
@@ -636,3 +636,4 @@ class OSGExporter:
             maya.cmds.confirmDialog( title='Error', message='No object selected!', button=['OK'], defaultButton='OK', cancelButton='OK', dismissString='OK' );
 
         print('--------  done  --------');
+
