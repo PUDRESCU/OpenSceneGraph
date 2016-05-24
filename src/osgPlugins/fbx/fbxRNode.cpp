@@ -405,14 +405,14 @@ osg::Group* createGroupNode(FbxManager& pSdkManager, FbxNode* pNode,
         
         if (bAnimated)
         {
-            if((animationType | Transformation) == Transformation)
+            if((animationType & Transformation) == Transformation)
             {
                 osgAnimation::UpdateMatrixTransform* pUpdate = new osgAnimation::UpdateMatrixTransform(animName);
                 readUpdateMatrixTransform(pUpdate, pNode, fbxScene);
                 pTransform->setUpdateCallback(pUpdate);
             }
 
-            if((animationType | Visibility) == Visibility)
+            if((animationType & Visibility) == Visibility)
             {
                 osg::Switch* pVisibilityNode = new osg::Switch;
                 pVisibilityNode->setName(pNode->GetName());
