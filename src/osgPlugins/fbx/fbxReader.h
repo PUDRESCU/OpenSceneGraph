@@ -13,6 +13,13 @@ namespace osgAnimation
     class Skeleton;
 }
 
+enum NodeAnimationType
+{
+  None = 0,
+  Transformation = 1,
+  Visibility = 1 << 1
+};
+
 typedef std::map<std::pair<FbxNode*, osgAnimation::RigGeometry*>, osg::Matrix> BindMatrixMap;
 
 class OsgFbxReader
@@ -59,7 +66,7 @@ public:
         FbxNode*, bool& bIsBone, int& nLightCount);
 
     std::string readFbxAnimation(
-        FbxNode*, const char* targetName);
+        FbxNode*, const char* targetName, NodeAnimationType &type);
 
     osgDB::ReaderWriter::ReadResult readFbxCamera(
         FbxNode* pNode);

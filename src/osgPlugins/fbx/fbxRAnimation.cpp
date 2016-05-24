@@ -280,6 +280,7 @@ osgAnimation::Animation* addChannels(
     osgAnimation::Channel* pTranslationChannel,
     osgAnimation::Channel* pRotationChannels[],
     osgAnimation::Channel* pScaleChannel,
+    osgAnimation::Channel* pVisibilityChannel,
     osg::ref_ptr<osgAnimation::AnimationManagerBase>& pAnimManager,
     const char* pTakeName)
 {
@@ -287,7 +288,8 @@ osgAnimation::Animation* addChannels(
         pRotationChannels[0] ||
         pRotationChannels[1] ||
         pRotationChannels[2] ||
-        pScaleChannel)
+        pScaleChannel ||
+        pVisibilityChannel)
     {
         if (!pAnimManager) pAnimManager = new osgAnimation::BasicAnimationManager;
 
@@ -313,7 +315,7 @@ osgAnimation::Animation* addChannels(
         if (pRotationChannels[1]) pAnimation->addChannel(pRotationChannels[1]);
         if (pRotationChannels[2]) pAnimation->addChannel(pRotationChannels[2]);
         if (pScaleChannel) pAnimation->addChannel(pScaleChannel);
-
+        if (pVisibilityChannel) pAnimation->addChannel(pVisibilityChannel);
 
         return pAnimation;
     }
@@ -429,9 +431,160 @@ void readFbxRotationAnimation(osgAnimation::Channel* channels[3],
     }
 }
 
+void readKeys(FbxAnimCurve* curve,
+              const FbxDouble& defaultValue,
+              std::vector<osgAnimation::FloatKeyframe >& keyFrameCntr, float scalar = 1.0f)
+{
+    typedef std::set<double> TimeSet;
+    typedef std::map<double, float> TimeFloatMap;
+    TimeSet times;
+    TimeFloatMap curveTimeMap;
+    
+    FbxAnimCurve* pCurve = curve;
+    
+    int nKeys = pCurve ? pCurve->KeyGetCount() : 0;
+    
+    if (!nKeys)
+    {
+        times.insert(0.0);
+        curveTimeMap[0.0] = defaultValue;
+    }
+    
+    for (int i = 0; i < nKeys; ++i)
+    {
+        FbxAnimCurveKey key = pCurve->KeyGet(i);
+        double fTime = key.GetTime().GetSecondDouble();
+        times.insert(fTime);
+        curveTimeMap[fTime] = static_cast<float>(key.GetValue());
+    }
+    
+    for (TimeSet::iterator it = times.begin(); it != times.end(); ++it)
+    {
+        double fTime = *it;
+        float val;
+      
+        if (curveTimeMap.empty()) continue;
+        
+        TimeFloatMap::iterator lb = curveTimeMap.lower_bound(fTime);
+        if (lb == curveTimeMap.end()) --lb;
+        val = lb->second;
+      
+        keyFrameCntr.push_back(osgAnimation::FloatKeyframe(fTime, val));
+    }
+}
+
+void readKeys(FbxAnimCurve* curve,
+              const FbxDouble& defaultValue,
+              std::vector<osgAnimation::FloatCubicBezierKeyframe>& keyFrameCntr, float scalar = 1.0f)
+{
+    typedef std::set<double> TimeSet;
+    typedef std::map<double, osgAnimation::FloatCubicBezier> TimeValueMap;
+    TimeSet times;
+    TimeValueMap curveTimeMap;
+    
+    FbxAnimCurve* pCurve = curve;
+    
+    int nKeys = pCurve ? pCurve->KeyGetCount() : 0;
+    
+    if (!nKeys)
+    {
+        times.insert(0.0);
+        curveTimeMap[0.0] = osgAnimation::FloatCubicBezier(defaultValue * scalar);
+    }
+    
+    for (int i = 0; i < nKeys; ++i)
+    {
+        double fTime = pCurve->KeyGetTime(i).GetSecondDouble();
+        float val = pCurve->KeyGetValue(i);
+        times.insert(fTime);
+        FbxAnimCurveTangentInfo leftTangent = pCurve->KeyGetLeftDerivativeInfo(i);
+        FbxAnimCurveTangentInfo rightTangent = pCurve->KeyGetRightDerivativeInfo(i);
+        
+        if (i > 0)
+        {
+            leftTangent.mDerivative *= fTime - pCurve->KeyGetTime(i - 1).GetSecondDouble();
+        }
+        if (i + 1 < pCurve->KeyGetCount())
+        {
+            rightTangent.mDerivative *= pCurve->KeyGetTime(i + 1).GetSecondDouble() - fTime;
+        }
+        
+        osgAnimation::FloatCubicBezier key(val * scalar,
+                                           (val - leftTangent.mDerivative / 3.0) * scalar,
+                                           (val + rightTangent.mDerivative / 3.0) * scalar);
+        curveTimeMap[fTime] = key;
+    }
+    
+    for (TimeSet::iterator it = times.begin(); it != times.end(); ++it)
+    {
+        double fTime = *it;
+        float val, cpIn, cpOut;
+      
+        if (curveTimeMap.empty()) continue;
+        
+        TimeValueMap::iterator lb = curveTimeMap.lower_bound(fTime);
+        if (lb == curveTimeMap.end()) --lb;
+        val = lb->second.getPosition();
+        cpIn = lb->second.getControlPointIn();
+        cpOut = lb->second.getControlPointOut();
+      
+        keyFrameCntr.push_back(osgAnimation::FloatCubicBezierKeyframe(fTime,
+                                   osgAnimation::FloatCubicBezier(val, cpIn, cpOut)));
+    }
+}
+
+osgAnimation::Channel* readFbxChannel(FbxAnimCurve* curve,
+                                       const FbxDouble& defaultValue,
+                                       const char* targetName, const char* channelName)
+{
+    if (!(curve && curve->KeyGetCount()))
+    {
+        return 0;
+    }
+    
+    FbxAnimCurveDef::EInterpolationType interpolationType = FbxAnimCurveDef::eInterpolationConstant;
+    if (curve && curve->KeyGetCount()) interpolationType = curve->KeyGetInterpolation(0);
+    
+    osgAnimation::Channel* pChannel = 0;
+    
+    if (interpolationType == FbxAnimCurveDef::eInterpolationCubic)
+    {
+        osgAnimation::FloatCubicBezierKeyframeContainer* pKeyFrameCntr = new osgAnimation::FloatCubicBezierKeyframeContainer;
+        readKeys(curve, defaultValue, *pKeyFrameCntr);
+        reorderControlPoints(*pKeyFrameCntr);
+        
+        osgAnimation::FloatCubicBezierChannel* pCubicChannel = new osgAnimation::FloatCubicBezierChannel;
+        pCubicChannel->getOrCreateSampler()->setKeyframeContainer(pKeyFrameCntr);
+        pChannel = pCubicChannel;
+    }
+    else
+    {
+        osgAnimation::FloatKeyframeContainer* pKeyFrameCntr = new osgAnimation::FloatKeyframeContainer;
+        readKeys(curve, defaultValue, *pKeyFrameCntr);
+        
+        if (interpolationType == FbxAnimCurveDef::eInterpolationConstant)
+        {
+            osgAnimation::FloatStepChannel* pStepChannel = new osgAnimation::FloatStepChannel;
+            pStepChannel->getOrCreateSampler()->setKeyframeContainer(pKeyFrameCntr);
+            pChannel = pStepChannel;
+        }
+        else
+        {
+            osgAnimation::FloatLinearChannel* pLinearChannel = new osgAnimation::FloatLinearChannel;
+            pLinearChannel->getOrCreateSampler()->setKeyframeContainer(pKeyFrameCntr);
+            pChannel = pLinearChannel;
+        }
+    }
+    
+    pChannel->setTargetName(targetName);
+    pChannel->setName(channelName);
+    
+    return pChannel;
+}
+
 osgAnimation::Animation* readFbxAnimation(FbxNode* pNode,
     FbxAnimLayer* pAnimLayer, const char* pTakeName, const char* targetName,
-    osg::ref_ptr<osgAnimation::AnimationManagerBase>& pAnimManager)
+    osg::ref_ptr<osgAnimation::AnimationManagerBase>& pAnimManager, NodeAnimationType &animationType)
 {
     osgAnimation::Channel* pTranslationChannel = 0;
     osgAnimation::Channel* pRotationChannels[3] = {0};
@@ -450,11 +603,28 @@ osgAnimation::Animation* readFbxAnimation(FbxNode* pNode,
 
     osgAnimation::Channel* pScaleChannel = readFbxChannels(
         pNode->LclScaling, pAnimLayer, targetName, "scale");
+  
+    osgAnimation::Channel* pVisibilityChannel = NULL;
+    if(pNode->Visibility.IsValid())
+    {
+        pVisibilityChannel = readFbxChannel(pNode->Visibility.GetCurve(pAnimLayer, FIELD_KFBXGEOMETRYMESH_VISIBILITY),
+                                            pNode->Visibility.Get(), targetName, "visibility");
+    }
 
-    return addChannels(pTranslationChannel, pRotationChannels, pScaleChannel, pAnimManager, pTakeName);
+    if(pTranslationChannel || pRotationChannels || pScaleChannel)
+    {
+        animationType = (NodeAnimationType)(animationType | Transformation);
+    }
+  
+    if(pVisibilityChannel)
+    {
+        animationType = (NodeAnimationType)(animationType | Visibility);
+    }
+  
+    return addChannels(pTranslationChannel, pRotationChannels, pScaleChannel, pVisibilityChannel, pAnimManager, pTakeName);
 }
 
-std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetName)
+std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetName, NodeAnimationType &animationType)
 {
     std::string result;
     for (int i = 0; i < fbxScene.GetSrcObjectCount<FbxAnimStack>(); ++i)
@@ -471,7 +641,7 @@ std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetNam
         for (int j = 0; j < nbAnimLayers; j++)
         {
             FbxAnimLayer* pAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(j);
-            osgAnimation::Animation* pAnimation = ::readFbxAnimation(pNode, pAnimLayer, pTakeName, targetName, pAnimationManager);
+            osgAnimation::Animation* pAnimation = ::readFbxAnimation(pNode, pAnimLayer, pTakeName, targetName, pAnimationManager, animationType);
             if (pAnimation)
             {
                 result = targetName;
