@@ -45,6 +45,7 @@
 #include "../osgconv/ShaderConstants.h"
 #include "../osgconv/NodeVisitorHelper.h"
 #include "../osgconv/TriggerParameterNode.h"
+#include "UpdateNodeVisibility.h"
 
 #include <osg/ShapeDrawable>
 
@@ -1068,6 +1069,58 @@ void setupTriggers(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
   }
 }
 
+void setupVisibilityUpdates(osg::ref_ptr<osg::Node> root)
+{
+  if(!g_animationManager.valid())
+  {
+    return;
+  }
+  
+  const osgAnimation::AnimationList &animations = g_animationManager->getAnimationList();
+  for(int i = 0, animationCnt = animations.size(); i < animationCnt; ++i)
+  {
+    osgAnimation::Animation *animation = animations[i].get();
+    const osgAnimation::ChannelList &channels = animation->getChannels();
+    for(int j = 0, channelCnt = channels.size(); j < channelCnt; ++j)
+    {
+      osgAnimation::Channel *channel = channels[j];
+      if(channel->getName() == "visibility")
+      {
+        const std::string &targetName = channel->getTargetName();
+        FindNodeVisitor findNodeVisitor(targetName);
+        root->accept(findNodeVisitor);
+        std::vector<osg::Node*> &nodes = findNodeVisitor.getNodeList();
+        for(int k = 0, nodeCnt = nodes.size(); k < nodeCnt; ++k)
+        {
+          osg::MatrixTransform *matrixTransform = dynamic_cast<osg::MatrixTransform*>(nodes[k]);
+          if(matrixTransform)
+          {
+            // A switch node for visibility.
+            osg::Switch *visibilityNode = new osg::Switch;
+            // Add a UpdateNodeVisibility with the target name so the link visitor finds it.
+            visibilityNode->setUpdateCallback(new ImageMetrics::UpdateNodeVisibility(targetName));
+            osg::Group *visibilityNodeChild = new osg::Group;
+            visibilityNode->addChild(visibilityNodeChild);
+
+            // Move transformation children to a child group of visibility node, so we can hide all children in one go.
+            while(matrixTransform->getNumChildren() > 0)
+            {
+              osg::Node *child = matrixTransform->getChild(0);
+              visibilityNodeChild->addChild(child);
+              matrixTransform->removeChild(child);
+            }
+
+            matrixTransform->addChild(visibilityNode);
+            
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+
 void setupSkeletonAnimation(osgViewer::Viewer* viewer, osg::ref_ptr<osg::Node> root)
 {
   // Find skeleton node
@@ -1391,6 +1444,7 @@ int main(int argc, char** argv)
     // Setup triggers
     setupTriggers(&viewer, loadedModel);
   
+    setupVisibilityUpdates(loadedModel);
     setupSkeletonAnimation(&viewer, loadedModel);
 
     //setupBillboards(&viewer, loadedModel);

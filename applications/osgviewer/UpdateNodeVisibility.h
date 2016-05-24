@@ -1,5 +1,5 @@
 //
-//  UpdateNodeVisibility
+//  UpdateNodeVisibility.h
 //  OpenSceneGraph
 //
 //  Created by Cheng-Hua Pai on 2016/5/23.
@@ -10,15 +10,14 @@
 #define OSGANIMATION_UPDATE_NODE_VISIBILITY 1
 
 #include <osg/Callback>
-#include <osgAnimation/Export>
 #include <osgAnimation/AnimationUpdateCallback>
 
-namespace osgAnimation
+namespace ImageMetrics
 {
-  class OSGANIMATION_EXPORT UpdateNodeVisibility : public AnimationUpdateCallback<osg::NodeCallback>
+  class UpdateNodeVisibility : public osgAnimation::AnimationUpdateCallback<osg::NodeCallback>
   {
   public:
-    META_Object(osgAnimation, UpdateNodeVisibility);
+    META_Object(ImageMetrics, UpdateNodeVisibility);
     
     UpdateNodeVisibility(const std::string& name = "");
     UpdateNodeVisibility(const UpdateNodeVisibility& apc,const osg::CopyOp& copyop = osg::CopyOp::SHALLOW_COPY);
@@ -29,8 +28,8 @@ namespace osgAnimation
     
   protected:
 
-    osg::ref_ptr<FloatTarget> _visibility;
+    osg::ref_ptr<osgAnimation::FloatTarget> _visibility;
   };
 }
 
-#endif /* UpdateNodeVisibility_hpp */
+#endif /* UpdateNodeVisibility_h */

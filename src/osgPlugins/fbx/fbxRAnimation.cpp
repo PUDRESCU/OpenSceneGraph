@@ -584,7 +584,7 @@ osgAnimation::Channel* readFbxChannel(FbxAnimCurve* curve,
 
 osgAnimation::Animation* readFbxAnimation(FbxNode* pNode,
     FbxAnimLayer* pAnimLayer, const char* pTakeName, const char* targetName,
-    osg::ref_ptr<osgAnimation::AnimationManagerBase>& pAnimManager, NodeAnimationType &animationType)
+    osg::ref_ptr<osgAnimation::AnimationManagerBase>& pAnimManager)
 {
     osgAnimation::Channel* pTranslationChannel = 0;
     osgAnimation::Channel* pRotationChannels[3] = {0};
@@ -611,20 +611,10 @@ osgAnimation::Animation* readFbxAnimation(FbxNode* pNode,
                                             pNode->Visibility.Get(), targetName, "visibility");
     }
 
-    if(pTranslationChannel || pRotationChannels || pScaleChannel)
-    {
-        animationType = (NodeAnimationType)(animationType | Transformation);
-    }
-  
-    if(pVisibilityChannel)
-    {
-        animationType = (NodeAnimationType)(animationType | Visibility);
-    }
-  
     return addChannels(pTranslationChannel, pRotationChannels, pScaleChannel, pVisibilityChannel, pAnimManager, pTakeName);
 }
 
-std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetName, NodeAnimationType &animationType)
+std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetName)
 {
     std::string result;
     for (int i = 0; i < fbxScene.GetSrcObjectCount<FbxAnimStack>(); ++i)
@@ -641,7 +631,7 @@ std::string OsgFbxReader::readFbxAnimation(FbxNode* pNode, const char* targetNam
         for (int j = 0; j < nbAnimLayers; j++)
         {
             FbxAnimLayer* pAnimLayer = pAnimStack->GetMember<FbxAnimLayer>(j);
-            osgAnimation::Animation* pAnimation = ::readFbxAnimation(pNode, pAnimLayer, pTakeName, targetName, pAnimationManager, animationType);
+            osgAnimation::Animation* pAnimation = ::readFbxAnimation(pNode, pAnimLayer, pTakeName, targetName, pAnimationManager);
             if (pAnimation)
             {
                 result = targetName;

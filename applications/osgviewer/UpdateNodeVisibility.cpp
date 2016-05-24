@@ -6,21 +6,21 @@
 //
 //
 
-#include <osgAnimation/UpdateNodeVisibility>
+#include "UpdateNodeVisibility.h"
 
 #include <osg/NodeVisitor>
 #include <osg/Switch>
 
-using namespace osgAnimation;
+using namespace ImageMetrics;
 
 UpdateNodeVisibility::UpdateNodeVisibility( const UpdateNodeVisibility& apc,const osg::CopyOp& copyop) : osg::Object(apc,copyop), AnimationUpdateCallback<osg::NodeCallback>(apc, copyop)
 {
-  _visibility = new FloatTarget(apc._visibility->getValue());
+  _visibility = new osgAnimation::FloatTarget(apc._visibility->getValue());
 }
 
 UpdateNodeVisibility::UpdateNodeVisibility(const std::string& name) : AnimationUpdateCallback<osg::NodeCallback>(name)
 {
-  _visibility = new FloatTarget(1.f);
+  _visibility = new osgAnimation::FloatTarget(1.f);
 }
 
 /** Callback method called by the NodeVisitor when visiting a node.*/
@@ -39,8 +39,6 @@ void UpdateNodeVisibility::operator()(osg::Node* node, osg::NodeVisitor* nv)
 
 bool UpdateNodeVisibility::link(osgAnimation::Channel* channel)
 {
-  const std::string& channelName = channel->getName();
-  
   // check if we can link a StackedTransformElement to the current Channel
   if(channel->getName() == "visibility")
   {

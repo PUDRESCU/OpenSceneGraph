@@ -51,7 +51,6 @@ SET(TARGET_H
     ${HEADER_PATH}/UpdateBone
     ${HEADER_PATH}/UpdateMaterial
     ${HEADER_PATH}/UpdateMatrixTransform
-    ${HEADER_PATH}/UpdateNodeVisibility
     ${HEADER_PATH}/UpdateUniform
     ${HEADER_PATH}/Vec3Packed
     ${HEADER_PATH}/VertexInfluence
@@ -91,7 +90,6 @@ SET(TARGET_SRC
     UpdateBone.cpp
     UpdateMaterial.cpp
     UpdateMatrixTransform.cpp
-    UpdateNodeVisibility.cpp
     VertexInfluence.cpp
     ${OPENSCENEGRAPH_VERSIONINFO_RC}
 )

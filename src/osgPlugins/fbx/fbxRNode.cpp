@@ -7,7 +7,6 @@
 #include <osg/MatrixTransform>
 #include <osg/Material>
 #include <osg/Texture2D>
-#include <osg/Switch>
 
 #include <osgDB/FileNameUtils>
 #include <osgDB/ReadFile>
@@ -21,7 +20,6 @@
 #include <osgAnimation/StackedScaleElement>
 #include <osgAnimation/StackedTranslateElement>
 #include <osgAnimation/UpdateBone>
-#include <osgAnimation/UpdateNodeVisibility>
 
 #if defined(_MSC_VER)
     #pragma warning( disable : 4505 )
@@ -374,7 +372,7 @@ void readUpdateMatrixTransform(osgAnimation::UpdateMatrixTransform* pUpdate, Fbx
 }
 
 osg::Group* createGroupNode(FbxManager& pSdkManager, FbxNode* pNode,
-    const std::string& animName, const osg::Matrix& localMatrix, bool bNeedSkeleton, NodeAnimationType animationType,
+    const std::string& animName, const osg::Matrix& localMatrix, bool bNeedSkeleton,
     std::map<FbxNode*, osg::Node*>& nodeMap, FbxScene& fbxScene)
 {
     if (bNeedSkeleton)
@@ -402,26 +400,14 @@ osg::Group* createGroupNode(FbxManager& pSdkManager, FbxNode* pNode,
 
         osg::MatrixTransform* pTransform = new osg::MatrixTransform(localMatrix);
         pTransform->setName(pNode->GetName());
-        
+
         if (bAnimated)
         {
-            if((animationType & Transformation) == Transformation)
-            {
-                osgAnimation::UpdateMatrixTransform* pUpdate = new osgAnimation::UpdateMatrixTransform(animName);
-                readUpdateMatrixTransform(pUpdate, pNode, fbxScene);
-                pTransform->setUpdateCallback(pUpdate);
-            }
-
-            if((animationType & Visibility) == Visibility)
-            {
-                osg::Switch* pVisibilityNode = new osg::Switch;
-                pVisibilityNode->setName(pNode->GetName());
-                pVisibilityNode->setUpdateCallback(new osgAnimation::UpdateNodeVisibility(animName));
-                pTransform->addChild(pVisibilityNode);
-                pVisibilityNode->addChild(new osg::Group);
-            }
+            osgAnimation::UpdateMatrixTransform* pUpdate = new osgAnimation::UpdateMatrixTransform(animName);
+            readUpdateMatrixTransform(pUpdate, pNode, fbxScene);
+            pTransform->setUpdateCallback(pUpdate);
         }
-      
+
         return pTransform;
     }
 }
@@ -518,8 +504,7 @@ osgDB::ReaderWriter::ReadResult OsgFbxReader::readFbxNode(
         }
     }
 
-    NodeAnimationType animationType = None;
-    std::string animName = readFbxAnimation(pNode, pNode->GetName(), animationType);
+    std::string animName = readFbxAnimation(pNode, pNode->GetName());
 
     osg::Matrix localMatrix;
     makeLocalMatrix(pNode, localMatrix);
@@ -595,15 +580,10 @@ osgDB::ReaderWriter::ReadResult OsgFbxReader::readFbxNode(
     {
         osgDB::ReaderWriter::ReadResult(0);
     }
-  
-    if (!osgGroup) osgGroup = createGroupNode(pSdkManager, pNode, animName, localMatrix, bIsBone, animationType, nodeMap, fbxScene);
+
+    if (!osgGroup) osgGroup = createGroupNode(pSdkManager, pNode, animName, localMatrix, bIsBone, nodeMap, fbxScene);
 
     osg::Group* pAddChildrenTo = osgGroup.get();
-    while(pAddChildrenTo->getNumChildren())
-    {
-        pAddChildrenTo = pAddChildrenTo->getChild(0)->asGroup();
-    }
-  
     if (bCreateSkeleton)
     {
         osgAnimation::Skeleton* osgSkeleton = getSkeleton(pNode, fbxSkeletons, skeletonMap);
