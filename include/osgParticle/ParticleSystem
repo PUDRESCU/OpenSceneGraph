@@ -206,6 +206,12 @@ namespace osgParticle
             If <CODE>texturefile</CODE> is empty, then texturing is turned off.
         */
         void setDefaultAttributesUsingShaders(const std::string& texturefile = "", bool emissive_particles = true, int texture_unit = 0);
+        
+        /** A useful method to set the most common <CODE>StateAttribute</CODE> and use GLSL shaders to draw particles.
+         At present, when enabling shaders in the particle system, user-defined shapes will not be usable.
+         If <CODE>texturefile</CODE> is empty, then texturing is turned off.
+         */
+        void setDefaultAttributesUsingShadersSrc(const std::string& texturefile = "", bool emissive_particles = true, int texture_unit = 0, const std::string& vertex_shader_src = "", const std::string& fragment_shader_src = "");
 
         /// (<B>EXPERIMENTAL</B>) Get the level of detail.
         inline int getLevelOfDetail() const;

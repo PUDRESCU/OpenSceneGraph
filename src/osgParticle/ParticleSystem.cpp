@@ -539,3 +539,45 @@ osg::BoundingBox osgParticle::ParticleSystem::computeBoundingBox() const
     }
 }
 
+
+void osgParticle::ParticleSystem::setDefaultAttributesUsingShadersSrc(const std::string& texturefile, bool emissive_particles, int texture_unit, const std::string& vertex_shader_src, const std::string& fragment_shader_src)
+{
+  osg::StateSet *stateset = new osg::StateSet;
+  stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+  
+  if (!texturefile.empty())
+  {
+    osg::Texture2D *texture = new osg::Texture2D;
+    texture->setImage(osgDB::readRefImageFile(texturefile));
+    texture->setFilter(osg::Texture2D::MIN_FILTER, osg::Texture2D::LINEAR);
+    texture->setFilter(osg::Texture2D::MAG_FILTER, osg::Texture2D::LINEAR);
+    texture->setWrap(osg::Texture2D::WRAP_S, osg::Texture2D::MIRROR);
+    texture->setWrap(osg::Texture2D::WRAP_T, osg::Texture2D::MIRROR);
+    stateset->setTextureAttributeAndModes(texture_unit, texture, osg::StateAttribute::ON);
+  }
+  
+  osg::BlendFunc *blend = new osg::BlendFunc;
+  if (emissive_particles)
+  {
+    blend->setFunction(osg::BlendFunc::SRC_ALPHA, osg::BlendFunc::ONE);
+  }
+  else
+  {
+    blend->setFunction(osg::BlendFunc::SRC_ALPHA, osg::BlendFunc::ONE_MINUS_SRC_ALPHA);
+  }
+  stateset->setAttributeAndModes(blend, osg::StateAttribute::ON);
+  
+  osg::Program *program = new osg::Program;
+  program->addShader(new osg::Shader(osg::Shader::VERTEX, vertex_shader_src));
+  program->addShader(new osg::Shader(osg::Shader::FRAGMENT, fragment_shader_src));
+  
+  stateset->setAttributeAndModes(program, osg::StateAttribute::ON);
+  
+  stateset->addUniform(new osg::Uniform("visibilityDistance", (float)_visibilityDistance));
+  stateset->addUniform(new osg::Uniform("baseTexture", texture_unit));
+  setStateSet(stateset);
+  
+  setUseVertexArray(false);
+  setUseShaders(false);
+}
+
