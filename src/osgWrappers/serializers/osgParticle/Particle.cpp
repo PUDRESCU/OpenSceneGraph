@@ -59,7 +59,7 @@ bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p )
     osg::Vec3d vel; is >> is.PROPERTY("Velocity") >> vel;
     osg::Vec3d angle; is >> is.PROPERTY("Angle") >> angle;
     osg::Vec3d angleV; is >> is.PROPERTY("AngularVelocity") >> angleV;
-    int s, t, num; is >> is.PROPERTY("TextureTile") >> s >> t >> num;
+    int s, t, start, end; is >> is.PROPERTY("TextureTile") >> s >> t >> start >> end;
 
     p.setRadius( radius );
     p.setMass( mass );
@@ -67,7 +67,7 @@ bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p )
     p.setVelocity( vel );
     p.setAngle( angle );
     p.setAngularVelocity( angleV );
-    p.setTextureTile( s, t, num );
+    p.setTextureTileRange( s, t, start, end );
 
     bool hasObject = false; is >> is.PROPERTY("Drawable") >> hasObject;
     if ( hasObject )
@@ -109,7 +109,7 @@ bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p )
     os << os.PROPERTY("Velocity") << osg::Vec3d(p.getVelocity()) << std::endl;
     os << os.PROPERTY("Angle") << osg::Vec3d(p.getAngle()) << std::endl;
     os << os.PROPERTY("AngularVelocity") << osg::Vec3d(p.getAngularVelocity()) << std::endl;
-    os << os.PROPERTY("TextureTile") << p.getTileS() << p.getTileT() << p.getNumTiles() << std::endl;
+    os << os.PROPERTY("TextureTile") << p.getTileS() << p.getTileT() << p.getStartTile() << p.getEndTile() << std::endl;
 
     os << os.PROPERTY("Drawable") << (p.getDrawable()!=NULL);
     if ( p.getDrawable()!=NULL )
