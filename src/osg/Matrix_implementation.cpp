@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <float.h>
 
+#include <osg/SIMD>
+
 using namespace osg;
 
 #define SET_ROW(row, v1, v2, v3, v4 )    \
@@ -462,7 +464,91 @@ void Matrix_implementation::mult( const Matrix_implementation& lhs, const Matrix
         preMult(lhs);
         return;
     }
-
+  
+#if defined(OSG_NEON_64) && defined(OSG_USE_FLOAT_MATRIX)
+  const value_type* lhsAddress = &(lhs._mat[0][0]);
+  const value_type* rhsAddress = &(rhs._mat[0][0]);
+  value_type* dstAddress = &(_mat[0][0]);
+  // row-major matrix
+  // v8  [ 0  1  2  3]        v0  [ 0  1  2  3]
+  // v9  [ 4  5  6  7]        v1  [ 4  5  6  7]
+  // v10 [ 8  9 10 11]    *   v2  [ 8  9 10 11]  =
+  // v11 [12 13 14 15]        v3  [12 13 14 15]
+  //
+  //v12[v8_0*v0_0+v8_1*v1_0+v8_2*v2_0+v8_3*v3_0   v8_0*v0_1+v8_1*v1_1+v8_2*v2_1+v8_3*v3_1 ..]
+  //v13[v9_0*v0_0+v9_1*v1_0+v9_2*v2_0+v9_3*v3_0   v9_0*v0_1+v9_1*v1_1+v9_2*v2_1+v9_3*v3_1 ..]
+  //v14[v10_0*v0_0+v10_1*v1_0+v10_2*v2_0+v10_3*v3_0   v10_0*v0_1+v10_1*v1_1+v10_2*v2_1+v10_3*v3_1 ..]
+  //v15[v11_0*v0_0+v11_1*v1_0+v11_2*v2_0+v11_3*v3_0    v11_0*v0_1+v11_1*v1_1+v11_2*v2_1+v11_3*v3_1 ..]
+  asm volatile (
+                "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%[lhs]]\n"
+                "ld1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%[rhs]]\n"
+                
+                "fmul    v12.4s, v0.4s, v8.s[0]\n"   // dest col0  = (mat0 col0) * (mat1 col0 elt0)
+                "fmla    v12.4s, v1.4s, v8.s[1]\n"   // dest col0 += (mat0 col1) * (mat1 col0 elt1)
+                "fmla    v12.4s, v2.4s, v8.s[2]\n"  // dest col0 += (mat0 col2) * (mat1 col0 elt2)
+                "fmla    v12.4s, v3.4s, v8.s[3]\n"  // dest col0 += (mat0 col3) * (mat1 col0 elt3)
+                
+                
+                "fmul    v13.4s, v0.4s, v9.s[0]\n"   // dest col1  = (mat0 col0) * (mat1 col1 elt0)
+                "fmla    v13.4s, v1.4s, v9.s[1]\n"   // dest col1 += (mat0 col1) * (mat1 col1 elt1)
+                "fmla    v13.4s, v2.4s, v9.s[2]\n"  // dest col1 += (mat0 col2) * (mat1 col1 elt2)
+                "fmla    v13.4s, v3.4s, v9.s[3]\n"  // dest col1 += (mat0 col3) * (mat1 col1 elt3)
+                
+                "fmul    v14.4s, v0.4s, v10.s[0]\n"   // dest col2  = (mat0 col0) * (mat1 col2 elt0)
+                "fmla    v14.4s, v1.4s, v10.s[1]\n"   // dest col2 += (mat0 col1) * (mat1 col2 elt1)
+                "fmla    v14.4s, v2.4s, v10.s[2]\n"  // dest col2 += (mat0 col2) * (mat1 col2 elt2)
+                "fmla    v14.4s, v3.4s, v10.s[3]\n"  // dest col2 += (mat0 col3) * (mat1 col2 elt3)
+                
+                "fmul    v15.4s, v0.4s, v11.s[0]\n"   // dest col3  = (mat0 col0) * (mat1 col3 elt0)
+                "fmla    v15.4s, v1.4s, v11.s[1]\n"   // dest col3 += (mat0 col1) * (mat1 col3 elt1)
+                "fmla    v15.4s, v2.4s, v11.s[2]\n"  // dest col3 += (mat0 col2) * (mat1 col2 elt2)
+                "fmla    v15.4s, v3.4s, v11.s[3]\n"  // dest col3 += (mat0 col3) * (mat1 col3 elt3)
+                
+                // output = result registers
+                "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%[dest]]\n"
+                : [dest] "+r" (dstAddress), [lhs] "+r" (lhsAddress), [rhs] "+r" (rhsAddress)
+                :
+                : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
+                );
+  //#elif defined OSG_NEON
+  //  const value_type* lhsAddress = &(lhs._mat[0][0]);
+  //  const value_type* rhsAddress = &(rhs._mat[0][0]);
+  //  value_type* dstAddress = &(_mat[0][0]);
+  //
+  //  asm volatile (
+  //                "vldmia      %1, {q8-q11}\n"     // load 16 elements of matrix left
+  //                "vldmia      %2, {q0-q3}\n"      // load 16 elements of matrix right
+  //
+  //                "vmul.f32    q12, q8, d0[0]\n"   // rslt col0  = (mat0 col0) * (mat1 col0 elt0)
+  //                "vmul.f32    q13, q8, d2[0]\n"   // rslt col1  = (mat0 col0) * (mat1 col1 elt0)
+  //                "vmul.f32    q14, q8, d4[0]\n"   // rslt col2  = (mat0 col0) * (mat1 col2 elt0)
+  //                "vmul.f32    q15, q8, d6[0]\n"   // rslt col3  = (mat0 col0) * (mat1 col3 elt0)
+  //
+  //                "vmla.f32    q12, q9, d0[1]\n"   // rslt col0 += (mat0 col1) * (mat1 col0 elt1)
+  //                "vmla.f32    q13, q9, d2[1]\n"   // rslt col1 += (mat0 col1) * (mat1 col1 elt1)
+  //                "vmla.f32    q14, q9, d4[1]\n"   // rslt col2 += (mat0 col1) * (mat1 col2 elt1)
+  //                "vmla.f32    q15, q9, d6[1]\n"   // rslt col3 += (mat0 col1) * (mat1 col3 elt1)
+  //
+  //                "vmla.f32    q12, q10, d1[0]\n"  // rslt col0 += (mat0 col2) * (mat1 col0 elt2)
+  //                "vmla.f32    q13, q10, d3[0]\n"  // rslt col1 += (mat0 col2) * (mat1 col1 elt2)
+  //                "vmla.f32    q14, q10, d5[0]\n"  // rslt col2 += (mat0 col2) * (mat1 col2 elt2)
+  //                "vmla.f32    q15, q10, d7[0]\n"  // rslt col3 += (mat0 col2) * (mat1 col2 elt2)
+  //
+  //                "vmla.f32    q12, q11, d1[1]\n"  // rslt col0 += (mat0 col3) * (mat1 col0 elt3)
+  //                "vmla.f32    q13, q11, d3[1]\n"  // rslt col1 += (mat0 col3) * (mat1 col1 elt3)
+  //                "vmla.f32    q14, q11, d5[1]\n"  // rslt col2 += (mat0 col3) * (mat1 col2 elt3)
+  //                "vmla.f32    q15, q11, d7[1]\n"  // rslt col3 += (mat0 col3) * (mat1 col3 elt3)
+  //
+  //                // output = result registers
+  //                "vstmia      %0, {q12-q15}\n"
+  //
+  //                // no output
+  //                :
+  //                // input - note *value* of pointer doesn't change
+  //                : "r" (_mat), "r" (lhs._mat), "r" (rhs._mat)
+  //                : "memory", "q0", "q1", "q2", "q3", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15" //clobber
+  //                );
+#else
 // PRECONDITION: We assume neither &lhs nor &rhs == this
 // if it did, use preMult or postMult instead
     _mat[0][0] = INNER_PRODUCT(lhs, rhs, 0, 0);
@@ -481,6 +567,7 @@ void Matrix_implementation::mult( const Matrix_implementation& lhs, const Matrix
     _mat[3][1] = INNER_PRODUCT(lhs, rhs, 3, 1);
     _mat[3][2] = INNER_PRODUCT(lhs, rhs, 3, 2);
     _mat[3][3] = INNER_PRODUCT(lhs, rhs, 3, 3);
+#endif
 }
 
 void Matrix_implementation::preMult( const Matrix_implementation& other )
@@ -488,7 +575,42 @@ void Matrix_implementation::preMult( const Matrix_implementation& other )
     // brute force method requiring a copy
     //Matrix_implementation tmp(other* *this);
     // *this = tmp;
-
+#if defined(OSG_NEON_64) && defined(OSG_USE_FLOAT_MATRIX)
+    const value_type* lhsAddress = &(other._mat[0][0]);
+    const value_type* rhsAddress = &(_mat[0][0]);
+    value_type* dstAddress = &(_mat[0][0]);
+    asm volatile (
+                  "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%[lhs]]\n"
+                  "ld1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%[rhs]]\n"
+                  
+                  "fmul    v12.4s, v0.4s, v8.s[0]\n"   // dest col0  = (mat0 col0) * (mat1 col0 elt0)
+                  "fmla    v12.4s, v1.4s, v8.s[1]\n"   // dest col0 += (mat0 col1) * (mat1 col0 elt1)
+                  "fmla    v12.4s, v2.4s, v8.s[2]\n"  // dest col0 += (mat0 col2) * (mat1 col0 elt2)
+                  "fmla    v12.4s, v3.4s, v8.s[3]\n"  // dest col0 += (mat0 col3) * (mat1 col0 elt3)
+                  
+                  
+                  "fmul    v13.4s, v0.4s, v9.s[0]\n"   // dest col1  = (mat0 col0) * (mat1 col1 elt0)
+                  "fmla    v13.4s, v1.4s, v9.s[1]\n"   // dest col1 += (mat0 col1) * (mat1 col1 elt1)
+                  "fmla    v13.4s, v2.4s, v9.s[2]\n"  // dest col1 += (mat0 col2) * (mat1 col1 elt2)
+                  "fmla    v13.4s, v3.4s, v9.s[3]\n"  // dest col1 += (mat0 col3) * (mat1 col1 elt3)
+                  
+                  "fmul    v14.4s, v0.4s, v10.s[0]\n"   // dest col2  = (mat0 col0) * (mat1 col2 elt0)
+                  "fmla    v14.4s, v1.4s, v10.s[1]\n"   // dest col2 += (mat0 col1) * (mat1 col2 elt1)
+                  "fmla    v14.4s, v2.4s, v10.s[2]\n"  // dest col2 += (mat0 col2) * (mat1 col2 elt2)
+                  "fmla    v14.4s, v3.4s, v10.s[3]\n"  // dest col2 += (mat0 col3) * (mat1 col2 elt3)
+                  
+                  "fmul    v15.4s, v0.4s, v11.s[0]\n"   // dest col3  = (mat0 col0) * (mat1 col3 elt0)
+                  "fmla    v15.4s, v1.4s, v11.s[1]\n"   // dest col3 += (mat0 col1) * (mat1 col3 elt1)
+                  "fmla    v15.4s, v2.4s, v11.s[2]\n"  // dest col3 += (mat0 col2) * (mat1 col2 elt2)
+                  "fmla    v15.4s, v3.4s, v11.s[3]\n"  // dest col3 += (mat0 col3) * (mat1 col3 elt3)
+                  
+                  // output = result registers
+                  "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%[dest]]\n"
+                  : [dest] "+r" (dstAddress), [lhs] "+r" (lhsAddress), [rhs] "+r" (rhsAddress)
+                  :
+                  : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
+                  );
+#else
     // more efficient method just use a value_type[4] for temporary storage.
     value_type t[4];
     for(int col=0; col<4; ++col) {
@@ -501,7 +623,7 @@ void Matrix_implementation::preMult( const Matrix_implementation& other )
         _mat[2][col] = t[2];
         _mat[3][col] = t[3];
     }
-
+#endif
 }
 
 void Matrix_implementation::postMult( const Matrix_implementation& other )
@@ -509,7 +631,44 @@ void Matrix_implementation::postMult( const Matrix_implementation& other )
     // brute force method requiring a copy
     //Matrix_implementation tmp(*this * other);
     // *this = tmp;
+#if defined(OSG_NEON_64) && defined(OSG_USE_FLOAT_MATRIX)
+    const value_type* lhsAddress = &(_mat[0][0]);
+    const value_type* rhsAddress = &(other._mat[0][0]);
+    value_type* dstAddress = &(_mat[0][0]);
+    asm volatile (
+                  "ld1 {v8.4s, v9.4s, v10.4s, v11.4s}, [%[lhs]]\n"
+                  "ld1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%[rhs]]\n"
+                  
+                  "fmul    v12.4s, v0.4s, v8.s[0]\n"   // dest col0  = (mat0 col0) * (mat1 col0 elt0)
+                  "fmla    v12.4s, v1.4s, v8.s[1]\n"   // dest col0 += (mat0 col1) * (mat1 col0 elt1)
+                  "fmla    v12.4s, v2.4s, v8.s[2]\n"  // dest col0 += (mat0 col2) * (mat1 col0 elt2)
+                  "fmla    v12.4s, v3.4s, v8.s[3]\n"  // dest col0 += (mat0 col3) * (mat1 col0 elt3)
+                  
+                  
+                  "fmul    v13.4s, v0.4s, v9.s[0]\n"   // dest col1  = (mat0 col0) * (mat1 col1 elt0)
+                  "fmla    v13.4s, v1.4s, v9.s[1]\n"   // dest col1 += (mat0 col1) * (mat1 col1 elt1)
+                  "fmla    v13.4s, v2.4s, v9.s[2]\n"  // dest col1 += (mat0 col2) * (mat1 col1 elt2)
+                  "fmla    v13.4s, v3.4s, v9.s[3]\n"  // dest col1 += (mat0 col3) * (mat1 col1 elt3)
+                  
+                  "fmul    v14.4s, v0.4s, v10.s[0]\n"   // dest col2  = (mat0 col0) * (mat1 col2 elt0)
+                  "fmla    v14.4s, v1.4s, v10.s[1]\n"   // dest col2 += (mat0 col1) * (mat1 col2 elt1)
+                  "fmla    v14.4s, v2.4s, v10.s[2]\n"  // dest col2 += (mat0 col2) * (mat1 col2 elt2)
+                  "fmla    v14.4s, v3.4s, v10.s[3]\n"  // dest col2 += (mat0 col3) * (mat1 col2 elt3)
+                  
+                  "fmul    v15.4s, v0.4s, v11.s[0]\n"   // dest col3  = (mat0 col0) * (mat1 col3 elt0)
+                  "fmla    v15.4s, v1.4s, v11.s[1]\n"   // dest col3 += (mat0 col1) * (mat1 col3 elt1)
+                  "fmla    v15.4s, v2.4s, v11.s[2]\n"  // dest col3 += (mat0 col2) * (mat1 col2 elt2)
+                  "fmla    v15.4s, v3.4s, v11.s[3]\n"  // dest col3 += (mat0 col3) * (mat1 col3 elt3)
+                  
+                  // output = result registers
+                  "st1 {v12.4s, v13.4s, v14.4s, v15.4s}, [%[dest]]\n"
+                  : [dest] "+r" (dstAddress), [lhs] "+r" (lhsAddress), [rhs] "+r" (rhsAddress)
+                  :
+                  : "memory", "v0", "v1", "v2", "v3", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15"
+                  );
 
+//#elif defined OSG_NEON
+#else
     // more efficient method just use a value_type[4] for temporary storage.
     value_type t[4];
     for(int row=0; row<4; ++row)
@@ -520,6 +679,7 @@ void Matrix_implementation::postMult( const Matrix_implementation& other )
         t[3] = INNER_PRODUCT( *this, other, row, 3 );
         SET_ROW(row, t[0], t[1], t[2], t[3] )
     }
+#endif
 }
 
 #undef INNER_PRODUCT

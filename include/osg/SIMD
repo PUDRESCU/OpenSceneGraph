@@ -1,0 +1,48 @@
+#ifndef OSG_SIMD
+#define OSG_SIMD 1
+
+#if defined(_MSC_VER)
+#define IMAGE_METRICS_AVX
+#elif defined(_DARWIN)
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#if TARGET_OS_IPHONE && !(TARGET_IPHONE_SIMULATOR) && defined(__ARM_NEON__)
+#if defined(__arm64__)
+#define OSG_NEON_64
+#else
+#define OSG_NEON
+#endif
+#endif
+#endif
+#elif defined(__GNUC__)
+#if defined(__ARM_NEON__) || defined(__ARM_NEON)
+#if defined(__arm__)
+#define OSG_NEON
+#elif defined(__aarch64__)
+#define OSG_NEON_64
+#endif
+#elif !defined(_NACL)
+#if defined(__AVX2__)
+#define OSG_AVX2
+#elif defined(__AVX__)
+#define OSG_AVX
+#elif defined(__SSE4_2__)
+#define OSG_SSE4_2
+#elif defined(__SSE4_1__)
+#define OSG_SSE4_1
+#elif defined(__SSSE3__)
+#define OSG_SSSE3
+#elif defined(__SSE3__)
+#define OSG_SSE3
+#elif defined(__SSE2__)
+#define OSG_SSE2
+#elif defined(__SSE__)
+#define OSG_SSE
+#endif
+#endif
+#endif
+
+#if defined(OSG_NEON) || defined(OSG_NEON_64)
+  #include <arm_neon.h>
+#endif
+#endif

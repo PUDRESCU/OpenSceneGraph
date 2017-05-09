@@ -155,6 +155,7 @@ SET(TARGET_H
     ${HEADER_PATH}/ShadowVolumeOccluder
     ${HEADER_PATH}/Shape
     ${HEADER_PATH}/ShapeDrawable
+    ${HEADER_PATH}/SIMD
     ${HEADER_PATH}/State
     ${HEADER_PATH}/StateAttribute
     ${HEADER_PATH}/StateAttributeCallback
