@@ -19,7 +19,6 @@
 typedef char TCHAR;
 #endif
 
-
 // currently this impl is for _all_ platforms, except as defined.
 // the mac version will change soon to reflect the path scheme under osx, but
 // for now, the above include is commented out, and the below code takes precedence.
@@ -92,6 +91,9 @@ typedef char TCHAR;
     #endif
 #endif
 
+#if defined(__ANDROID__)
+  #define stat64 stat
+#endif
     // set up _S_ISDIR()
 #if !defined(S_ISDIR)
 #  if defined( _S_IFDIR) && !defined( __S_IFDIR)
