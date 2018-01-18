@@ -126,7 +126,8 @@ class ReaderWriterPNG : public osgDB::ReaderWriter
             }
 
             //wish there was a Image::computeComponentSizeInBits()
-            bitDepth = Image::computePixelSizeInBits(img.getPixelFormat(),img.getDataType())/Image::computeNumComponents(img.getPixelFormat());
+            unsigned int numComponents = Image::computeNumComponents(img.getPixelFormat());
+            bitDepth = (numComponents>0) ? (Image::computePixelSizeInBits(img.getPixelFormat(),img.getDataType())/numComponents) : 0;
             if(bitDepth!=8 && bitDepth!=16) return WriteResult::ERROR_IN_WRITING_FILE;
 
             //Create row data
@@ -239,23 +240,36 @@ class ReaderWriterPNG : public osgDB::ReaderWriter
                 // In addition to expanding the palette, we also need to check
                 // to expand greyscale and alpha images.  See libpng man page.
                 if (color == PNG_COLOR_TYPE_PALETTE)
-                    png_set_palette_to_rgb(png);
-                if (color == PNG_COLOR_TYPE_GRAY && depth < 8)
                 {
-                #if PNG_LIBPNG_VER >= 10209
-                    png_set_expand_gray_1_2_4_to_8(png);
-                #else
-                    // use older now deprecated but identical call
-                    png_set_gray_1_2_4_to_8(png);
-                #endif
+                    png_set_expand(png);
+                    png_set_palette_to_rgb(png);
+                    if (png_get_valid(png, info, PNG_INFO_tRNS))
+                    {
+                        png_set_tRNS_to_alpha(png);
+                    }
+                    else
+                    {
+                        png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
+                    }
                 }
-                if (png_get_valid(png, info, PNG_INFO_tRNS))
-                    png_set_tRNS_to_alpha(png);
+                else
+                {
+                    if (color == PNG_COLOR_TYPE_GRAY && depth < 8)
+                    {
+                    #if PNG_LIBPNG_VER >= 10209
+                        png_set_expand_gray_1_2_4_to_8(png);
+                    #else
+                        // use older now deprecated but identical call
+                        png_set_gray_1_2_4_to_8(png);
+                    #endif
+                    }
+                    if (png_get_valid(png, info, PNG_INFO_tRNS))
+                        png_set_tRNS_to_alpha(png);
 
-                // Make sure that files of small depth are packed properly.
-                if (depth < 8)
-                    png_set_packing(png);
-
+                    // Make sure that files of small depth are packed properly.
+                    if (depth < 8)
+                        png_set_packing(png);
+                }
 
                 /*--GAMMA--*/
                 //    checkForGammaEnv();
@@ -292,7 +306,7 @@ class ReaderWriterPNG : public osgDB::ReaderWriter
                   case(PNG_COLOR_TYPE_GRAY): pixelFormat =GL_LUMINANCE ; break;
                   case(PNG_COLOR_TYPE_GRAY_ALPHA): pixelFormat = GL_LUMINANCE_ALPHA; break;
                   case(PNG_COLOR_TYPE_RGB): pixelFormat = GL_RGB; break;
-                  case(PNG_COLOR_TYPE_PALETTE): pixelFormat = GL_RGB; break;
+                  case(PNG_COLOR_TYPE_PALETTE): pixelFormat = GL_RGBA; break;
                   case(PNG_COLOR_TYPE_RGB_ALPHA): pixelFormat = GL_RGBA; break;
                   default: break;
                 }
