@@ -1,3 +1,0 @@
-make
-cp bin/osgviewer ../IMTools/bin/osgviewer 
-cp bin/osgconv ../IMTools/bin/osgconv
