@@ -13,21 +13,21 @@ FOREACH( mylibfolder
         osgDB
         osgUtil
         osgGA
-        osgText
+#        osgText
         osgViewer
         osgAnimation
-        osgFX
-        osgManipulator
+#        osgFX
+#        osgManipulator
         osgParticle
-        osgUI
-        osgVolume
-        osgShadow
-        osgSim
-        osgTerrain
-        osgWidget
-        osgPresentation
+#        osgUI
+#        osgVolume
+#        osgShadow
+#        osgSim
+#        osgTerrain
+#        osgWidget
+#        osgPresentation
         osgWrappers/serializers
-        osgWrappers/deprecated-dotosg
+#        osgWrappers/deprecated-dotosg
         osgPlugins
     )
 
