@@ -3,6 +3,24 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifdef IM_SIZE_REDUCTION
+#define PROGRAM_LIST_FUNC( PROP, TYPE, DATA ) \
+    static bool check##PROP(const osg::Program& attr) \
+    { return attr.get##TYPE().size()>0; } \
+    static bool read##PROP(osgDB::InputStream& is, osg::Program& attr) { \
+        unsigned int size = is.readSize(); is >> is.BEGIN_BRACKET; \
+        for ( unsigned int i=0; i<size; ++i ) { \
+            std::string key; unsigned int value; \
+            is >> key >> value; attr.add##DATA(key, value); \
+        } \
+        is >> is.END_BRACKET; \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::Program& attr ) \
+    { \
+        return true; \
+    }
+#else
 #define PROGRAM_LIST_FUNC( PROP, TYPE, DATA ) \
     static bool check##PROP(const osg::Program& attr) \
     { return attr.get##TYPE().size()>0; } \
@@ -20,16 +38,30 @@
         const osg::Program::TYPE& plist = attr.get##TYPE(); \
         os.writeSize(plist.size()); os << os.BEGIN_BRACKET << std::endl; \
         for ( osg::Program::TYPE::const_iterator itr=plist.begin(); \
-              itr!=plist.end(); ++itr ) { \
+            itr!=plist.end(); ++itr ) { \
             os << itr->first << itr->second << std::endl; \
         } \
         os << os.END_BRACKET << std::endl; \
         return true; \
     }
+#endif
 
 PROGRAM_LIST_FUNC( AttribBinding, AttribBindingList, BindAttribLocation )
 PROGRAM_LIST_FUNC( FragDataBinding, FragDataBindingList, BindFragDataLocation )
 
+#ifdef IM_SIZE_REDUCTION
+#define PROGRAM_PARAMETER_FUNC( PROP, NAME ) \
+    static bool check##PROP(const osg::Program& attr) \
+    { return true; } \
+    static bool read##PROP(osgDB::InputStream& is, osg::Program& attr) { \
+        int value; is >> is.PROPERTY(#NAME) >> value; \
+        attr.setParameter(NAME, value); \
+        return true; \
+    } \
+    static bool write##PROP(osgDB::OutputStream& os, const osg::Program& attr) { \
+        return true; \
+    }
+#else
 #define PROGRAM_PARAMETER_FUNC( PROP, NAME ) \
     static bool check##PROP(const osg::Program& attr) \
     { return true; } \
@@ -42,6 +74,7 @@ PROGRAM_LIST_FUNC( FragDataBinding, FragDataBindingList, BindFragDataLocation )
         os << os.PROPERTY(#NAME) << (int)attr.getParameter(NAME) << std::endl; \
         return true; \
     }
+#endif
 
 PROGRAM_PARAMETER_FUNC( GeometryVerticesOut, GL_GEOMETRY_VERTICES_OUT_EXT )
 PROGRAM_PARAMETER_FUNC( GeometryInputType, GL_GEOMETRY_INPUT_TYPE_EXT )
@@ -67,6 +100,9 @@ static bool readShaders( osgDB::InputStream& is, osg::Program& attr )
 
 static bool writeShaders( osgDB::OutputStream& os, const osg::Program& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     unsigned int size = attr.getNumShaders();
     os.writeSize(size); os << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -75,6 +111,7 @@ static bool writeShaders( osgDB::OutputStream& os, const osg::Program& attr )
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 // feedBackVaryings
 static bool checkFeedBackVaryingsName( const osg::Program& attr )
@@ -95,6 +132,9 @@ static bool readFeedBackVaryingsName( osgDB::InputStream& is, osg::Program& attr
 }
 static bool writeFeedBackVaryingsName( osgDB::OutputStream& os, const osg::Program& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
 	unsigned int size = attr.getNumTransformFeedBackVaryings();
 	os.writeSize(size); os << os.BEGIN_BRACKET << std::endl;
 	for ( unsigned int i=0; i<size; ++i )
@@ -103,6 +143,7 @@ static bool writeFeedBackVaryingsName( osgDB::OutputStream& os, const osg::Progr
 	}
 	os << os.END_BRACKET << std::endl;
 	return true;
+#endif
 }
 // feedBack mode
 static bool checkFeedBackMode( const osg::Program& attr )
@@ -118,8 +159,12 @@ static bool readFeedBackMode( osgDB::InputStream& is, osg::Program& attr )
 }
 static bool writeFeedBackMode( osgDB::OutputStream& os, const osg::Program& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
 	os << attr.getTransformFeedBackMode()<< std::endl;
 	return true;
+#endif
 }
 // _numGroupsX/Y/Z
 static bool checkComputeGroups( const osg::Program& attr )
@@ -139,10 +184,14 @@ static bool readComputeGroups( osgDB::InputStream& is, osg::Program& attr )
 
 static bool writeComputeGroups( osgDB::OutputStream& os, const osg::Program& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     GLint numX = 0, numY = 0, numZ = 0;
     attr.getComputeGroups( numX, numY, numZ );
     os << numX << numY << numZ << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Program,

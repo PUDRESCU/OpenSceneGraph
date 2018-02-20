@@ -227,6 +227,9 @@ bool ObjectWrapper::read( InputStream& is, osg::Object& obj )
 
 bool ObjectWrapper::write( OutputStream& os, const osg::Object& obj )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     bool writeOK = true;
     int outputVersion = os.getFileVersion(_domain);
     for ( SerializerList::iterator itr=_serializers.begin();
@@ -250,6 +253,7 @@ bool ObjectWrapper::write( OutputStream& os, const osg::Object& obj )
         }
     }
     return writeOK;
+#endif
 }
 
 bool ObjectWrapper::readSchema( const StringList& properties, const TypeList& )

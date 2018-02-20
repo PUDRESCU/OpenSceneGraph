@@ -14,9 +14,13 @@ static bool readRateRange( osgDB::InputStream& is, osgParticle::VariableRateCoun
 
 static bool writeRateRange( osgDB::OutputStream& os, const osgParticle::VariableRateCounter& obj )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgParticle::rangef& range = obj.getRateRange();
     os << range.minimum << range.maximum << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgParticleVariableRateCounter,

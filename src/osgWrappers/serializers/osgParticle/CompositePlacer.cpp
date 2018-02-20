@@ -22,6 +22,9 @@ static bool readPlacers( osgDB::InputStream& is, osgParticle::CompositePlacer& c
 
 static bool writePlacers( osgDB::OutputStream& os, const osgParticle::CompositePlacer& cp )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     unsigned int size = cp.getNumPlacers();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -30,6 +33,7 @@ static bool writePlacers( osgDB::OutputStream& os, const osgParticle::CompositeP
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgParticleCompositePlacer,

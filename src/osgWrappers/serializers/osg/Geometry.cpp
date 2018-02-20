@@ -1,3 +1,4 @@
+
 #include <osg/Geometry>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -45,6 +46,8 @@ static osg::Array* readArray( osgDB::InputStream& is)
 
 static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 {
+#ifdef IM_SIZE_REDUCTION
+#else
     os << os.PROPERTY("Array") << (array!=0);
     if ( array!=0 ) os << array;
     else os << std::endl;
@@ -56,8 +59,24 @@ static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 
     os << os.PROPERTY("Binding"); writeAttributeBinding(os, osg::getBinding(array)); os << std::endl;
     os << os.PROPERTY("Normalize") << ((array!=0 && array->getNormalize()) ? 1:0) << std::endl;
+#endif
 }
 
+#ifdef IM_SIZE_REDUCTION
+#define ADD_ARRAYDATA_FUNCTIONS( ORIGINAL_PROP, PROP ) \
+    static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
+    { return geom.get##PROP()!=0; } \
+    static bool read##ORIGINAL_PROP( osgDB::InputStream& is, osg::Geometry& geom ) { \
+        is >> is.BEGIN_BRACKET; \
+        osg::Array* array = readArray(is); \
+        geom.set##PROP(array); \
+        is >> is.END_BRACKET; \
+        return true; \
+    } \
+    static bool write##ORIGINAL_PROP( osgDB::OutputStream& os, const osg::Geometry& geom ) { \
+        return true; \
+    }
+#else
 #define ADD_ARRAYDATA_FUNCTIONS( ORIGINAL_PROP, PROP ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##PROP()!=0; } \
@@ -74,6 +93,7 @@ static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
         os << os.END_BRACKET << std::endl; \
         return true; \
     }
+#endif
 
 ADD_ARRAYDATA_FUNCTIONS( VertexData, VertexArray )
 ADD_ARRAYDATA_FUNCTIONS( NormalData, NormalArray )
@@ -81,6 +101,24 @@ ADD_ARRAYDATA_FUNCTIONS( ColorData, ColorArray )
 ADD_ARRAYDATA_FUNCTIONS( SecondaryColorData, SecondaryColorArray )
 ADD_ARRAYDATA_FUNCTIONS( FogCoordData, FogCoordArray )
 
+#ifdef IM_SIZE_REDUCTION
+#define ADD_ARRAYLIST_FUNCTIONS( ORIGINAL_PROP, PROP, LISTNAME ) \
+    static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
+    { return geom.get##LISTNAME().size()>0; } \
+    static bool read##ORIGINAL_PROP( osgDB::InputStream& is, osg::Geometry& geom ) { \
+        unsigned int size = is.readSize(); is >> is.BEGIN_BRACKET; \
+        for ( unsigned int i=0; i<size; ++i ) { \
+            is >> is.PROPERTY("Data") >> is.BEGIN_BRACKET; \
+            osg::Array* array = readArray(is); \
+            geom.set##PROP(i, array); \
+            is >> is.END_BRACKET; } \
+        is >> is.END_BRACKET; \
+        return true; \
+    } \
+    static bool write##ORIGINAL_PROP( osgDB::OutputStream& os, const osg::Geometry& geom ) { \
+        return true; \
+    }
+#else
 #define ADD_ARRAYLIST_FUNCTIONS( ORIGINAL_PROP, PROP, LISTNAME ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##LISTNAME().size()>0; } \
@@ -105,6 +143,7 @@ ADD_ARRAYDATA_FUNCTIONS( FogCoordData, FogCoordArray )
         os << os.END_BRACKET << std::endl; \
         return true; \
     }
+#endif
 
 ADD_ARRAYLIST_FUNCTIONS( TexCoordData, TexCoordArray, TexCoordArrayList )
 ADD_ARRAYLIST_FUNCTIONS( VertexAttribData, VertexAttribArray, VertexAttribArrayList )

@@ -1,3 +1,4 @@
+
 #include <osg/ImageSequence>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -24,6 +25,9 @@ static bool readFileNames( osgDB::InputStream& is, osg::ImageSequence& image )
 
 static bool writeFileNames( osgDB::OutputStream& os, const osg::ImageSequence& image )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();
     os.writeSize(imageDataList.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::ImageSequence::ImageDataList::const_iterator itr=imageDataList.begin();
@@ -35,6 +39,7 @@ static bool writeFileNames( osgDB::OutputStream& os, const osg::ImageSequence& i
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 // _images
@@ -57,6 +62,9 @@ static bool readImages( osgDB::InputStream& is, osg::ImageSequence& image )
 
 static bool writeImages( osgDB::OutputStream& os, const osg::ImageSequence& image)
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();
     os.writeSize(imageDataList.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::ImageSequence::ImageDataList::const_iterator itr=imageDataList.begin();
@@ -67,6 +75,7 @@ static bool writeImages( osgDB::OutputStream& os, const osg::ImageSequence& imag
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( ImageSequence,

@@ -81,6 +81,10 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
 
 OutputIterator* writeOutputIterator( std::ostream& fout, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+    return new BinaryOutputIterator(&fout);
+#else
+  
     // Read precision parameter, for text & XML formats
     int precision(-1);
     if ( options ) {
@@ -113,6 +117,7 @@ OutputIterator* writeOutputIterator( std::ostream& fout, const Options* options 
         fout.write( (char*)&high, INT_SIZE );
         return new BinaryOutputIterator(&fout);
     }
+#endif
 }
 
 class ReaderWriterOSG2 : public osgDB::ReaderWriter
@@ -269,6 +274,9 @@ public:
 
     Options* prepareWriting( WriteResult& result, const std::string& fileName, std::ios::openmode& mode, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return new Options;
+#else
         std::string ext = osgDB::getLowerCaseFileExtension( fileName );
         if ( !acceptsExtension(ext) ) result = WriteResult::FILE_NOT_HANDLED;
 
@@ -288,10 +296,14 @@ public:
         }
 
         return local_opt.release();
+#endif
     }
 
     virtual WriteResult writeObject( const osg::Object& object, const std::string& fileName, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         WriteResult result = WriteResult::FILE_SAVED;
         std::ios::openmode mode = std::ios::out;
         osg::ref_ptr<Options> local_opt = prepareWriting( result, fileName, mode, options );
@@ -303,10 +315,14 @@ public:
         result = writeObject( object, fout, local_opt.get() );
         fout.close();
         return result;
+#endif
     }
 
     virtual WriteResult writeObject( const osg::Object& object, std::ostream& fout, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         osg::ref_ptr<OutputIterator> oi = writeOutputIterator(fout, options);
 
         OutputStream os( options );
@@ -324,10 +340,14 @@ public:
 
         if ( fout.fail() ) return WriteResult::ERROR_IN_WRITING_FILE;
         return WriteResult::FILE_SAVED;
+#endif
     }
 
     virtual WriteResult writeImage( const osg::Image& image, const std::string& fileName, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         WriteResult result = WriteResult::FILE_SAVED;
         std::ios::openmode mode = std::ios::out;
         osg::ref_ptr<Options> local_opt = prepareWriting( result, fileName, mode, options );
@@ -339,10 +359,14 @@ public:
         result = writeImage( image, fout, local_opt.get() );
         fout.close();
         return result;
+#endif
     }
 
     virtual WriteResult writeImage( const osg::Image& image, std::ostream& fout, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         osg::ref_ptr<OutputIterator> oi = writeOutputIterator(fout, options);
 
         OutputStream os( options );
@@ -360,10 +384,14 @@ public:
 
         if ( fout.fail() ) return WriteResult::ERROR_IN_WRITING_FILE;
         return WriteResult::FILE_SAVED;
+#endif
     }
 
     virtual WriteResult writeNode( const osg::Node& node, const std::string& fileName, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         WriteResult result = WriteResult::FILE_SAVED;
         std::ios::openmode mode = std::ios::out;
         osg::ref_ptr<Options> local_opt = prepareWriting( result, fileName, mode, options );
@@ -375,10 +403,14 @@ public:
         result = writeNode( node, fout, local_opt.get() );
         fout.close();
         return result;
+#endif
     }
 
     virtual WriteResult writeNode( const osg::Node& node, std::ostream& fout, const Options* options ) const
     {
+#ifdef IM_SIZE_REDUCTION
+        return WriteResult::FILE_NOT_HANDLED;
+#else
         osg::ref_ptr<OutputIterator> oi = writeOutputIterator(fout, options);
 
         OutputStream os( options );
@@ -396,6 +428,7 @@ public:
 
         if ( fout.fail() ) return WriteResult::ERROR_IN_WRITING_FILE;
         return WriteResult::FILE_SAVED;
+#endif
     }
 };
 

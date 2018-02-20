@@ -1,3 +1,4 @@
+
 #include <osg/LOD>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -19,8 +20,12 @@ static bool readUserCenter( osgDB::InputStream& is, osg::LOD& node )
 
 static bool writeUserCenter( osgDB::OutputStream& os, const osg::LOD& node )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << osg::Vec3d(node.getCenter()) << (double)node.getRadius() << std::endl;
     return true;
+#endif
 }
 
 // _rangeList
@@ -44,6 +49,9 @@ static bool readRangeList( osgDB::InputStream& is, osg::LOD& node )
 
 static bool writeRangeList( osgDB::OutputStream& os, const osg::LOD& node )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::LOD::RangeList& ranges = node.getRangeList();
     os.writeSize(ranges.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::LOD::RangeList::const_iterator itr=ranges.begin();
@@ -53,6 +61,7 @@ static bool writeRangeList( osgDB::OutputStream& os, const osg::LOD& node )
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( LOD,

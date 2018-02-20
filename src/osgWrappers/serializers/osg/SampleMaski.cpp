@@ -22,8 +22,12 @@ static bool readMasks( osgDB::InputStream& is, osg::SampleMaski& attr )
 
 static bool writeMasks( osgDB::OutputStream& os, const osg::SampleMaski& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << attr.getMask( 0u ) << attr.getMask( 1u ) << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( SampleMaski,

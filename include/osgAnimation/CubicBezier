@@ -52,10 +52,14 @@ namespace osgAnimation
         // steaming operators.
         friend std::ostream& operator << (std::ostream& output, const TemplateCubicBezier<T>& tcb)
         {
+          #ifdef IM_SIZE_REDUCTION
+            return output;
+          #else
             output << tcb._position << " "
                    << tcb._controlPointIn << " "
                    << tcb._controlPointOut;
             return output; // to enable cascading
+          #endif
         }
 
         friend std::istream& operator >> (std::istream& input, TemplateCubicBezier<T>& tcb)

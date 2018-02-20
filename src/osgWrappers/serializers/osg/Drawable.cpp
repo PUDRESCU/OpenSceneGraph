@@ -1,3 +1,4 @@
+
 #include <osg/Drawable>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -21,6 +22,9 @@ static bool readInitialBound( osgDB::InputStream& is, osg::Drawable& drawable )
 
 static bool writeInitialBound( osgDB::OutputStream& os, const osg::Drawable& drawable )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::BoundingBox& bb = drawable.getInitialBound();
     os << os.BEGIN_BRACKET << std::endl;
     os << os.PROPERTY("Minimum") << osg::Vec3d(bb._min) << std::endl;
@@ -28,6 +32,7 @@ static bool writeInitialBound( osgDB::OutputStream& os, const osg::Drawable& dra
     os << os.END_BRACKET;
     os << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Drawable,

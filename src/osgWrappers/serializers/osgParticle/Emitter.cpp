@@ -21,9 +21,13 @@ static bool readParticleTemplate( osgDB::InputStream& is, osgParticle::Emitter& 
 
 static bool writeParticleTemplate( osgDB::OutputStream& os, const osgParticle::Emitter& emitter )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgParticle::Particle& p = emitter.getParticleTemplate();
     writeParticle( os, p );
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgParticleEmitter,

@@ -10,6 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
+
 #include <osgDB/Output>
 #include <osgDB/Registry>
 #include <osgDB/FileNameUtils>
@@ -136,28 +137,44 @@ std::string Output::wrapString(const std::string& str)
 
 bool Output::writeObject(const osg::Object& obj)
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     return Registry::instance()->getDeprecatedDotOsgObjectWrapperManager()->writeObject(obj,*this);
+#endif
 }
 
 
 void Output::writeBeginObject(const std::string& name)
 {
+#ifdef IM_SIZE_REDUCTION
+#else
     indent() << name << " {" << std::endl;
+#endif
 }
 
 void Output::writeEndObject()
 {
+#ifdef IM_SIZE_REDUCTION
+#else
     indent() << "}" << std::endl;
+#endif
 }
 
 void Output::writeUseID(const std::string& id)
 {
+#ifdef IM_SIZE_REDUCTION
+#else
     indent() << "Use " << id << std::endl;
+#endif
 }
 
 void Output::writeUniqueID(const std::string& id)
 {
+#ifdef IM_SIZE_REDUCTION
+#else
     indent() << "UniqueID " << id << std::endl;
+#endif
 }
 
 bool Output::getUniqueIDForObject(const osg::Object* obj,std::string& uniqueID)

@@ -77,6 +77,9 @@ ReaderWriter::ReadResult FileCache::readObject(const std::string& originalFileNa
 
 ReaderWriter::WriteResult FileCache::writeObject(const osg::Object& object, const std::string& originalFileName, const osgDB::Options* options) const
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -97,6 +100,7 @@ ReaderWriter::WriteResult FileCache::writeObject(const osg::Object& object, cons
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#endif
 }
 
 ReaderWriter::ReadResult FileCache::readImage(const std::string& originalFileName, const osgDB::Options* options) const
@@ -115,6 +119,9 @@ ReaderWriter::ReadResult FileCache::readImage(const std::string& originalFileNam
 
 ReaderWriter::WriteResult FileCache::writeImage(const osg::Image& image, const std::string& originalFileName, const osgDB::Options* options) const
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -135,6 +142,7 @@ ReaderWriter::WriteResult FileCache::writeImage(const osg::Image& image, const s
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#endif
 }
 
 ReaderWriter::ReadResult FileCache::readHeightField(const std::string& originalFileName, const osgDB::Options* options) const
@@ -153,6 +161,9 @@ ReaderWriter::ReadResult FileCache::readHeightField(const std::string& originalF
 
 ReaderWriter::WriteResult FileCache::writeHeightField(const osg::HeightField& hf, const std::string& originalFileName, const osgDB::Options* options) const
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -173,6 +184,7 @@ ReaderWriter::WriteResult FileCache::writeHeightField(const osg::HeightField& hf
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#endif
 }
 
 ReaderWriter::ReadResult FileCache::readNode(const std::string& originalFileName, const osgDB::Options* options, bool buildKdTreeIfRequired) const
@@ -191,6 +203,9 @@ ReaderWriter::ReadResult FileCache::readNode(const std::string& originalFileName
 
 ReaderWriter::WriteResult FileCache::writeNode(const osg::Node& node, const std::string& originalFileName, const osgDB::Options* options) const
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -211,6 +226,7 @@ ReaderWriter::WriteResult FileCache::writeNode(const osg::Node& node, const std:
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#endif
 }
 
 
@@ -230,6 +246,9 @@ ReaderWriter::ReadResult FileCache::readShader(const std::string& originalFileNa
 
 ReaderWriter::WriteResult FileCache::writeShader(const osg::Shader& shader, const std::string& originalFileName, const osgDB::Options* options) const
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -250,6 +269,7 @@ ReaderWriter::WriteResult FileCache::writeShader(const osg::Shader& shader, cons
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#endif
 }
 
 

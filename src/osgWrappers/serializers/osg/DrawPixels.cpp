@@ -1,3 +1,4 @@
+
 #include <osg/DrawPixels>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -18,10 +19,14 @@ static bool readArea( osgDB::InputStream& is, osg::DrawPixels& drawable )
 
 static bool writeArea( osgDB::OutputStream& os, const osg::DrawPixels& drawable )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     unsigned int x, y, w, h;
     drawable.getSubImageDimensions( x, y, w, h );
     os << x << y << w << h << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( DrawPixels,

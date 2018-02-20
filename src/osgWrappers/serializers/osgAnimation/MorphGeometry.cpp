@@ -24,6 +24,9 @@ static bool readMorphTargets( osgDB::InputStream& is, osgAnimation::MorphGeometr
 
 static bool writeMorphTargets( osgDB::OutputStream& os, const osgAnimation::MorphGeometry& geom )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgAnimation::MorphGeometry::MorphTargetList& targets = geom.getMorphTargetList();
     os.writeSize(targets.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osgAnimation::MorphGeometry::MorphTargetList::const_iterator itr=targets.begin();
@@ -34,6 +37,7 @@ static bool writeMorphTargets( osgDB::OutputStream& os, const osgAnimation::Morp
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgAnimation_MorphGeometry,

@@ -1,3 +1,4 @@
+
 #include <osg/Node>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -23,12 +24,16 @@ static bool readInitialBound( osgDB::InputStream& is, osg::Node& node )
 
 static bool writeInitialBound( osgDB::OutputStream& os, const osg::Node& node )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::BoundingSphere& bs = node.getInitialBound();
     os << os.BEGIN_BRACKET << std::endl;
     os << os.PROPERTY("Center") << osg::Vec3d(bs.center()) << std::endl;
     os << os.PROPERTY("Radius") << double(bs.radius()) << std::endl;
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 // _descriptions
@@ -52,6 +57,9 @@ static bool readDescriptions( osgDB::InputStream& is, osg::Node& node )
 
 static bool writeDescriptions( osgDB::OutputStream& os, const osg::Node& node )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::Node::DescriptionList& slist = node.getDescriptions();
     os.writeSize(slist.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::Node::DescriptionList::const_iterator itr=slist.begin();
@@ -62,6 +70,7 @@ static bool writeDescriptions( osgDB::OutputStream& os, const osg::Node& node )
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Node,

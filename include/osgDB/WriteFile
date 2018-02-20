@@ -42,7 +42,11 @@ extern OSGDB_EXPORT bool writeObjectFile(const osg::Object& object, const std::s
   * to write the specified file.*/
 inline bool writeObjectFile(const osg::Object& object, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeObjectFile( object, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 /** Write an osg::Image to file.
@@ -62,7 +66,11 @@ extern OSGDB_EXPORT bool writeImageFile(const osg::Image& image, const std::stri
   * to write the specified file.*/
 inline bool writeImageFile(const osg::Image& image, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeImageFile( image, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 /** Write an osg::HeightField to file.
@@ -82,7 +90,11 @@ extern OSGDB_EXPORT bool writeHeightFieldFile(const osg::HeightField& hf, const 
   * to write the specified file.*/
 inline bool writeHeightFieldFile(const osg::HeightField& hf, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeHeightFieldFile( hf, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 /** Write an osg::Node to file.
@@ -102,7 +114,11 @@ extern OSGDB_EXPORT bool writeNodeFile(const osg::Node& node, const std::string&
   * to write the specified file.*/
 inline bool writeNodeFile(const osg::Node& node, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeNodeFile( node, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 /** Write an osg::Shader to file.
@@ -122,7 +138,11 @@ extern OSGDB_EXPORT bool writeShaderFile(const osg::Shader& shader, const std::s
   * to write the specified file.*/
 inline bool writeShaderFile(const osg::Shader& shader, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeShaderFile( shader, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 /** Write an osg::Script to file.
@@ -142,7 +162,11 @@ extern OSGDB_EXPORT bool writeScriptFile(const osg::Script& image, const std::st
   * to write the specified file.*/
 inline bool writeScriptFile(const osg::Script& image, const std::string& filename)
 {
+  #ifdef IM_SIZE_REDUCTION
+    return true;
+  #else
     return writeScriptFile( image, filename, Registry::instance()->getOptions() );
+  #endif
 }
 
 }

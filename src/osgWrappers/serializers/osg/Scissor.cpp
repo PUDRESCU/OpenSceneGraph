@@ -18,8 +18,12 @@ static bool readArea( osgDB::InputStream& is, osg::Scissor& attr )
 
 static bool writeArea( osgDB::OutputStream& os, const osg::Scissor& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << attr.x() << attr.y() << attr.width() << attr.height() << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Scissor,

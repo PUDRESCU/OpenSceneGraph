@@ -3,6 +3,18 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifdef IM_SIZE_REDUCTION
+#define WRAP_FUNCTIONS( PROP, VALUE ) \
+    static bool check##PROP( const osg::Texture& tex ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::Texture& tex ) { \
+        DEF_GLENUM(mode); is >> mode; \
+        tex.setWrap( VALUE, (osg::Texture::WrapMode)mode.get() ); \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::Texture& tex ) { \
+        return true; \
+    }
+#else
 #define WRAP_FUNCTIONS( PROP, VALUE ) \
     static bool check##PROP( const osg::Texture& tex ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::Texture& tex ) { \
@@ -14,11 +26,24 @@
         os << GLENUM(tex.getWrap(VALUE)) << std::endl; \
         return true; \
     }
+#endif
 
 WRAP_FUNCTIONS( WRAP_S, osg::Texture::WRAP_S )
 WRAP_FUNCTIONS( WRAP_T, osg::Texture::WRAP_T )
 WRAP_FUNCTIONS( WRAP_R, osg::Texture::WRAP_R )
 
+#ifdef IM_SIZE_REDUCTION
+#define FILTER_FUNCTIONS( PROP, VALUE ) \
+    static bool check##PROP( const osg::Texture& tex ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::Texture& tex ) { \
+        DEF_GLENUM(mode); is >> mode; \
+        tex.setFilter( VALUE, (osg::Texture::FilterMode)mode.get() ); \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::Texture& tex ) { \
+        return true; \
+    }
+#else
 #define FILTER_FUNCTIONS( PROP, VALUE ) \
     static bool check##PROP( const osg::Texture& tex ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::Texture& tex ) { \
@@ -30,10 +55,24 @@ WRAP_FUNCTIONS( WRAP_R, osg::Texture::WRAP_R )
         os << GLENUM(tex.getFilter(VALUE)) << std::endl; \
         return true; \
     }
+#endif
 
 FILTER_FUNCTIONS( MIN_FILTER, osg::Texture::MIN_FILTER )
 FILTER_FUNCTIONS( MAG_FILTER, osg::Texture::MAG_FILTER )
 
+#ifdef IM_SIZE_REDUCTION
+#define GL_FORMAT_FUNCTIONS( PROP ) \
+    static bool check##PROP( const osg::Texture& tex ) { \
+        return tex.get##PROP()!=GL_NONE; \
+    } \
+    static bool read##PROP( osgDB::InputStream& is, osg::Texture& tex ) { \
+        DEF_GLENUM(mode); is >> mode; tex.set##PROP( mode.get() ); \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::Texture& tex ) { \
+        return true; \
+    }
+#else
 #define GL_FORMAT_FUNCTIONS( PROP ) \
     static bool check##PROP( const osg::Texture& tex ) { \
         return tex.get##PROP()!=GL_NONE; \
@@ -46,6 +85,7 @@ FILTER_FUNCTIONS( MAG_FILTER, osg::Texture::MAG_FILTER )
         os << GLENUM(tex.get##PROP()) << std::endl; \
         return true; \
     }
+#endif
 
 GL_FORMAT_FUNCTIONS( SourceFormat )
 GL_FORMAT_FUNCTIONS( SourceType )
@@ -63,11 +103,15 @@ static bool readInternalFormat( osgDB::InputStream& is, osg::Texture& tex )
 
 static bool writeInternalFormat( osgDB::OutputStream& os, const osg::Texture& tex )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     if ( os.isBinary() && tex.getInternalFormatMode()!=osg::Texture::USE_USER_DEFINED_FORMAT )
         os << GLENUM(GL_NONE) << std::endl;  // Avoid use of OpenGL extensions
     else
         os << GLENUM(tex.getInternalFormat()) << std::endl;
     return true;
+#endif
 }
 
 // _imageAttachment
@@ -88,10 +132,14 @@ static bool readImageAttachment( osgDB::InputStream& is, osg::Texture& attr )
 
 static bool writeImageAttachment( osgDB::OutputStream& os, const osg::Texture& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::Texture::ImageAttachment& attachment = attr.getImageAttachment();
     os << attachment.unit << attachment.level << attachment.layered
        << attachment.layer << attachment.access << attachment.format << std::endl;
     return true;
+#endif
 }
 
 // _swizzle
@@ -181,9 +229,13 @@ static bool readSwizzle( osgDB::InputStream& is, osg::Texture& attr )
 
 static bool writeSwizzle( osgDB::OutputStream& os, const osg::Texture& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << swizzleToString(attr.getSwizzle()) << std::endl;
 
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Texture,

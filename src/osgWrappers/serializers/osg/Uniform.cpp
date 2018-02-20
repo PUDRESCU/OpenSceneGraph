@@ -32,6 +32,9 @@ static bool readElements( osgDB::InputStream& is, osg::Uniform& uniform )
 
 static bool writeElements( osgDB::OutputStream& os, const osg::Uniform& uniform )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     if ( uniform.getFloatArray()!=NULL )
     {
         os << (uniform.getFloatArray()!=NULL);
@@ -53,6 +56,7 @@ static bool writeElements( osgDB::OutputStream& os, const osg::Uniform& uniform 
         os.writeArray( uniform.getUIntArray() );
     }
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Uniform,

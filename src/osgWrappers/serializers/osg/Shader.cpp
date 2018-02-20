@@ -25,6 +25,9 @@ static bool readShaderSource( osgDB::InputStream& is, osg::Shader& shader )
 
 static bool writeShaderSource( osgDB::OutputStream& os, const osg::Shader& shader )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     std::vector<std::string> lines;
     std::istringstream iss( shader.getShaderSource() );
     std::string line;
@@ -42,6 +45,7 @@ static bool writeShaderSource( osgDB::OutputStream& os, const osg::Shader& shade
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Shader,

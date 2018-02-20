@@ -1,3 +1,4 @@
+
 #include <osg/FragmentProgram>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -24,6 +25,9 @@ static bool readLocalParameters( osgDB::InputStream& is, osg::FragmentProgram& f
 
 static bool writeLocalParameters( osgDB::OutputStream& os, const osg::FragmentProgram& fp )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::FragmentProgram::LocalParamList& params = fp.getLocalParameters();
     os.writeSize(params.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::FragmentProgram::LocalParamList::const_iterator itr=params.begin();
@@ -33,6 +37,7 @@ static bool writeLocalParameters( osgDB::OutputStream& os, const osg::FragmentPr
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 // _matrixList
@@ -56,6 +61,9 @@ static bool readMatrices( osgDB::InputStream& is, osg::FragmentProgram& fp )
 
 static bool writeMatrices( osgDB::OutputStream& os, const osg::FragmentProgram& fp )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::FragmentProgram::MatrixList& matrices = fp.getMatrices();
     os.writeSize(matrices.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::FragmentProgram::MatrixList::const_iterator itr=matrices.begin();
@@ -65,6 +73,7 @@ static bool writeMatrices( osgDB::OutputStream& os, const osg::FragmentProgram& 
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( FragmentProgram,

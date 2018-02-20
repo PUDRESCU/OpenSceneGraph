@@ -1,3 +1,4 @@
+
 #include <osg/PrimitiveRestartIndex>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -21,8 +22,12 @@ static bool readRestartIndex( osgDB::InputStream& is, osg::PrimitiveRestartIndex
 
 static bool writeRestartIndex( osgDB::OutputStream& os, const osg::PrimitiveRestartIndex& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << attr.getRestartIndex() << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( PrimitiveRestartIndex,

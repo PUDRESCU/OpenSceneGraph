@@ -10,6 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
+
 #include <osgDB/DotOsgWrapper>
 #include <osgDB/Registry>
 
@@ -633,7 +634,9 @@ osg::Shader* DeprecatedDotOsgWrapperManager::readShader(Input& fr)
 //
 bool DeprecatedDotOsgWrapperManager::writeObject(const osg::Object& obj,Output& fw)
 {
-
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     if (obj.referenceCount()>1)
     {
         std::string uniqueID;
@@ -757,5 +760,6 @@ bool DeprecatedDotOsgWrapperManager::writeObject(const osg::Object& obj,Output& 
     }
 
     return false;
+#endif
 }
 

@@ -3,6 +3,27 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifdef IM_SIZE_REDUCTION
+#define RADIALSHOOTER_FLOAT_FUNCTION( PROP ) \
+    static bool check##PROP( const osgParticle::RadialShooter& obj ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osgParticle::RadialShooter& obj ) { \
+        float min, max; is >> min >> max; \
+        obj.set##PROP( min, max ); return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osgParticle::RadialShooter& obj ) { \
+        return true; \
+    }
+
+#define RADIALSHOOTER_VEC3_FUNCTION( PROP ) \
+    static bool check##PROP( const osgParticle::RadialShooter& obj ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osgParticle::RadialShooter& obj ) { \
+        osg::Vec3d min, max; is >> min >> max; \
+        obj.set##PROP( min, max ); return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osgParticle::RadialShooter& obj ) { \
+        return true; \
+    }
+#else
 #define RADIALSHOOTER_FLOAT_FUNCTION( PROP ) \
     static bool check##PROP( const osgParticle::RadialShooter& obj ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osgParticle::RadialShooter& obj ) { \
@@ -26,6 +47,7 @@
         os << osg::Vec3d(range.minimum) << osg::Vec3d(range.maximum) << std::endl; \
         return true; \
     }
+#endif
 
 RADIALSHOOTER_FLOAT_FUNCTION( ThetaRange )
 RADIALSHOOTER_FLOAT_FUNCTION( PhiRange )

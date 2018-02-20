@@ -1,3 +1,4 @@
+
 #include <osg/Billboard>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -23,6 +24,9 @@ static bool readPositionList( osgDB::InputStream& is, osg::Billboard& node )
 
 static bool writePositionList( osgDB::OutputStream& os, const osg::Billboard& node )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     const osg::Billboard::PositionList& posList = node.getPositionList();
     os.writeSize(posList.size());
     os<< os.BEGIN_BRACKET << std::endl;
@@ -33,6 +37,7 @@ static bool writePositionList( osgDB::OutputStream& os, const osg::Billboard& no
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Billboard,

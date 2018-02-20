@@ -3,6 +3,21 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifdef IM_SIZE_REDUCTION
+#define FACE_IMAGE_FUNCTION( PROP, FACE ) \
+    static bool check##PROP( const osg::TextureCubeMap& tex ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::TextureCubeMap& tex ) { \
+        bool hasImage; is >> hasImage; \
+        if ( hasImage ) { \
+            is >> is.BEGIN_BRACKET; tex.setImage(FACE, is.readImage()); \
+            is >> is.END_BRACKET; \
+        } \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::TextureCubeMap& tex ) { \
+        return true; \
+    }
+#else
 #define FACE_IMAGE_FUNCTION( PROP, FACE ) \
     static bool check##PROP( const osg::TextureCubeMap& tex ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::TextureCubeMap& tex ) { \
@@ -23,6 +38,7 @@
         os << std::endl; \
         return true; \
     }
+#endif
 
 FACE_IMAGE_FUNCTION( PosX, osg::TextureCubeMap::POSITIVE_X )
 FACE_IMAGE_FUNCTION( NegX, osg::TextureCubeMap::NEGATIVE_X )

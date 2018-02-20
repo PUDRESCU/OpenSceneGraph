@@ -24,6 +24,9 @@ static bool readLocalParameters( osgDB::InputStream& is, osg::VertexProgram& vp 
 
 static bool writeLocalParameters( osgDB::OutputStream& os, const osg::VertexProgram& vp )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::VertexProgram::LocalParamList& params = vp.getLocalParameters();
     os.writeSize(params.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::VertexProgram::LocalParamList::const_iterator itr=params.begin();
@@ -33,6 +36,7 @@ static bool writeLocalParameters( osgDB::OutputStream& os, const osg::VertexProg
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 // _matrixList
@@ -56,6 +60,9 @@ static bool readMatrices( osgDB::InputStream& is, osg::VertexProgram& vp )
 
 static bool writeMatrices( osgDB::OutputStream& os, const osg::VertexProgram& vp )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::VertexProgram::MatrixList& matrices = vp.getMatrices();
     os.writeSize(matrices.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::VertexProgram::MatrixList::const_iterator itr=matrices.begin();
@@ -65,6 +72,7 @@ static bool writeMatrices( osgDB::OutputStream& os, const osg::VertexProgram& vp
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( VertexProgram,

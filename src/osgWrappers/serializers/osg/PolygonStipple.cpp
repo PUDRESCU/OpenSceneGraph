@@ -1,3 +1,4 @@
+
 #include <osg/PolygonStipple>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -31,6 +32,9 @@ static bool readMask( osgDB::InputStream& is, osg::PolygonStipple& attr )
 
 static bool writeMask( osgDB::OutputStream& os, const osg::PolygonStipple& attr )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     if ( os.isBinary() )
     {
         os << (unsigned int)128;
@@ -47,6 +51,7 @@ static bool writeMask( osgDB::OutputStream& os, const osg::PolygonStipple& attr 
         os << os.END_BRACKET << std::endl;
     }
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( PolygonStipple,

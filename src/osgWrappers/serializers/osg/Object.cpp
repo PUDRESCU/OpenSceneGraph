@@ -1,3 +1,4 @@
+
 #include <osg/Object>
 #include <osg/UserDataContainer>
 #include <osgDB/ObjectWrapper>
@@ -22,10 +23,14 @@ static bool readUserData( osgDB::InputStream& is, osg::Object& obj )
 
 static bool writeUserData( osgDB::OutputStream& os, const osg::Object& obj )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << os.BEGIN_BRACKET << std::endl;
     os.writeObject(dynamic_cast<const osg::Object*>(obj.getUserData()));
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( Object,

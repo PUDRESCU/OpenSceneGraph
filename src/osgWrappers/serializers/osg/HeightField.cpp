@@ -1,3 +1,4 @@
+
 #include <osg/Shape>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -19,8 +20,12 @@ static bool readArea( osgDB::InputStream& is, osg::HeightField& shape )
 
 static bool writeArea( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << shape.getNumColumns() << shape.getNumRows() << std::endl;
     return true;
+#endif
 }
 
 // _heights
@@ -50,8 +55,12 @@ static bool readHeights( osgDB::InputStream& is, osg::HeightField& shape )
 
 static bool writeHeights( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os.writeArray( shape.getFloatArray() );
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( HeightField,

@@ -41,6 +41,9 @@ static bool readInfluenceMap( osgDB::InputStream& is, osgAnimation::RigGeometry&
 
 static bool writeInfluenceMap( osgDB::OutputStream& os, const osgAnimation::RigGeometry& geom )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgAnimation::VertexInfluenceMap* map = geom.getInfluenceMap();
     os.writeSize(map->size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osgAnimation::VertexInfluenceMap::const_iterator itr=map->begin();
@@ -63,6 +66,7 @@ static bool writeInfluenceMap( osgDB::OutputStream& os, const osgAnimation::RigG
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgAnimation_RigGeometry,

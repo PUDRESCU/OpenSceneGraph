@@ -119,11 +119,20 @@ public:
         else { std::string str; is >> str; \
         value = (s_user_lookup_table_##NAME)._lookup.getValue(str.c_str()); } \
         return value; }
+        
+#ifdef IM_SIZE_REDUCTION
+
+#define USER_WRITE_FUNC(NAME, FUNCNAME) \
+  static void FUNCNAME(osgDB::OutputStream& os, int value) {}
+
+#else
 
 #define USER_WRITE_FUNC(NAME, FUNCNAME) \
     static void FUNCNAME(osgDB::OutputStream& os, int value) { \
         if (os.isBinary()) os << value; \
-        else os << (s_user_lookup_table_##NAME)._lookup.getString(value); } \
+        else os << (s_user_lookup_table_##NAME)._lookup.getString(value); }
+#endif
+
 
 class BaseSerializer : public osg::Referenced
 {
@@ -213,6 +222,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         bool ok = (*_checker)(object);
         if ( os.isBinary() )
@@ -226,6 +238,7 @@ public:
             os << os.PROPERTY(_name.c_str());
         }
         return (*_writer)(os, object);
+#endif
     }
 
     virtual const std::string& getName() const { return _name; }
@@ -290,6 +303,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         P value = (object.*_getter)();
         if ( os.isBinary() )
@@ -305,6 +321,7 @@ public:
             os << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -348,6 +365,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         CP value = (object.*_getter)();
         if ( os.isBinary() )
@@ -359,6 +379,7 @@ public:
             os << os.PROPERTY((ParentType::_name).c_str()) << value << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -398,7 +419,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
-
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const osg::Matrix& value = (object.*_getter)();
         if ( os.isBinary() )
@@ -410,6 +433,7 @@ public:
             os << os.PROPERTY((ParentType::_name).c_str()) << value << std::endl;
         }
         return true;
+#endif
     }
 
 protected:
@@ -467,6 +491,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P value = (object.*_getter)();
         if ( os.isBinary() )
@@ -478,6 +505,7 @@ public:
             os << os.PROPERTY((ParentType::_name).c_str()) << GLENUM(value) << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -518,6 +546,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const std::string& value = (object.*_getter)();
         if ( os.isBinary() )
@@ -531,6 +562,7 @@ public:
             os << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -583,6 +615,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P* value = (object.*_getter)();
         bool hasObject = (value!=NULL);
@@ -606,6 +641,7 @@ public:
             os << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -661,6 +697,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P* value = (object.*_getter)();
         bool hasObject = (value!=NULL);
@@ -681,6 +720,7 @@ public:
             os << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -731,6 +771,9 @@ public:
 
     virtual bool write( osgDB::OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P value = (object.*_getter)();
         if ( os.isBinary() )
@@ -742,6 +785,7 @@ public:
             os << os.PROPERTY((ParentType::_name).c_str()) << getString(value) << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -805,6 +849,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P& list = (object.*_getter)();
         unsigned int size = (unsigned int)list.size();
@@ -829,6 +876,7 @@ public:
             os << os.END_BRACKET << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -978,6 +1026,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P& list = (object.*_constgetter)();
         unsigned int size = (unsigned int)list.size();
@@ -1021,6 +1072,7 @@ public:
             os << os.END_BRACKET << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -1131,6 +1183,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& list = OBJECT_CAST<const C&>(obj);
         unsigned int size = (unsigned int)list.size();
         if ( os.isBinary() )
@@ -1173,6 +1228,7 @@ public:
             os << os.END_BRACKET << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -1396,6 +1452,9 @@ public:
 
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P& map = (object.*_constgetter)();
         unsigned int size = (unsigned int)map.size();
@@ -1418,6 +1477,7 @@ public:
             os << os.END_BRACKET << std::endl;
         }
         return true;
+#endif
     }
 
 public:
@@ -1482,6 +1542,9 @@ public:
 
     virtual bool write( osgDB::OutputStream& os, const osg::Object& obj )
     {
+#ifdef IM_SIZE_REDUCTION
+        return true;
+#else
         const C& object = OBJECT_CAST<const C&>(obj);
         const P mask = (object.*_getter)();
         bool ok = ParentType::_defaultValue!=static_cast<P>(mask);
@@ -1513,6 +1576,7 @@ public:
             os << maskString << std::endl; //remove last "|"
         }
         return true;
+#endif
     }
 
 public:

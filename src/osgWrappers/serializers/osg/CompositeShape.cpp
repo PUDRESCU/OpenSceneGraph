@@ -1,3 +1,4 @@
+
 #include <osg/Shape>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
@@ -22,6 +23,9 @@ static bool readChildren( osgDB::InputStream& is, osg::CompositeShape& shape )
 
 static bool writeChildren( osgDB::OutputStream& os, const osg::CompositeShape& shape )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     unsigned int size = shape.getNumChildren();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -30,6 +34,7 @@ static bool writeChildren( osgDB::OutputStream& os, const osg::CompositeShape& s
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( CompositeShape,

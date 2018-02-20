@@ -1,8 +1,29 @@
+
 #include <osg/Material>
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifdef IM_SIZE_REDUCTION
+#define MATERIAL_FUNC( PROP, TYPE ) \
+    static bool check##PROP( const osg::Material& attr ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::Material& attr ) { \
+        bool frontAndBack; TYPE value1, value2; \
+        is >> frontAndBack; \
+        is >> is.PROPERTY("Front") >> value1; \
+        is >> is.PROPERTY("Back") >> value2; \
+        if ( frontAndBack ) \
+            attr.set##PROP(osg::Material::FRONT_AND_BACK, value1); \
+        else { \
+            attr.set##PROP(osg::Material::FRONT, value1); \
+            attr.set##PROP(osg::Material::BACK, value2); \
+        } \
+        return true; \
+    } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::Material& attr ) { \
+        return true; \
+    }
+#else
 #define MATERIAL_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::Material& attr ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::Material& attr ) { \
@@ -24,6 +45,7 @@
         os << os.PROPERTY("Back") << TYPE(attr.get##PROP(osg::Material::BACK)) << std::endl; \
         return true; \
     }
+#endif
 
 MATERIAL_FUNC( Ambient, osg::Vec4f )
 MATERIAL_FUNC( Diffuse, osg::Vec4f )

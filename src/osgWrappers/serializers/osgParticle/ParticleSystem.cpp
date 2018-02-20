@@ -25,6 +25,9 @@ static bool readDefaultBoundingBox( osgDB::InputStream& is, osgParticle::Particl
 
 static bool writeDefaultBoundingBox( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osg::BoundingBox& bb = ps.getDefaultBoundingBox();
     os << os.BEGIN_BRACKET << std::endl;
     os << os.PROPERTY("Minimum") << osg::Vec3d(bb._min) << std::endl;
@@ -32,6 +35,7 @@ static bool writeDefaultBoundingBox( osgDB::OutputStream& os, const osgParticle:
     os << os.END_BRACKET;
     os << std::endl;
     return true;
+#endif
 }
 
 // _defaultParticleTemplate
@@ -50,9 +54,13 @@ static bool readDefaultParticleTemplate( osgDB::InputStream& is, osgParticle::Pa
 
 static bool writeDefaultParticleTemplate( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgParticle::Particle& p = ps.getDefaultParticleTemplate();
     writeParticle( os, p );
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgParticleParticleSystem,

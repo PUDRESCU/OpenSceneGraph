@@ -32,6 +32,9 @@ static bool readKeyManipMap( osgDB::InputStream& is, osgGA::KeySwitchMatrixManip
 
 static bool writeKeyManipMap( osgDB::OutputStream& os, const osgGA::KeySwitchMatrixManipulator& kwmm )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     const osgGA::KeySwitchMatrixManipulator::KeyManipMap& kmm = kwmm.getKeyManipMap();    
     unsigned int size = kmm.size();
 
@@ -64,6 +67,7 @@ static bool writeKeyManipMap( osgDB::OutputStream& os, const osgGA::KeySwitchMat
     os << os.END_BRACKET << std::endl;
 
     return true;
+#endif
 }
 
 REGISTER_OBJECT_WRAPPER( osgGA_KeySwitchMatrixManipulator,

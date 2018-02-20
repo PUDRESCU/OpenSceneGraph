@@ -31,6 +31,28 @@ END_USER_TABLE()
 USER_READ_FUNC( Operation, readOperation )
 USER_WRITE_FUNC( Operation, writeOperation )
 
+#ifdef IM_SIZE_REDUCTION
+#define STENCIL_INT_VALUE_FUNC( PROP, TYPE ) \
+    static bool check##PROP( const osg::StencilTwoSided& attr ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::StencilTwoSided& attr ) { \
+        TYPE value1; is >> is.PROPERTY("Front") >> value1; \
+        TYPE value2; is >> is.PROPERTY("Back") >> value2; \
+        attr.set##PROP(osg::StencilTwoSided::FRONT, value1); \
+        attr.set##PROP(osg::StencilTwoSided::BACK, value2); return true; } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::StencilTwoSided& attr ) { \
+        return true; }
+
+#define STENCIL_USER_VALUE_FUNC( PROP, TYPE ) \
+    static bool check##PROP( const osg::StencilTwoSided& attr ) { return true; } \
+    static bool read##PROP( osgDB::InputStream& is, osg::StencilTwoSided& attr ) { \
+        is >> is.PROPERTY("Front"); int value1 = read##TYPE(is); \
+        is >> is.PROPERTY("Back"); int value2 = read##TYPE(is); \
+        attr.set##PROP(osg::StencilTwoSided::FRONT, (osg::StencilTwoSided::TYPE)value1); \
+        attr.set##PROP(osg::StencilTwoSided::BACK, (osg::StencilTwoSided::TYPE)value2); \
+        return true; } \
+    static bool write##PROP( osgDB::OutputStream& os, const osg::StencilTwoSided& attr ) { \
+        return true; }
+#else
 #define STENCIL_INT_VALUE_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::StencilTwoSided& attr ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::StencilTwoSided& attr ) { \
@@ -55,6 +77,7 @@ USER_WRITE_FUNC( Operation, writeOperation )
         os << os.PROPERTY("Front"); write##TYPE(os, (int)attr.get##PROP(osg::StencilTwoSided::FRONT)); \
         os << os.PROPERTY("Back"); write##TYPE(os, (int)attr.get##PROP(osg::StencilTwoSided::BACK)); \
         os << std::endl; return true; }
+#endif
 
 STENCIL_USER_VALUE_FUNC( Function, Function )
 STENCIL_INT_VALUE_FUNC( FunctionRef, int )

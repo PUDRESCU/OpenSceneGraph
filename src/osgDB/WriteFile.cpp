@@ -26,45 +26,69 @@ using namespace osgDB;
 
 bool osgDB::writeObjectFile(const Object& object,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeObject( object, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 
 
 bool osgDB::writeImageFile(const Image& image,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeImage( image, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 
 
 bool osgDB::writeHeightFieldFile(const HeightField& HeightField,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeHeightField( HeightField, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 
 bool osgDB::writeNodeFile(const Node& node,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeNode( node, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 
 bool osgDB::writeShaderFile(const Shader& shader,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeShader( shader, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 
 bool osgDB::writeScriptFile(const Script& image,const std::string& filename, const Options* options )
 {
+#ifdef IM_SIZE_REDUCTION
+  return true;
+#else
     ReaderWriter::WriteResult wr = Registry::instance()->writeScript( image, filename, options );
     if (!wr.success()) OSG_WARN << "Error writing file " << filename << ": " << wr.statusMessage() << std::endl;
     return wr.success();
+#endif
 }
 

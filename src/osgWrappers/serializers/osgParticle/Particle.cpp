@@ -83,6 +83,9 @@ bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p )
 
 bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     os << os.BEGIN_BRACKET << std::endl;
 
     os << os.PROPERTY("Shape"); writeShapeValue( os, (int)p.getShape() ); os << std::endl;
@@ -122,4 +125,5 @@ bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p )
 
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }

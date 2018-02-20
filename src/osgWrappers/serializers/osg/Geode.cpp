@@ -1,3 +1,4 @@
+
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/ValueObject>
@@ -27,6 +28,9 @@ static bool readDrawables( osgDB::InputStream& is, osg::Geode& node )
 
 static bool writeDrawables( osgDB::OutputStream& os, const osg::Geode& node )
 {
+#ifdef IM_SIZE_REDUCTION
+    return true;
+#else
     unsigned int size = node.getNumDrawables();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -35,6 +39,7 @@ static bool writeDrawables( osgDB::OutputStream& os, const osg::Geode& node )
     }
     os << os.END_BRACKET << std::endl;
     return true;
+#endif
 }
 
 struct GeodeGetNumDrawables : public osgDB::MethodObject

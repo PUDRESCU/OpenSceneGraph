@@ -33,43 +33,105 @@ public:
     virtual bool isBinary() const { return false; }
 
     virtual void writeBool( bool b )
-    { addToCurrentNode( b ? std::string("TRUE") : std::string("FALSE") ); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      addToCurrentNode( b ? std::string("TRUE") : std::string("FALSE") );
+#endif
+    }
 
     virtual void writeChar( char c )
-    { _sstream << (short)c; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << (short)c; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeUChar( unsigned char c )
-    { _sstream << (unsigned short)c; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << (unsigned short)c; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeShort( short s )
-    { _sstream << s; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << s; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeUShort( unsigned short s )
-    { _sstream << s; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << s; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeInt( int i )
-    { _sstream << i; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << i; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeUInt( unsigned int i )
-    { _sstream << i; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << i; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeLong( long l )
-    { _sstream << l; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << l; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeULong( unsigned long l )
-    { _sstream << l; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << l; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeFloat( float f )
-    { _sstream << f; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << f; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeDouble( double d )
-    { _sstream << d; addToCurrentNode( _sstream.str() ); _sstream.str(""); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      _sstream << d; addToCurrentNode( _sstream.str() ); _sstream.str("");
+#endif
+    }
 
     virtual void writeString( const std::string& s )
-    { addToCurrentNode( s, true ); }
+    {
+#ifdef IM_SIZE_REDUCTION
+#else
+      addToCurrentNode( s, true );
+#endif
+    }
 
     virtual void writeStream( std::ostream& (*fn)(std::ostream&) )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         if ( isEndl( fn ) )
         {
             if ( _readLineType==PROP_LINE || _readLineType==END_BRACKET_LINE )
@@ -94,22 +156,31 @@ public:
         }
         else
             addToCurrentNode( fn );
+#endif
     }
 
     virtual void writeBase( std::ios_base& (*fn)(std::ios_base&) )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         _sstream << fn;
+#endif
     }
 
     virtual void writeGLenum( const osgDB::ObjectGLenum& value )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         GLenum e = value.get();
         const std::string& enumString = osgDB::Registry::instance()->getObjectWrapperManager()->getString("GL", e);
         addToCurrentNode( enumString, true );
+#endif
     }
 
     virtual void writeProperty( const osgDB::ObjectProperty& prop )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         std::string enumString = prop._name;
         if ( prop._mapProperty )
         {
@@ -135,10 +206,13 @@ public:
                 pushNode( enumString );
             }
         }
+#endif
     }
 
     virtual void writeMark( const osgDB::ObjectMark& mark )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         int delta = mark._indentDelta;
         if ( delta>0 )
         {
@@ -148,12 +222,15 @@ public:
         {
             setLineType( END_BRACKET_LINE );
         }
+#endif
     }
 
     virtual void writeCharArray( const char* /*s*/, unsigned int /*size*/ ) {}
 
     virtual void writeWrappedString( const std::string& str )
     {
+#ifdef IM_SIZE_REDUCTION
+#else
         std::string realStr;
         for ( std::string::const_iterator itr=str.begin(); itr!=str.end(); ++itr )
         {
@@ -165,6 +242,7 @@ public:
         realStr.insert( std::string::size_type(0), 1, '\"' );
         realStr += '\"';
         addToCurrentNode( realStr );
+#endif
     }
 
     virtual void flush()
