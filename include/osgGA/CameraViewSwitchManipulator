@@ -18,6 +18,8 @@
 #include <osg/Quat>
 #include <osg/CameraView>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgGA{
 
 class OSGGA_EXPORT CameraViewSwitchManipulator : public CameraManipulator
@@ -74,6 +76,6 @@ class OSGGA_EXPORT CameraViewSwitchManipulator : public CameraManipulator
 };
 
 }
-
+#endif
 #endif
 

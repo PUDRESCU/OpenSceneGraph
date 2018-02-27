@@ -1,5 +1,7 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 
+#ifndef IM_SIZE_REDUCTION
+
 #define OBJECT_CAST dynamic_cast
 
 #include <osgDB/ObjectWrapper>
@@ -77,3 +79,5 @@ REGISTER_OBJECT_WRAPPER( osgGA_KeySwitchMatrixManipulator,
 {
     ADD_USER_SERIALIZER( KeyManipMap );  // _children
 }
+
+#endif

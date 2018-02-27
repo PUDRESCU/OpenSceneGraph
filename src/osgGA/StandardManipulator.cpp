@@ -15,9 +15,10 @@
  * Thanks to company Cadwork (www.cadwork.ch) and
  * Brno University of Technology (www.fit.vutbr.cz) for open-sourcing this work.
 */
-
 #include <osgGA/StandardManipulator>
 #include <osgViewer/View>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -852,3 +853,4 @@ void StandardManipulator::AnimationData::start( const double startTime )
     _startTime = startTime;
     _phase = 0.;
 }
+#endif

@@ -10,10 +10,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
-
 #include <osgGA/MultiTouchTrackballManipulator>
 #include <osg/io_utils>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -127,3 +127,5 @@ bool MultiTouchTrackballManipulator::handle( const GUIEventAdapter& ea, GUIActio
 
     return handled ? handled : TrackballManipulator::handle(ea, us);
 }
+
+#endif

@@ -29,6 +29,8 @@
 #include <osg/Timer>
 #include <osg/ImageUtils>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 #define USE_LOCAL_SHADERS
@@ -912,3 +914,5 @@ if (!_geometry) return;
     OSG_NOTICE<<"Warning: ParticleEffect::drawImplementation(..) not fully implemented."<<std::endl;
 #endif
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef IM_SIZE_REDUCTION
+
 #ifndef OSGDB_ASCIISTREAMOPERATOR
 #define OSGDB_ASCIISTREAMOPERATOR
 
@@ -412,4 +414,5 @@ protected:
     std::string _preReadString;
 };
 
+#endif
 #endif

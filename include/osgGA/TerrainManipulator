@@ -16,6 +16,7 @@
 
 #include <osgGA/OrbitManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -60,5 +61,5 @@ protected:
 
 
 }
-
+#endif
 #endif /* OSGGA_TERRAIN_MANIPULATOR */

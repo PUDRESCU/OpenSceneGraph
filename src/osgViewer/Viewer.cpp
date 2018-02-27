@@ -410,11 +410,12 @@ bool Viewer::checkEvents()
 
 int Viewer::run()
 {
+#ifndef IM_SIZE_REDUCTION
     if (!getCameraManipulator() && getCamera()->getAllowEventFocus())
     {
         setCameraManipulator(new osgGA::TrackballManipulator());
     }
-
+#endif
     setReleaseContextAtEndOfFrameHint(false);
 
     return ViewerBase::run();
@@ -1105,10 +1106,12 @@ void Viewer::eventTraversal()
         ++itr)
     {
         osgGA::Event* event = itr->get();
+#ifndef IM_SIZE_REDUCTION
         if (event && _cameraManipulator.valid())
         {
             _cameraManipulator->handle( event, 0, _eventVisitor.get());
         }
+#endif
     }
 
     if (getViewerStats() && getViewerStats()->collectStats("event"))
@@ -1188,7 +1191,7 @@ void Viewer::updateTraversal()
 
         _updateVisitor->setTraversalMode(tm);
     }
-
+#ifndef IM_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         setFusionDistance( getCameraManipulator()->getFusionDistanceMode(),
@@ -1196,7 +1199,7 @@ void Viewer::updateTraversal()
 
         _cameraManipulator->updateCamera(*_camera);
     }
-
+#endif
     updateSlaves();
 
     if (getViewerStats() && getViewerStats()->collectStats("update"))
@@ -1344,11 +1347,12 @@ double Viewer::elapsedTime()
 
 void Viewer::getUsage(osg::ApplicationUsage& usage) const
 {
+#ifndef IM_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         _cameraManipulator->getUsage(usage);
     }
-
+#endif
     for(EventHandlers::const_iterator hitr = _eventHandlers.begin();
         hitr != _eventHandlers.end();
         ++hitr)

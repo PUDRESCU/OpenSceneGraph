@@ -3961,6 +3961,10 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_UNSIGNED_BYTE:
           dstImage = (GLubyte *)malloc(memreq);
           break;
+        case GL_FLOAT:
+            dstImage = (GLfloat *)malloc(memreq);
+            break;
+#ifndef IM_SIZE_REDUCTION
         case GL_BYTE:
           dstImage = (GLbyte *)malloc(memreq);
           break;
@@ -3975,9 +3979,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
           break;
         case GL_INT:
           dstImage = (GLint *)malloc(memreq);
-          break;
-        case GL_FLOAT:
-          dstImage = (GLfloat *)malloc(memreq);
           break;
         case GL_UNSIGNED_BYTE_3_3_2:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
@@ -3997,6 +3998,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_UNSIGNED_INT_2_10_10_10_REV:
           dstImage = (GLuint *)malloc(memreq);
           break;
+#endif
         default:
           return GLU_INVALID_ENUM;
         }
@@ -4017,6 +4019,12 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                              (const GLubyte *)usersImage, (GLubyte *)dstImage,
                              element_size, rowsize, group_size);
             break;
+          case GL_FLOAT:
+            halveImage_float(cmpts, width, height,
+                             (const GLfloat *)usersImage, (GLfloat *)dstImage,
+                             element_size, rowsize, group_size, myswap_bytes);
+            break;
+#ifndef IM_SIZE_REDUCTION
           case GL_BYTE:
             halveImage_byte(cmpts, width, height,
                             (const GLbyte *)usersImage, (GLbyte *)dstImage,
@@ -4041,11 +4049,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             halveImage_int(cmpts, width, height,
                            (const GLint *)usersImage, (GLint *)dstImage,
                            element_size, rowsize, group_size, myswap_bytes);
-            break;
-          case GL_FLOAT:
-            halveImage_float(cmpts, width, height,
-                             (const GLfloat *)usersImage, (GLfloat *)dstImage,
-                             element_size, rowsize, group_size, myswap_bytes);
             break;
           case GL_UNSIGNED_BYTE_3_3_2:
             assert(format == GL_RGB);
@@ -4109,6 +4112,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                   width,height,usersImage,dstImage,
                                   element_size,rowsize,myswap_bytes);
             break;
+#endif
           default:
             assert(0);
             break;
@@ -4128,6 +4132,10 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_UNSIGNED_BYTE:
           dstImage = (GLubyte *)malloc(memreq);
           break;
+        case GL_FLOAT:
+          dstImage = (GLfloat *)malloc(memreq);
+          break;
+#ifndef IM_SIZE_REDUCTION
         case GL_BYTE:
           dstImage = (GLbyte *)malloc(memreq);
           break;
@@ -4142,9 +4150,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
           break;
         case GL_INT:
           dstImage = (GLint *)malloc(memreq);
-          break;
-        case GL_FLOAT:
-          dstImage = (GLfloat *)malloc(memreq);
           break;
         case GL_UNSIGNED_BYTE_3_3_2:
         case GL_UNSIGNED_BYTE_2_3_3_REV:
@@ -4164,6 +4169,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_UNSIGNED_INT_2_10_10_10_REV:
           dstImage = (GLuint *)malloc(memreq);
           break;
+#endif
         default:
           return GLU_INVALID_ENUM;
         }
@@ -4186,6 +4192,10 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             case GL_UNSIGNED_BYTE:
                 dstImage = (GLubyte *)malloc(memreq);
                 break;
+            case GL_FLOAT:
+                dstImage = (GLfloat *)malloc(memreq);
+                break;
+#ifndef IM_SIZE_REDUCTION
             case GL_BYTE:
                 dstImage = (GLbyte *)malloc(memreq);
                 break;
@@ -4200,9 +4210,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                 break;
             case GL_INT:
                 dstImage = (GLint *)malloc(memreq);
-                break;
-            case GL_FLOAT:
-                dstImage = (GLfloat *)malloc(memreq);
                 break;
             case GL_UNSIGNED_BYTE_3_3_2:
             case GL_UNSIGNED_BYTE_2_3_3_REV:
@@ -4222,6 +4229,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             case GL_UNSIGNED_INT_2_10_10_10_REV:
                 dstImage = (GLuint *)malloc(memreq);
                 break;
+#endif
             default:
                 return GLU_INVALID_ENUM;
         }
@@ -4244,6 +4252,13 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                  (GLubyte *)dstImage, element_size,
                                  rowsize, group_size);
             break;
+        case GL_FLOAT:
+            scale_internal_float(cmpts, width, height,
+                                 (const GLfloat *)usersImage, newwidth, newheight,
+                                 (GLfloat *)dstImage, element_size,
+                                 rowsize, group_size, myswap_bytes);
+            break;
+#ifndef IM_SIZE_REDUCTION
         case GL_BYTE:
             scale_internal_byte(cmpts, width, height,
                                 (const GLbyte *)usersImage, newwidth, newheight,
@@ -4273,12 +4288,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                (const GLint *)usersImage, newwidth, newheight,
                                (GLint *)dstImage, element_size,
                                rowsize, group_size, myswap_bytes);
-            break;
-        case GL_FLOAT:
-            scale_internal_float(cmpts, width, height,
-                                 (const GLfloat *)usersImage, newwidth, newheight,
-                                 (GLfloat *)dstImage, element_size,
-                                 rowsize, group_size, myswap_bytes);
             break;
         case GL_UNSIGNED_BYTE_3_3_2:
             scaleInternalPackedPixel(3,extract332,shove332,
@@ -4352,6 +4361,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                      newwidth,newheight,(void *)dstImage,
                                      element_size,rowsize,myswap_bytes);
             break;
+#endif
         default:
             assert(0);
             break;
@@ -4375,6 +4385,10 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
           case GL_UNSIGNED_BYTE:
             dstImage = (GLubyte *)malloc(memreq);
             break;
+          case GL_FLOAT:
+            dstImage = (GLfloat *)malloc(memreq);
+            break;
+#ifndef IM_SIZE_REDUCTION
           case GL_BYTE:
             dstImage = (GLbyte *)malloc(memreq);
             break;
@@ -4389,9 +4403,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             break;
           case GL_INT:
             dstImage = (GLint *)malloc(memreq);
-            break;
-          case GL_FLOAT:
-            dstImage = (GLfloat *)malloc(memreq);
             break;
           case GL_UNSIGNED_BYTE_3_3_2:
           case GL_UNSIGNED_BYTE_2_3_3_REV:
@@ -4411,6 +4422,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
           case GL_UNSIGNED_INT_2_10_10_10_REV:
             dstImage = (GLuint *)malloc(memreq);
             break;
+#endif
           default:
             return GLU_INVALID_ENUM;
           }
@@ -4447,6 +4459,12 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                 (GLubyte *)srcImage, (GLubyte *)dstImage, element_size,
                 rowsize, group_size);
                 break;
+            case GL_FLOAT:
+                halveImage_float(cmpts, newwidth, newheight,
+                                 (GLfloat *)srcImage, (GLfloat *)dstImage, element_size,
+                                 rowsize, group_size, myswap_bytes);
+                break;
+#ifndef IM_SIZE_REDUCTION
             case GL_BYTE:
                 halveImage_byte(cmpts, newwidth, newheight,
                 (GLbyte *)srcImage, (GLbyte *)dstImage, element_size,
@@ -4470,11 +4488,6 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             case GL_INT:
                 halveImage_int(cmpts, newwidth, newheight,
                 (GLint *)srcImage, (GLint *)dstImage, element_size,
-                rowsize, group_size, myswap_bytes);
-                break;
-            case GL_FLOAT:
-                halveImage_float(cmpts, newwidth, newheight,
-                (GLfloat *)srcImage, (GLfloat *)dstImage, element_size,
                 rowsize, group_size, myswap_bytes);
                 break;
             case GL_UNSIGNED_BYTE_3_3_2:
@@ -4549,6 +4562,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                       srcImage,dstImage,element_size,rowsize,
                                       myswap_bytes);
                 break;
+#endif
             default:
                 assert(0);
                 break;

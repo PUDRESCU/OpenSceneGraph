@@ -5,6 +5,8 @@
 #include <osgGA/CameraManipulator>
 #include <string.h>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osg;
 using namespace osgGA;
 
@@ -128,3 +130,5 @@ void CameraManipulator::computeHomePosition(const osg::Camera *camera, bool useB
                         _autoComputeHomePosition);
     }
 }
+
+#endif

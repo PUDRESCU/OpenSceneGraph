@@ -16,6 +16,7 @@
 
 #include <osgGA/FirstPersonManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -80,4 +81,5 @@ inline FlightManipulator::YawControlMode FlightManipulator::getYawControlMode() 
 
 }
 
+#endif
 #endif /* OSGGA_FLIGHT_MANIPULATOR */

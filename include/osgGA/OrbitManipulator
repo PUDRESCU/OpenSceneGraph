@@ -21,6 +21,7 @@
 
 #include <osgGA/StandardManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -124,4 +125,5 @@ inline double OrbitManipulator::getWheelZoomFactor() const  { return _wheelZoomF
 
 }
 
+#endif
 #endif /* OSGGA_ORBIT_MANIPULATOR */

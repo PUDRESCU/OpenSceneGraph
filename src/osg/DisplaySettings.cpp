@@ -115,11 +115,11 @@ void DisplaySettings::setDisplaySettings(const DisplaySettings& vs)
     _glContextFlags = vs._glContextFlags;
     _glContextProfileMask = vs._glContextProfileMask;
     _swapMethod = vs._swapMethod;
-
+#ifndef IM_SIZE_REDUCTION
     _keystoneHint = vs._keystoneHint;
     _keystoneFileNames = vs._keystoneFileNames;
     _keystones = vs._keystones;
-
+#endif
     _OSXMenubarBehavior = vs._OSXMenubarBehavior;
 }
 
@@ -156,7 +156,7 @@ void DisplaySettings::merge(const DisplaySettings& vs)
     // merge swap method to higher value
     if( vs._swapMethod > _swapMethod )
         _swapMethod = vs._swapMethod;
-
+#ifndef IM_SIZE_REDUCTION
     _keystoneHint = _keystoneHint | vs._keystoneHint;
 
     // insert any unique filenames into the local list
@@ -178,7 +178,7 @@ void DisplaySettings::merge(const DisplaySettings& vs)
         Objects::iterator found_itr = std::find(_keystones.begin(), _keystones.end(), object);
         if (found_itr == _keystones.end()) _keystones.push_back(const_cast<osg::Object*>(object));
     }
-
+#endif
     if (vs._OSXMenubarBehavior > _OSXMenubarBehavior)
         _OSXMenubarBehavior = vs._OSXMenubarBehavior;
 }
@@ -238,9 +238,9 @@ void DisplaySettings::setDefaults()
 
     _swapMethod = SWAP_DEFAULT;
     _syncSwapBuffers = 0;
-
+#ifndef IM_SIZE_REDUCTION
     _keystoneHint = false;
-
+#endif
     _OSXMenubarBehavior = MENUBAR_AUTO_HIDE;
 }
 
@@ -668,7 +668,7 @@ void DisplaySettings::readEnvironmentalVariables()
             _syncSwapBuffers = atoi(ptr);
         }
     }
-
+#ifndef IM_SIZE_REDUCTION
     if( (ptr = getenv("OSG_KEYSTONE")) != 0)
     {
         if (strcmp(ptr,"OFF")==0)
@@ -707,7 +707,7 @@ void DisplaySettings::readEnvironmentalVariables()
                 _keystoneFileNames.push_back(lastPath);
         }
     }
-
+#endif
     if( (ptr = getenv("OSG_MENUBAR_BEHAVIOR")) != 0)
     {
         if (strcmp(ptr,"AUTO_HIDE")==0)
@@ -818,7 +818,7 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
     {
         _syncSwapBuffers = 1;
     }
-
+#ifndef IM_SIZE_REDUCTION
     if (arguments.read("--keystone",str))
     {
         _keystoneHint = true;
@@ -841,7 +841,7 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
     {
         _keystoneHint = false;
     }
-
+#endif
     while(arguments.read("--cc"))
     {
         _compileContextsHint = true;

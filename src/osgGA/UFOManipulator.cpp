@@ -12,11 +12,12 @@
 */
 
 /* Written by Don Burns */
-
 #include <osgGA/UFOManipulator>
 #include <osgUtil/LineSegmentIntersector>
 
 #include <osg/io_utils>
+
+#ifndef IM_SIZE_REDUCTION
 
 #ifndef M_PI
 # define M_PI       3.14159265358979323846  /* pi */
@@ -584,3 +585,4 @@ void UFOManipulator::getCurrentPositionAsLookAt( osg::Vec3d& eye, osg::Vec3d& ce
     up.set(getUpVector(getCoordinateFrame(_position)));
 }
 
+#endif

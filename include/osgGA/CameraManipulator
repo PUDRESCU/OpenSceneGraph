@@ -25,6 +25,8 @@
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/GUIActionAdapter>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgGA{
 
 #define NEW_HOME_POSITION
@@ -195,4 +197,5 @@ class OSGGA_EXPORT CameraManipulator : public GUIEventHandler
 
 }
 
+#endif
 #endif

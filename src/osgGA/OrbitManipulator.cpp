@@ -20,6 +20,8 @@
 #include <osg/BoundsChecking>
 #include <cassert>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osg;
 using namespace osgGA;
 
@@ -634,3 +636,4 @@ double OrbitManipulator::getMinimumDistance( bool *relativeToModelSize ) const
 
     return _minimumDistance;
 }
+#endif

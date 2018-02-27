@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_SIZE_REDUCTION
+
 // _particleSystem
 static bool checkParticleSystem( const osgParticle::ParticleEffect& effect )
 {
@@ -45,3 +47,5 @@ REGISTER_OBJECT_WRAPPER( osgParticleParticleEffect,
     ADD_DOUBLE_SERIALIZER( EmitterDuration, 0.0 );  // _emitterDuration
     ADD_VEC3_SERIALIZER( Wind, osg::Vec3() );  // _wind
 }
+
+#endif

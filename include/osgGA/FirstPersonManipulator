@@ -21,6 +21,7 @@
 
 #include <osgGA/StandardManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -108,5 +109,5 @@ double FirstPersonManipulator::getVelocity() const  { return _velocity; }
 
 
 }
-
+#endif
 #endif /* OSGGA_FIRST_PERSON_MANIPULATOR */

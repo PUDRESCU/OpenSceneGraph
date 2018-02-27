@@ -4,6 +4,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( osgViewer_Keystone,
                          new osgViewer::Keystone,
                          osgViewer::Keystone,
@@ -16,3 +18,5 @@ REGISTER_OBJECT_WRAPPER( osgViewer_Keystone,
     ADD_VEC2D_SERIALIZER( TopLeft, osg::Vec2d(0.0,0.0) );
     ADD_VEC2D_SERIALIZER( TopRight, osg::Vec2d(0.0,0.0) );
 }
+
+#endif

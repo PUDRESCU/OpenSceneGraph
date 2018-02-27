@@ -75,30 +75,54 @@ ReaderWriter::ReadResult ReadFileCallback::readScript(const std::string& filenam
 //
 ReaderWriter::WriteResult WriteFileCallback::writeObject(const osg::Object& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+    return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeObjectImplementation(obj,fileName,options);
+#endif
 }
 
 ReaderWriter::WriteResult WriteFileCallback::writeImage(const osg::Image& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeImageImplementation(obj,fileName,options);
+#endif
 }
 
 ReaderWriter::WriteResult WriteFileCallback::writeHeightField(const osg::HeightField& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+    return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeHeightFieldImplementation(obj,fileName,options);
+#endif
 }
 
 ReaderWriter::WriteResult WriteFileCallback::writeNode(const osg::Node& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+    return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeNodeImplementation(obj,fileName,options);
+#endif
 }
 
 ReaderWriter::WriteResult WriteFileCallback::writeShader(const osg::Shader& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+    return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeShaderImplementation(obj,fileName,options);
+#endif
 }
 
 ReaderWriter::WriteResult WriteFileCallback::writeScript(const osg::Script& obj, const std::string& fileName,const Options* options)
 {
+#ifdef IM_SIZE_REDUCTION
+    return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
+#else
     return osgDB::Registry::instance()->writeScriptImplementation(obj,fileName,options);
+#endif
 }

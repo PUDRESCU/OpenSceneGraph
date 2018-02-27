@@ -23,6 +23,8 @@
 
 #include <osgParticle/Export>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgParticle
 {
     class OSGPARTICLE_EXPORT PrecipitationEffect : public osg::Node
@@ -261,5 +263,5 @@ namespace osgParticle
     };
 
 }
-
+#endif
 #endif

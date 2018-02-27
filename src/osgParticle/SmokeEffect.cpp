@@ -20,6 +20,8 @@
 
 #include <osg/Geode>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 SmokeEffect::SmokeEffect(bool automaticSetup):
@@ -162,3 +164,5 @@ void SmokeEffect::setUpEmitterAndProgram()
         _program->setWind(_wind);
     }
 }
+
+#endif

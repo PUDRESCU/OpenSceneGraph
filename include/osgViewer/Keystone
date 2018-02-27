@@ -22,6 +22,8 @@
 #include <osgGA/GUIEventHandler>
 #include <osgViewer/Export>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgViewer
 {
 
@@ -145,5 +147,5 @@ protected:
 };
 
 }
-
+#endif
 #endif

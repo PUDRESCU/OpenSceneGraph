@@ -15,6 +15,8 @@
 #include <osgParticle/ParticleSystemUpdater>
 #include <osg/Geode>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 ParticleEffect::ParticleEffect(const ParticleEffect& copy, const osg::CopyOp& copyop):
@@ -173,3 +175,4 @@ void ParticleEffect::buildEffect()
     }
 }
 
+#endif

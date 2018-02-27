@@ -10,8 +10,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
 #include <osgGA/FlightManipulator>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -242,3 +243,5 @@ bool FlightManipulator::performMovementRightMouseButton( const double eventTimeD
     _velocity -= eventTimeDelta * (_acceleration + _velocity);
     return true;
 }
+
+#endif

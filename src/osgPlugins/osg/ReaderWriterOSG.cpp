@@ -1,3 +1,5 @@
+#ifndef IM_SIZE_REDUCTION
+
 #include <sstream>
 
 #include <osg/Image>
@@ -426,3 +428,5 @@ class OSGReaderWriter : public ReaderWriter
 // now register with Registry to instantiate the above
 // reader/writer.
 REGISTER_OSGPLUGIN(osg, OSGReaderWriter)
+
+#endif

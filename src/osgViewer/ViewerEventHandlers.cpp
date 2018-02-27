@@ -441,6 +441,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
         double delta = osg::Timer::instance()->delta_s(_lastFrameTime, time);
         _lastFrameTime = time;
 
+#ifndef IM_SIZE_REDUCTION
         // If our internal _delta is finally large enough to warrant a ControlPoint
         // insertion, do so now. Be sure and reset the internal _delta, so we can start
         // calculating when the next insert should happen.
@@ -459,6 +460,9 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
         }
         else _delta += delta;
+#else
+        _delta += delta;
+#endif
 
         return true;
     }
@@ -477,8 +481,9 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
                 {
                     _currentlyRecording = true;
                     _animStartTime = osg::Timer::instance()->tick();
+#ifndef IM_SIZE_REDUCTION
                     _animPath = new osg::AnimationPath();
-
+#endif
                     if (!_filename.empty())
                     {
                         std::stringstream ss;
@@ -514,6 +519,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
                 return true;
             }
 
+#ifndef IM_SIZE_REDUCTION
             // The user has requested to toggle playback. You'll notice in the code below that
             // we take over the current manipulator; it was originally recommended that we
             // check for a KeySwitchManipulator, create one if not present, and then add this
@@ -574,7 +580,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
                 return true;
             }
-
+#endif
             break;
         }
     default:

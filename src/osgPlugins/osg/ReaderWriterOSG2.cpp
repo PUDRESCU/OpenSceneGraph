@@ -17,9 +17,12 @@
 #include <osgDB/Registry>
 #include <osgDB/ObjectWrapper>
 #include <stdlib.h>
+
+#ifndef IM_SIZE_REDUCTION
 #include "AsciiStreamOperator.h"
-#include "BinaryStreamOperator.h"
 #include "XmlStreamOperator.h"
+#endif
+#include "BinaryStreamOperator.h"
 
 using namespace osgDB;
 
@@ -62,7 +65,11 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
         std::string header; fin >> header;
         if ( header=="#Ascii" )
         {
+#ifdef IM_SIZE_REDUCTION
+            return NULL;
+#else
             return new AsciiInputIterator(&fin);
+#endif
         }
         fin.seekg( 0, std::ios::beg );
     }
@@ -72,7 +79,11 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
         std::string header; std::getline( fin, header );
         if ( !header.compare(0, 5, "<?xml") )
         {
+#ifdef IM_SIZE_REDUCTION
+            return NULL;
+#else
             return new XmlInputIterator(&fin);
+#endif
         }
         fin.seekg( 0, std::ios::beg );
     }

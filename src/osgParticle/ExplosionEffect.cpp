@@ -25,6 +25,8 @@
 
 #include <osg/Geode>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 ExplosionEffect::ExplosionEffect(bool automaticSetup):
@@ -165,4 +167,4 @@ void ExplosionEffect::setUpEmitterAndProgram()
     }
 
 }
-
+#endif

@@ -18,6 +18,8 @@
 #include <osgGA/CameraManipulator>
 #include <osgGA/GUIEventHandler>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgGA{
 
 class GUIActionAdapter;
@@ -135,4 +137,5 @@ class OSGGA_EXPORT KeySwitchMatrixManipulator : public CameraManipulator
 
 }
 
+#endif
 #endif

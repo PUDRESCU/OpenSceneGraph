@@ -21,6 +21,7 @@
 
 #include <osgGA/CameraManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -199,5 +200,7 @@ inline bool StandardManipulator::getAllowThrow() const
 
 
 }
+
+#endif
 
 #endif /* OSGGA_CAMERA_MANIPULATOR */

@@ -7,6 +7,7 @@
 #include <osg/TextureRectangle>
 #include <osg/TextureCubeMap>
 
+#ifndef IM_SIZE_REDUCTION
 
 // #define COMPILE_TEXENVFILTER_USAGE
 #if COMPILE_TEXENVFILTER_USAGE
@@ -233,3 +234,4 @@ osg::PolygonMode* StateSetManipulator::getOrCreatePolygonMode()
     }
     return polyModeObj;
 }
+#endif

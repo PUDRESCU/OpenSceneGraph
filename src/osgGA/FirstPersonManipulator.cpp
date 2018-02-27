@@ -15,9 +15,10 @@
  * Thanks to company Cadwork (www.cadwork.ch) and
  * Brno University of Technology (www.fit.vutbr.cz) for open-sourcing this work.
 */
-
 #include <osgGA/FirstPersonManipulator>
 #include <cassert>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -400,3 +401,4 @@ void FirstPersonManipulator::FirstPersonAnimationData::start( const Quat& startR
    _startRot = startRotation;
    _targetRot = targetRotation;
 }
+#endif

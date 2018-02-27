@@ -18,6 +18,8 @@
 #include <osg/Math>
 #include <osg/Quat>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgGA
 {
 
@@ -175,4 +177,5 @@ class OSGGA_EXPORT SphericalManipulator : public CameraManipulator
         double          _zoomDelta;
 };
 }
+#endif
 #endif

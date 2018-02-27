@@ -13,6 +13,8 @@
 
 #ifndef OSGGA_ANIMATION_PATH_MANIPULATOR
 #define OSGGA_ANIMATION_PATH_MANIPULATOR 1
+#include <osg/Config>
+#ifndef IM_SIZE_REDUCTION
 
 #include <osg/AnimationPath>
 #include <osg/Notify>
@@ -118,4 +120,5 @@ class OSGGA_EXPORT AnimationPathManipulator : public CameraManipulator
 
 }
 
+#endif
 #endif

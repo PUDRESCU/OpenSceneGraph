@@ -1,6 +1,8 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 #include <osg/Notify>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgGA;
 
 void KeySwitchMatrixManipulator::addMatrixManipulator(int key, std::string name, CameraManipulator *cm)
@@ -221,3 +223,5 @@ void KeySwitchMatrixManipulator::getUsage(osg::ApplicationUsage& usage) const
         itr->second.second->getUsage(usage);
     }
 }
+
+#endif

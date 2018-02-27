@@ -10,10 +10,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
 #include <osgGA/TerrainManipulator>
 #include <osgUtil/LineSegmentIntersector>
 #include <osg/io_utils>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -344,3 +345,5 @@ void TerrainManipulator::clampOrientation()
         }
     }
 }
+
+#endif

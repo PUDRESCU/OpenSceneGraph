@@ -10,8 +10,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
 #include <osgGA/TrackballManipulator>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -32,3 +33,4 @@ TrackballManipulator::TrackballManipulator( const TrackballManipulator& tm, cons
       inherited( tm, copyOp )
 {
 }
+#endif

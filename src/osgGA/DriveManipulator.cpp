@@ -10,7 +10,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
 #if defined(_MSC_VER)
     #pragma warning( disable : 4786 )
 #endif
@@ -20,6 +19,8 @@
 #include <osgGA/DriveManipulator>
 #include <osgUtil/LineSegmentIntersector>
 #include <osg/Notify>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -604,3 +605,4 @@ bool DriveManipulator::calcMovement()
 
     return true;
 }
+#endif

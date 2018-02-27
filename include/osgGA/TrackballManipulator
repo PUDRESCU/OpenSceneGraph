@@ -16,6 +16,7 @@
 
 #include <osgGA/OrbitManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -37,4 +38,5 @@ class OSGGA_EXPORT TrackballManipulator : public OrbitManipulator
 
 }
 
+#endif
 #endif /* OSGGA_TRACKBALL_MANIPULATOR */

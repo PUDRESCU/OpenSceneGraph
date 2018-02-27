@@ -21,6 +21,8 @@
 
 #include <osg/Geode>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 SmokeTrailEffect::SmokeTrailEffect(bool automaticSetup):
@@ -163,3 +165,5 @@ void SmokeTrailEffect::setUpEmitterAndProgram()
         _program->setWind(_wind);
     }
 }
+
+#endif

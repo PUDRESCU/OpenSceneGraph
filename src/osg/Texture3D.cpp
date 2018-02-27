@@ -58,6 +58,9 @@ Texture3D::~Texture3D()
 
 int Texture3D::compare(const StateAttribute& sa) const
 {
+#ifdef IM_SIZE_REDUCTION
+    return 0;
+#else
     // check the types are equal and then create the rhs variable
     // used by the COMPARE_StateAttribute_Parameter macros below.
     COMPARE_StateAttribute_Types(Texture3D,sa)
@@ -103,10 +106,14 @@ int Texture3D::compare(const StateAttribute& sa) const
     COMPARE_StateAttribute_Parameter(_subloadCallback)
 
     return 0; // passed all the above comparison macros, must be equal.
+#endif
 }
 
 void Texture3D::setImage(Image* image)
 {
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     if (_image == image) return;
 
     if (_image.valid())
@@ -137,10 +144,14 @@ void Texture3D::setImage(Image* image)
             setDataVariance(osg::Object::DYNAMIC);
         }
     }
+#endif
 }
 
 void Texture3D::computeRequiredTextureDimensions(State& state, const osg::Image& image,GLsizei& inwidth, GLsizei& inheight,GLsizei& indepth, GLsizei& numMipmapLevels) const
 {
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     const GLExtensions* extensions = state.get<GLExtensions>();
 
     int width,height,depth;
@@ -195,11 +206,14 @@ void Texture3D::computeRequiredTextureDimensions(State& state, const osg::Image&
             depth >>= 1;
         }
     }
+#endif
 }
 
 void Texture3D::apply(State& state) const
 {
-
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     // get the contextID (user defined ID of 0 upwards) for the
     // current OpenGL context.
     const unsigned int contextID = state.getContextID();
@@ -342,6 +356,7 @@ void Texture3D::apply(State& state) const
     {
         generateMipmap(state);
     }
+#endif
 }
 
 void Texture3D::computeInternalFormat() const
@@ -352,6 +367,9 @@ void Texture3D::computeInternalFormat() const
 
 void Texture3D::applyTexImage3D(GLenum target, Image* image, State& state, GLsizei& inwidth, GLsizei& inheight, GLsizei& indepth, GLsizei& numMipmapLevels) const
 {
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     // if we don't have a valid image we can't create a texture!
     if (!image || !image->data())
         return;
@@ -474,11 +492,14 @@ void Texture3D::applyTexImage3D(GLenum target, Image* image, State& state, GLsiz
     inwidth  = image->s();
     inheight = image->t();
     indepth  = image->r();
-
+#endif
 }
 
 void Texture3D::copyTexSubImage3D(State& state, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height )
 {
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     const unsigned int contextID = state.getContextID();
     const GLExtensions* extensions = state.get<GLExtensions>();
 
@@ -503,10 +524,14 @@ void Texture3D::copyTexSubImage3D(State& state, int xoffset, int yoffset, int zo
     {
         OSG_WARN<<"Warning: Texture3D::copyTexSubImage3D(..) failed, cannot not copy to a non existent texture."<<std::endl;
     }
+#endif
 }
 
 void Texture3D::allocateMipmap(State& state) const
 {
+#ifdef IM_SIZE_REDUCTION
+    return;
+#else
     const unsigned int contextID = state.getContextID();
 
     // get the texture object for the current contextID.
@@ -552,4 +577,5 @@ void Texture3D::allocateMipmap(State& state) const
         // inform state that this texture is the current one bound.
         state.haveAppliedTextureAttribute(state.getActiveTextureUnit(), this);
     }
+#endif
 }

@@ -10,12 +10,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * OpenSceneGraph Public License for more details.
 */
-
 #include <osgGA/NodeTrackerManipulator>
 #include <osg/Quat>
 #include <osg/Notify>
 #include <osg/Transform>
 #include <iterator>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -301,3 +302,5 @@ bool NodeTrackerManipulator::performMovementRightMouseButton( const double event
 
     return inherited::performMovementRightMouseButton(eventTimeDelta, dx, dy);
 }
+
+#endif

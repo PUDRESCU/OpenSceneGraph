@@ -1,5 +1,7 @@
 #include <osgGA/StateSetManipulator>
 
+#ifndef IM_SIZE_REDUCTION
+
 #define OBJECT_CAST dynamic_cast
 
 #include <osgDB/ObjectWrapper>
@@ -16,3 +18,4 @@ REGISTER_OBJECT_WRAPPER( osgGA_StateSetManipulator,
         ADD_INT_SERIALIZER(KeyEventToggleTexturing, 't');
         ADD_INT_SERIALIZER(KeyEventCyclePolygonMode, 'w');
 }
+#endif

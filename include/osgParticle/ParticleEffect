@@ -17,6 +17,8 @@
 #include <osgParticle/Emitter>
 #include <osgParticle/Program>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgParticle
 {
 
@@ -116,5 +118,5 @@ namespace osgParticle
     };
 
 }
-
+#endif
 #endif

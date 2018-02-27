@@ -1,3 +1,5 @@
+#ifndef IM_SIZE_REDUCTION
+
 #ifndef OSGDB_XMLSTREAMOPERATOR
 #define OSGDB_XMLSTREAMOPERATOR
 
@@ -627,4 +629,5 @@ protected:
     std::stringstream _sstream;
 };
 
+#endif
 #endif

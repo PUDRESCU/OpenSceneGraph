@@ -3,6 +3,7 @@
 #include <osg/Notify>
 #include <osg/BoundsChecking>
 
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -108,3 +109,5 @@ osg::Matrixd CameraViewSwitchManipulator::getInverseMatrix() const
     }
     return mat;
 }
+
+#endif

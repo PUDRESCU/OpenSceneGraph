@@ -20,6 +20,8 @@
 #include <osg/Node>
 #include <osg/Matrix>
 
+#ifndef IM_SIZE_REDUCTION
+
 /**
   \class osgGA::UFOManipulator
   \brief A UFO manipulator driven with keybindings.
@@ -184,5 +186,5 @@ class OSGGA_EXPORT UFOManipulator : public osgGA::CameraManipulator
 };
 
 }
-
+#endif
 #endif

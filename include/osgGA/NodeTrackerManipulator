@@ -17,6 +17,7 @@
 #include <osgGA/OrbitManipulator>
 #include <osg/ObserverNodePath>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -103,5 +104,6 @@ class OSGGA_EXPORT NodeTrackerManipulator : public OrbitManipulator
 };
 
 }
+#endif
 
 #endif /* OSGGA_NODE_TRACKER_MANIPULATOR */

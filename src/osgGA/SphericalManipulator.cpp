@@ -1,8 +1,9 @@
-
 #include <osgGA/SphericalManipulator>
 #include <osg/Quat>
 #include <osg/Notify>
 #include <osg/BoundsChecking>
+
+#ifndef IM_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;
@@ -425,3 +426,5 @@ void SphericalManipulator::computeViewPosition(const osg::BoundingSphere& bound,
         distance=1;
     center=bound._center;
 }
+
+#endif

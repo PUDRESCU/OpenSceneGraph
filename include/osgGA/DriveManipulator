@@ -17,6 +17,8 @@
 #include <osgGA/CameraManipulator>
 #include <osg/Quat>
 
+#ifndef IM_SIZE_REDUCTION
+
 namespace osgGA{
 
 /**
@@ -120,4 +122,5 @@ class OSGGA_EXPORT DriveManipulator : public CameraManipulator
 
 }
 
+#endif
 #endif

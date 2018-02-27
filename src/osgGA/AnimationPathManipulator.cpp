@@ -2,6 +2,8 @@
 
 #include <osgDB/fstream>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgGA;
 
 AnimationPathManipulator::AnimationPathManipulator(osg::AnimationPath* animationPath)
@@ -192,3 +194,5 @@ void AnimationPathManipulator::handleFrame( double time )
 
     cp.getMatrix( _matrix );
 }
+
+#endif

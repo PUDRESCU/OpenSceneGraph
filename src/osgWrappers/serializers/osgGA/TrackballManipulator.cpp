@@ -1,5 +1,7 @@
 #include <osgGA/TrackballManipulator>
 
+#ifndef IM_SIZE_REDUCTION
+
 #define OBJECT_CAST dynamic_cast
 
 #include <osgDB/ObjectWrapper>
@@ -12,3 +14,4 @@ REGISTER_OBJECT_WRAPPER( osgGA_TrackballManipulator,
                          "osg::Object osgGA::TrackballManipulator" )
 {
 }
+#endif

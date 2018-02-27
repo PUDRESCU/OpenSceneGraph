@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( osgParticlePrecipitationEffect,
                          new osgParticle::PrecipitationEffect,
                          osgParticle::PrecipitationEffect,
@@ -19,3 +21,5 @@ REGISTER_OBJECT_WRAPPER( osgParticlePrecipitationEffect,
     ADD_BOOL_SERIALIZER( UseFarLineSegments, false );  // _useFarLineSegments
     ADD_OBJECT_SERIALIZER( Fog, osg::Fog, NULL );  // _fog
 }
+
+#endif

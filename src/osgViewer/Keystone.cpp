@@ -27,6 +27,8 @@
 
 #include <osgViewer/Keystone>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgViewer;
 
 Keystone::Keystone():
@@ -597,3 +599,4 @@ bool Keystone::loadKeystoneFiles(osg::DisplaySettings* ds)
     return keystonesLoaded;
 }
 
+#endif

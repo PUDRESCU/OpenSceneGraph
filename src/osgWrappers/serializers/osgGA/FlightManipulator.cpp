@@ -1,5 +1,7 @@
 #include <osgGA/FlightManipulator>
 
+#ifndef IM_SIZE_REDUCTION
+
 #define OBJECT_CAST dynamic_cast
 
 #include <osgDB/ObjectWrapper>
@@ -12,3 +14,4 @@ REGISTER_OBJECT_WRAPPER( osgGA_FlightManipulator,
                          "osg::Object osgGA::FlightManipulator" )
 {
 }
+#endif

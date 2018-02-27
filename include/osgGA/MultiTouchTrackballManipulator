@@ -16,6 +16,7 @@
 
 #include <osgGA/TrackballManipulator>
 
+#ifndef IM_SIZE_REDUCTION
 
 namespace osgGA {
 
@@ -43,5 +44,6 @@ class OSGGA_EXPORT MultiTouchTrackballManipulator : public TrackballManipulator
 
 
 }
+#endif
 
 #endif /* OSGGA_MULTITOUCH_TRACKBALL_MANIPULATOR */

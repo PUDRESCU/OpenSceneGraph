@@ -24,6 +24,8 @@
 
 #include <osg/Geode>
 
+#ifndef IM_SIZE_REDUCTION
+
 using namespace osgParticle;
 
 FireEffect::FireEffect(bool automaticSetup):
@@ -167,3 +169,4 @@ void FireEffect::setUpEmitterAndProgram()
         _program->setWind(_wind);
     }
 }
+#endif
