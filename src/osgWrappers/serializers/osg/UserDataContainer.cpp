@@ -18,17 +18,15 @@ static bool readUDC_UserData( osgDB::InputStream& is, osg::DefaultUserDataContai
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUDC_UserData( osgDB::OutputStream& os, const osg::DefaultUserDataContainer& udc )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << os.BEGIN_BRACKET << std::endl;
     os.writeObject(dynamic_cast<const osg::Object*>(udc.getUserData()));
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _descriptions
 static bool checkUDC_Descriptions( const osg::DefaultUserDataContainer& udc )
@@ -49,11 +47,9 @@ static bool readUDC_Descriptions( osgDB::InputStream& is, osg::DefaultUserDataCo
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUDC_Descriptions( osgDB::OutputStream& os, const osg::DefaultUserDataContainer& udc )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::UserDataContainer::DescriptionList& slist = udc.getDescriptions();
     os.writeSize(slist.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::UserDataContainer::DescriptionList::const_iterator itr=slist.begin();
@@ -64,9 +60,8 @@ static bool writeUDC_Descriptions( osgDB::OutputStream& os, const osg::DefaultUs
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
-
+#endif
 
 static bool checkUDC_UserObjects( const osg::DefaultUserDataContainer& udc )
 {
@@ -85,11 +80,9 @@ static bool readUDC_UserObjects( osgDB::InputStream& is, osg::DefaultUserDataCon
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUDC_UserObjects( osgDB::OutputStream& os, const osg::DefaultUserDataContainer& udc )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int numObjects = udc.getNumUserObjects();
     os.writeSize(numObjects); os << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<numObjects; ++i )
@@ -98,9 +91,8 @@ static bool writeUDC_UserObjects( osgDB::OutputStream& os, const osg::DefaultUse
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
-
+#endif
 
 namespace UserDataContainerNamespace
 {

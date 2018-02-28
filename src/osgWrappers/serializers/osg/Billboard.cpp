@@ -22,11 +22,9 @@ static bool readPositionList( osgDB::InputStream& is, osg::Billboard& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writePositionList( osgDB::OutputStream& os, const osg::Billboard& node )
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     const osg::Billboard::PositionList& posList = node.getPositionList();
     os.writeSize(posList.size());
     os<< os.BEGIN_BRACKET << std::endl;
@@ -37,8 +35,8 @@ static bool writePositionList( osgDB::OutputStream& os, const osg::Billboard& no
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Billboard,
                          new osg::Billboard,

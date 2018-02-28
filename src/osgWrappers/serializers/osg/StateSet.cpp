@@ -56,10 +56,9 @@ static void readAttributes( osgDB::InputStream& is, osg::StateSet::AttributeList
         }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static void writeValue( osgDB::OutputStream& os, int value )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     if ( os.isBinary() )
         os << value;
     else
@@ -72,13 +71,10 @@ static void writeValue( osgDB::OutputStream& os, int value )
         if (!valueString.empty()) os << valueString;
         else os << "OFF";
     }
-#endif
 }
 
 static void writeModes( osgDB::OutputStream& os, const osg::StateSet::ModeList& modes )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os.writeSize(modes.size());
     if ( modes.size()>0 )
     {
@@ -93,13 +89,10 @@ static void writeModes( osgDB::OutputStream& os, const osg::StateSet::ModeList& 
         os << os.END_BRACKET;
     }
     os << std::endl;
-#endif
 }
 
 static void writeAttributes( osgDB::OutputStream& os, const osg::StateSet::AttributeList& attrs )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os.writeSize(attrs.size());
     if ( attrs.size()>0 )
     {
@@ -115,8 +108,8 @@ static void writeAttributes( osgDB::OutputStream& os, const osg::StateSet::Attri
         os << os.END_BRACKET;
     }
     os << std::endl;
-#endif
 }
+#endif
 
 // _modeList
 static bool checkModeList( const osg::StateSet& ss )
@@ -135,15 +128,13 @@ static bool readModeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeModeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     writeModes( os, ss.getModeList() );
     return true;
-#endif
 }
+#endif
 
 // _attributeList
 static bool checkAttributeList( const osg::StateSet& ss )
@@ -162,15 +153,13 @@ static bool readAttributeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeAttributeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     writeAttributes( os, ss.getAttributeList() );
     return true;
-#endif
 }
+#endif
 
 // _textureModeList
 static bool checkTextureModeList( const osg::StateSet& ss )
@@ -197,11 +186,9 @@ static bool readTextureModeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeTextureModeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::StateSet::TextureModeList& tml = ss.getTextureModeList();
     os.writeSize(tml.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::StateSet::TextureModeList::const_iterator itr=tml.begin();
@@ -212,8 +199,8 @@ static bool writeTextureModeList( osgDB::OutputStream& os, const osg::StateSet& 
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _textureAttributeList
 static bool checkTextureAttributeList( const osg::StateSet& ss )
@@ -240,11 +227,9 @@ static bool readTextureAttributeList( osgDB::InputStream& is, osg::StateSet& ss 
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeTextureAttributeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::StateSet::TextureAttributeList& tal = ss.getTextureAttributeList();
     os.writeSize(tal.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::StateSet::TextureAttributeList::const_iterator itr=tal.begin();
@@ -255,8 +240,8 @@ static bool writeTextureAttributeList( osgDB::OutputStream& os, const osg::State
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _uniformList
 static bool checkUniformList( const osg::StateSet& ss )
@@ -279,11 +264,9 @@ static bool readUniformList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUniformList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::StateSet::UniformList& ul = ss.getUniformList();
     os.writeSize(ul.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::StateSet::UniformList::const_iterator itr=ul.begin();
@@ -296,8 +279,8 @@ static bool writeUniformList( osgDB::OutputStream& os, const osg::StateSet& ss )
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( StateSet,
                          new osg::StateSet,

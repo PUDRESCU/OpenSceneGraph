@@ -1195,12 +1195,9 @@ public:
         return read_result;
     }
 
-
+#ifndef IM_NO_WRITE_SERIALIZATION
     WriteResult writeImageStream(const osg::Image& osg_image, std::ostream& fout, const osgDB::ReaderWriter::Options* the_options) const
     {
-#ifdef IM_SIZE_REDUCTION
-        return WriteResult::FILE_NOT_HANDLED;
-#else
         if (!osg_image.isDataContiguous())
         {
             return WriteResult::FILE_NOT_HANDLED;
@@ -1232,24 +1229,16 @@ public:
         CFRelease(cg_dest_ref);
 
         return WriteResult::FILE_SAVED;
-#endif
     }
 
     virtual WriteResult writeImage(const osg::Image& osg_image, std::ostream& fout, const osgDB::ReaderWriter::Options* the_options) const
     {
-#ifdef IM_SIZE_REDUCTION
-        return WriteResult::FILE_NOT_HANDLED;
-#else
         WriteResult write_result = writeImageStream(osg_image, fout, the_options);
         return write_result;
-#endif
     }
 
     WriteResult writeImageFile(const osg::Image& osg_image, const std::string& full_file_name, const osgDB::ReaderWriter::Options* the_options) const
     {
-#ifdef IM_SIZE_REDUCTION
-        return WriteResult::FILE_NOT_HANDLED;
-#else
         if (!osg_image.isDataContiguous())
         {
             return WriteResult::FILE_NOT_HANDLED;
@@ -1282,14 +1271,10 @@ public:
         CFRelease(cg_dest_ref);
 
         return WriteResult::FILE_SAVED;
-#endif
     }
 
     virtual WriteResult writeImage(const osg::Image& osg_image, const std::string& file_name, const osgDB::ReaderWriter::Options* the_options) const
     {
-#ifdef IM_SIZE_REDUCTION
-        return WriteResult::FILE_NOT_HANDLED;
-#else
         std::string ext = osgDB::getFileExtension(file_name);
         if (!acceptsExtension(ext)) return WriteResult::FILE_NOT_HANDLED;
 
@@ -1311,9 +1296,8 @@ public:
         if(!fout) return WriteResult::ERROR_IN_WRITING_FILE;
         return writeImage(osg_image, fout, the_options);
 #endif
-#endif
     }
-
+#endif
     virtual ReadResult readObject(std::istream& fin,const osgDB::ReaderWriter::Options* options =NULL) const
     {
         return readImage(fin, options);

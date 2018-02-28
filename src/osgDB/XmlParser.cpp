@@ -18,6 +18,23 @@
 
 using namespace osgDB;
 
+std::string osgDB::trimEnclosingSpaces(const std::string& str)
+{
+  if (str.empty()) return str;
+  
+  const std::string whitespaces(" \t\f\v\n\r");
+  
+  std::string::size_type start = str.find_first_not_of(whitespaces);
+  if (start==std::string::npos) return std::string();
+  
+  std::string::size_type end = str.find_last_not_of(whitespaces);
+  if (end==std::string::npos) return std::string();
+  
+  return std::string(str, start, (end-start)+1);
+}
+
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 XmlNode* osgDB::readXmlFile(const std::string& filename,const Options* options)
 {
     std::string foundFile = osgDB::findDataFile(filename, options);
@@ -44,22 +61,6 @@ XmlNode* osgDB::readXmlFile(const std::string& filename,const Options* options)
         return 0;
     }
 }
-
-std::string osgDB::trimEnclosingSpaces(const std::string& str)
-{
-    if (str.empty()) return str;
-
-    const std::string whitespaces(" \t\f\v\n\r");
-
-    std::string::size_type start = str.find_first_not_of(whitespaces);
-    if (start==std::string::npos) return std::string();
-
-    std::string::size_type end = str.find_last_not_of(whitespaces);
-    if (end==std::string::npos) return std::string();
-
-    return std::string(str, start, (end-start)+1);
-}
-
 
 XmlNode* osgDB::readXmlStream(std::istream& fin)
 {
@@ -427,19 +428,12 @@ bool XmlNode::read(Input& input)
 
 bool XmlNode::write(std::ostream& fout, const std::string& indent) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     ControlMap controlMap;
     return write(controlMap, fout, indent);
-#endif
 }
 
 bool XmlNode::write(const ControlMap& controlMap, std::ostream& fout, const std::string& indent) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     switch(type)
     {
         case(UNASSIGNED):
@@ -485,14 +479,10 @@ bool XmlNode::write(const ControlMap& controlMap, std::ostream& fout, const std:
         }
     }
     return false;
-#endif
 }
 
 bool XmlNode::writeString(const ControlMap& controlMap, std::ostream& fout, const std::string& str) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     for(std::string::const_iterator itr = str.begin();
         itr != str.end();
         ++itr)
@@ -503,14 +493,10 @@ bool XmlNode::writeString(const ControlMap& controlMap, std::ostream& fout, cons
         else fout.put(c);
     }
     return true;
-#endif
 }
 
 bool XmlNode::writeChildren(const ControlMap& /*controlMap*/, std::ostream& fout, const std::string& indent) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     for(Children::const_iterator citr = children.begin();
         citr != children.end();
         ++citr)
@@ -520,14 +506,10 @@ bool XmlNode::writeChildren(const ControlMap& /*controlMap*/, std::ostream& fout
     }
 
     return true;
-#endif
 }
 
 bool XmlNode::writeProperties(const ControlMap& controlMap, std::ostream& fout) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     for(Properties::const_iterator oitr = properties.begin();
         oitr != properties.end();
         ++oitr)
@@ -539,7 +521,6 @@ bool XmlNode::writeProperties(const ControlMap& controlMap, std::ostream& fout) 
     }
 
     return true;
-#endif
 }
 
 bool XmlNode::readAndReplaceControl(std::string& contents, XmlNode::Input& input)
@@ -562,3 +543,4 @@ bool XmlNode::readAndReplaceControl(std::string& contents, XmlNode::Input& input
         return false;
     }
 }
+#endif

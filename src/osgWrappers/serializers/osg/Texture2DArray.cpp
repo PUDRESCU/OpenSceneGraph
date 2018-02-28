@@ -20,11 +20,9 @@ static bool readImages( osgDB::InputStream& is, osg::Texture2DArray& tex )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeImages( osgDB::OutputStream& os, const osg::Texture2DArray& tex )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = tex.getNumImages();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -33,8 +31,8 @@ static bool writeImages( osgDB::OutputStream& os, const osg::Texture2DArray& tex
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Texture2DArray,
                          new osg::Texture2DArray,

@@ -20,11 +20,9 @@ static bool readInitialBound( osgDB::InputStream& is, osg::Drawable& drawable )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeInitialBound( osgDB::OutputStream& os, const osg::Drawable& drawable )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::BoundingBox& bb = drawable.getInitialBound();
     os << os.BEGIN_BRACKET << std::endl;
     os << os.PROPERTY("Minimum") << osg::Vec3d(bb._min) << std::endl;
@@ -32,8 +30,8 @@ static bool writeInitialBound( osgDB::OutputStream& os, const osg::Drawable& dra
     os << os.END_BRACKET;
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Drawable,
                          /*new osg::Drawable*/NULL,

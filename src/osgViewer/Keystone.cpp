@@ -539,11 +539,9 @@ bool KeystoneHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 bool Keystone::writeToFile()
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     std::string filename;
     if (getUserDataContainer()!=0 && getUserValue("filename", filename))
     {
@@ -565,9 +563,8 @@ bool Keystone::writeToFile()
     {
         return false;
     }
-#endif
 }
-
+#endif
 
 bool Keystone::loadKeystoneFiles(osg::DisplaySettings* ds)
 {

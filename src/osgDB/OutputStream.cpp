@@ -22,6 +22,8 @@
 #include <sstream>
 #include <stdlib.h>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 using namespace osgDB;
 
 OutputStream::OutputStream( const osgDB::Options* options )
@@ -76,281 +78,161 @@ int OutputStream::getFileVersion( const std::string& d ) const
 
 OutputStream& OutputStream::operator<<( const osg::Vec2b& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3b& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4b& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2ub& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3ub& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4ub& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.r() << v.g() << v.b() << v.a(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2s& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3s& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4s& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2us& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3us& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4us& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2f& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3f& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4f& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2d& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3d& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4d& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2i& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3i& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4i& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Vec2ui& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec3ui& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Vec4ui& v )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << v.x() << v.y() << v.z() << v.w(); return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::Quat& q )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << q.x() << q.y() << q.z() << q.w(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Plane& p )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << (double)p[0] << (double)p[1] << (double)p[2] << (double)p[3]; return *this;
-#endif
 }
 
 
 OutputStream& OutputStream::operator<<( const osg::BoundingBoxf& bb)
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << bb.xMin() << bb.yMin() << bb.zMin() << bb.xMax() << bb.yMax() << bb.zMax(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::BoundingBoxd& bb)
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << bb.xMin() << bb.yMin() << bb.zMin() << bb.xMax() << bb.yMax() << bb.zMax(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::BoundingSpheref& bs)
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << bs.center().x() << bs.center().y() << bs.center().z() << bs.radius(); return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::BoundingSphered& bs)
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
   *this << bs.center().x() << bs.center().y() << bs.center().z() << bs.radius(); return *this;
-#endif
 }
 
 #if 0
@@ -380,9 +262,6 @@ OutputStream& OutputStream::operator<<( const osg::Matrixd& mat )
 #else
 OutputStream& OutputStream::operator<<( const osg::Matrixf& mat )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
     *this << BEGIN_BRACKET << std::endl;
     for ( int r=0; r<4; ++r )
     {
@@ -391,14 +270,10 @@ OutputStream& OutputStream::operator<<( const osg::Matrixf& mat )
     }
     *this << END_BRACKET << std::endl;
     return *this;
-#endif
 }
 
 OutputStream& OutputStream::operator<<( const osg::Matrixd& mat )
 {
-#ifdef IM_SIZE_REDUCTION
-  return *this;
-#else
     *this << BEGIN_BRACKET << std::endl;
     for ( int r=0; r<4; ++r )
     {
@@ -407,14 +282,11 @@ OutputStream& OutputStream::operator<<( const osg::Matrixd& mat )
     }
     *this << END_BRACKET << std::endl;
     return *this;
-#endif
 }
 #endif
 
 void OutputStream::writeArray( const osg::Array* a )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     if ( !a ) return;
 
     bool newID = false;
@@ -567,13 +439,10 @@ void OutputStream::writeArray( const osg::Array* a )
     default:
         throwException( "OutputStream::writeArray(): Unsupported array type." );
     }
-#endif
 }
 
 void OutputStream::writePrimitiveSet( const osg::PrimitiveSet* p )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     if ( !p ) return;
 
     switch ( p->getType() )
@@ -621,13 +490,10 @@ void OutputStream::writePrimitiveSet( const osg::PrimitiveSet* p )
     default:
         throwException( "OutputStream::writePrimitiveSet(): Unsupported primitive type." );
     }
-#endif
 }
 
 void OutputStream::writeImage( const osg::Image* img )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     if ( !img ) return;
 
     std::string name = img->libraryName();
@@ -794,14 +660,11 @@ void OutputStream::writeImage( const osg::Image* img )
 
         writeObjectFields( img, "osg::Object" );
     }
-#endif
     // *this << END_BRACKET << std::endl;
 }
 
 void OutputStream::writeObject( const osg::Object* obj )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     if ( !obj )
     {
         *this << std::string("NULL") << std::endl;  // Write NULL token.
@@ -824,24 +687,18 @@ void OutputStream::writeObject( const osg::Object* obj )
     }
 
     *this << END_BRACKET << std::endl;
-#endif
 }
 
 void OutputStream::writeObjectFields( const osg::Object* obj )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     std::string name = obj->libraryName();
     name += std::string("::") + obj->className();
     writeObjectFields(obj, name);
-#endif
 }
 
 void OutputStream::writeObjectFields( const osg::Object* obj, const std::string& name )
 {
     // OSG_NOTICE<<"OutputStream::writeObjectFields("<<obj->className()<<", name="<<name<<")"<<std::endl;
-#ifdef IM_SIZE_REDUCTION
-#else
     ObjectWrapper* wrapper = Registry::instance()->getObjectWrapperManager()->findWrapper( name );
     if ( !wrapper )
     {
@@ -888,13 +745,10 @@ void OutputStream::writeObjectFields( const osg::Object* obj, const std::string&
 
         _fields.pop_back();
     }
-#endif
 }
 
 void OutputStream::start( OutputIterator* outIterator, OutputStream::WriteType type )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     _fields.clear();
     _fields.push_back( "Start" );
 
@@ -990,13 +844,10 @@ void OutputStream::start( OutputIterator* outIterator, OutputStream::WriteType t
         *this << std::endl;
     }
     _fields.pop_back();
-#endif
 }
 
 void OutputStream::compress( std::ostream* ostream )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     _fields.clear();
     if ( !isBinary() ) return;
 
@@ -1042,13 +893,10 @@ void OutputStream::compress( std::ostream* ostream )
         std::string str = schemaSource.str() + _compressSource.str();
         ostream->write( str.c_str(), str.size() );
     }
-#endif
 }
 
 void OutputStream::writeSchema( std::ostream& fout )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     // Write to external ascii stream
     const ObjectWrapperManager::WrapperMap& wrappers = Registry::instance()->getObjectWrapperManager()->getWrapperMap();
     for ( ObjectWrapperManager::WrapperMap::const_iterator itr=wrappers.begin();
@@ -1069,7 +917,6 @@ void OutputStream::writeSchema( std::ostream& fout )
         }
         fout << std::endl;
     }
-#endif
 }
 
 // PROTECTED METHODS
@@ -1077,8 +924,6 @@ void OutputStream::writeSchema( std::ostream& fout )
 template<typename T>
 void OutputStream::writeArrayImplementation( const T* a, int write_size, unsigned int numInRow )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     *this << write_size << BEGIN_BRACKET;
     if ( numInRow>1 )
     {
@@ -1100,7 +945,6 @@ void OutputStream::writeArrayImplementation( const T* a, int write_size, unsigne
             *this << (*a)[i] << std::endl;
     }
     *this << END_BRACKET << std::endl;
-#endif
 }
 
 unsigned int OutputStream::findOrCreateArrayID( const osg::Array* array, bool& newID )
@@ -1130,3 +974,5 @@ unsigned int OutputStream::findOrCreateObjectID( const osg::Object* obj, bool& n
     newID = false;
     return itr->second;
 }
+
+#endif

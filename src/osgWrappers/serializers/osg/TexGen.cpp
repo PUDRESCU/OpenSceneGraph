@@ -3,17 +3,14 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define PLANE_FUNCTION( PROP, COORD ) \
     static bool check##PROP( const osg::TexGen& tex ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::TexGen& tex ) { \
         osg::Plane plane; is >> plane; \
         tex.setPlane(COORD, plane); \
         return true; \
-    } \
-    static bool write##PROP( osgDB::OutputStream& os, const osg::TexGen& tex ) { \
-        return true; \
-    }
+    } 
 #else
 #define PLANE_FUNCTION( PROP, COORD ) \
     static bool check##PROP( const osg::TexGen& tex ) { return true; } \

@@ -1,4 +1,4 @@
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_NO_WRITE_SERIALIZATION
 
 #include <sstream>
 
@@ -318,9 +318,6 @@ class OSGReaderWriter : public ReaderWriter
 
         virtual WriteResult writeObject(const Object& obj, const std::string& fileName, const osgDB::ReaderWriter::Options* options) const
         {
-#ifdef IM_SIZE_REDUCTION
-            return WriteResult::FILE_NOT_HANDLED;
-#else
             std::string ext = osgDB::getLowerCaseFileExtension(fileName);
             if (!acceptsExtension(ext)) return WriteResult::FILE_NOT_HANDLED;
 
@@ -340,14 +337,10 @@ class OSGReaderWriter : public ReaderWriter
                 return WriteResult::FILE_SAVED;
             }
             return WriteResult("Unable to open file for output");
-#endif
         }
 
         virtual WriteResult writeObject(const Object& obj,std::ostream& fout, const osgDB::ReaderWriter::Options* options) const
         {
-#ifdef IM_SIZE_REDUCTION
-          return WriteResult::FILE_NOT_HANDLED;
-#else
             if (fout)
             {
                 loadWrappers();
@@ -366,15 +359,11 @@ class OSGReaderWriter : public ReaderWriter
                 return WriteResult::FILE_SAVED;
             }
             return WriteResult("Unable to write to output stream");
-#endif
         }
 
 
         virtual WriteResult writeNode(const Node& node, const std::string& fileName, const osgDB::ReaderWriter::Options* options) const
         {
-#ifdef IM_SIZE_REDUCTION
-            return WriteResult::FILE_NOT_HANDLED;
-#else
             std::string ext = getFileExtension(fileName);
             if (!acceptsExtension(ext)) return WriteResult::FILE_NOT_HANDLED;
 
@@ -394,14 +383,10 @@ class OSGReaderWriter : public ReaderWriter
                 return WriteResult::FILE_SAVED;
             }
             return WriteResult("Unable to open file for output");
-#endif
         }
 
         virtual WriteResult writeNode(const Node& node, std::ostream& fout, const osgDB::ReaderWriter::Options* options) const
         {
-#ifdef IM_SIZE_REDUCTION
-            return WriteResult::FILE_NOT_HANDLED;
-#else
             if (fout)
             {
                 loadWrappers();
@@ -420,7 +405,6 @@ class OSGReaderWriter : public ReaderWriter
                 return WriteResult::FILE_SAVED;
             }
             return WriteResult("Unable to write to output stream");
-#endif
         }
 
 };

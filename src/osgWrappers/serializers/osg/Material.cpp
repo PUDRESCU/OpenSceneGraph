@@ -4,7 +4,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define MATERIAL_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::Material& attr ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::Material& attr ) { \
@@ -19,10 +19,7 @@
             attr.set##PROP(osg::Material::BACK, value2); \
         } \
         return true; \
-    } \
-    static bool write##PROP( osgDB::OutputStream& os, const osg::Material& attr ) { \
-        return true; \
-    }
+    } 
 #else
 #define MATERIAL_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::Material& attr ) { return true; } \

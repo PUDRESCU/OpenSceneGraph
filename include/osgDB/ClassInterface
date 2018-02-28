@@ -111,7 +111,9 @@ DECLARE_TYPE(osg::BoundingSpheref, BOUNDINGSPHEREF)
 DECLARE_TYPE(osg::BoundingSphered, BOUNDINGSPHERED)
 
 // forward decalare
+#ifndef IM_NO_WRITE_SERIALIZATION
 class PropertyOutputIterator;
+#endif
 class PropertyInputIterator;
 
 
@@ -203,10 +205,11 @@ protected:
     bool copyPropertyObjectToObject(osg::Object* object, const std::string& propertyName, const void* valuePtr, unsigned int valueSize, osgDB::BaseSerializer::Type valueType);
 
 
-
+#ifndef IM_NO_WRITE_SERIALIZATION
     osgDB::OutputStream _outputStream;
     PropertyOutputIterator* _poi;
-
+#endif
+    
     osgDB::InputStream _inputStream;
     PropertyInputIterator* _pii;
 

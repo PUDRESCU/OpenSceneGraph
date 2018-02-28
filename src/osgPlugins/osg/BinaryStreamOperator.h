@@ -5,6 +5,7 @@
 #include <osg/Types>
 #include <vector>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 
 class BinaryOutputIterator : public osgDB::OutputIterator
 {
@@ -16,104 +17,68 @@ public:
 
     virtual void writeBool( bool b )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       char c = b?1:0; _out->write( &c, osgDB::CHAR_SIZE );
-#endif
     }
 
     virtual void writeChar( char c )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( &c, osgDB::CHAR_SIZE );
-#endif
     }
 
     virtual void writeUChar( unsigned char c )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&c, osgDB::CHAR_SIZE );
-#endif
     }
 
     virtual void writeShort( short s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&s, osgDB::SHORT_SIZE );
-#endif
     }
 
     virtual void writeUShort( unsigned short s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&s, osgDB::SHORT_SIZE );
-#endif
     }
 
     virtual void writeInt( int i )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&i, osgDB::INT_SIZE );
-#endif
     }
 
     virtual void writeUInt( unsigned int i )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&i, osgDB::INT_SIZE );
-#endif
     }
 
     virtual void writeLong( long l )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         // On 64-bit systems a long may not be the same size as the file value
         int32_t value=(int32_t)l;
         _out->write( (char*)&value, osgDB::LONG_SIZE );
-#endif
     }
 
     virtual void writeULong( unsigned long l )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         // On 64-bit systems a long may not be the same size as the file value
         uint32_t value=(int32_t)l;
         _out->write( (char*)&value, osgDB::LONG_SIZE );
-#endif
     }
 
     virtual void writeFloat( float f )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write( (char*)&f, osgDB::FLOAT_SIZE );
-#endif
     }
 
     virtual void writeDouble( double d )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       _out->write((char*)&d, osgDB::DOUBLE_SIZE);
-#endif
     }
 
     virtual void writeString( const std::string& s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         int size = s.size();
         _out->write( (char*)&size, osgDB::INT_SIZE );
         _out->write( s.c_str(), s.size() );
-#endif
     }
 
     virtual void writeStream( std::ostream& (* /*fn*/)(std::ostream&) ) {}
@@ -122,24 +87,16 @@ public:
 
     virtual void writeGLenum( const osgDB::ObjectGLenum& value )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       GLenum e = value.get(); _out->write((char*)&e, osgDB::GLENUM_SIZE);
-#endif
     }
 
     virtual void writeProperty( const osgDB::ObjectProperty& prop )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       if (prop._mapProperty) _out->write((char*)&(prop._value), osgDB::INT_SIZE);
-#endif
     }
 
     virtual void writeMark( const osgDB::ObjectMark& mark )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         if ( _supportBinaryBrackets )
         {
             if ( mark._name=="{" )
@@ -160,28 +117,22 @@ public:
                 _out->seekp( pos );
             }
         }
-#endif
     }
 
     virtual void writeCharArray( const char* s, unsigned int size )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       if ( size>0 ) _out->write( s, size );
-#endif
     }
 
     virtual void writeWrappedString( const std::string& str )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       writeString( str );
-#endif
     }
 
 protected:
     std::vector<std::streampos> _beginPositions;
 };
+#endif
 
 class BinaryInputIterator : public osgDB::InputIterator
 {

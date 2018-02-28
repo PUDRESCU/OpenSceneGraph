@@ -454,7 +454,9 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
             if (_fout)
             {
+#ifndef IM_NO_WRITE_SERIALIZATION
                 _animPath->write(_animPath->getTimeControlPointMap().find(animationPathTime), _fout);
+#endif
                 _fout.flush();
             }
 
@@ -536,12 +538,14 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
                     if (_animPath.valid() && !_animPath->empty())
                     {
+#ifndef IM_NO_WRITE_SERIALIZATION
                         // In the future this will need to be written continuously, rather
                         // than all at once.
                         osgDB::ofstream out(_filename.c_str());
                         OSG_NOTICE<<"Writing camera file: "<<_filename<<std::endl;
                         _animPath->write(out);
                         out.close();
+#endif
                     }
                     else
                     {

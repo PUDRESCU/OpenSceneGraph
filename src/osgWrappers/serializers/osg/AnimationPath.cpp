@@ -34,11 +34,9 @@ static bool readTimeControlPointMap( osgDB::InputStream& is, osg::AnimationPath&
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeTimeControlPointMap( osgDB::OutputStream& os, const osg::AnimationPath& path )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::AnimationPath::TimeControlPointMap& map = path.getTimeControlPointMap();
     os.writeSize(map.size());
     if ( map.size()>0 )
@@ -58,8 +56,8 @@ static bool writeTimeControlPointMap( osgDB::OutputStream& os, const osg::Animat
     }
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( AnimationPath,
                          new osg::AnimationPath,

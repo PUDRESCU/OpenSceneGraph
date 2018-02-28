@@ -1316,11 +1316,10 @@ ReaderWriter::ReadResult Registry::readObjectImplementation(const std::string& f
     return readImplementation(ReadObjectFunctor(fileName, options),Options::CACHE_OBJECTS);
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeObjectImplementation(const Object& obj,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1356,9 +1355,8 @@ ReaderWriter::WriteResult Registry::writeObjectImplementation(const Object& obj,
     ReaderWriter::WriteResult result = results.back();
 
     return result;
-#endif
 }
-
+#endif
 
 
 ReaderWriter::ReadResult Registry::readImageImplementation(const std::string& fileName,const Options* options)
@@ -1366,11 +1364,10 @@ ReaderWriter::ReadResult Registry::readImageImplementation(const std::string& fi
     return readImplementation(ReadImageFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1406,20 +1403,18 @@ ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,
     ReaderWriter::WriteResult result = results.back();
 
     return result;
-#endif
 }
-
+#endif
 
 ReaderWriter::ReadResult Registry::readHeightFieldImplementation(const std::string& fileName,const Options* options)
 {
     return readImplementation(ReadHeightFieldFunctor(fileName, options),Options::CACHE_HEIGHTFIELDS);
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightField& HeightField,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1455,9 +1450,8 @@ ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightF
     ReaderWriter::WriteResult result = results.back();
 
     return result;
-#endif
 }
-
+#endif
 
 ReaderWriter::ReadResult Registry::readNodeImplementation(const std::string& fileName,const Options* options)
 {
@@ -1476,11 +1470,10 @@ ReaderWriter::ReadResult Registry::readNodeImplementation(const std::string& fil
 #endif
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeNodeImplementation(const Node& node,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1518,19 +1511,18 @@ ReaderWriter::WriteResult Registry::writeNodeImplementation(const Node& node,con
     ReaderWriter::WriteResult result = results.back();
 
     return result;
-#endif
 }
+#endif
 
 ReaderWriter::ReadResult Registry::readShaderImplementation(const std::string& fileName,const Options* options)
 {
     return readImplementation(ReadShaderFunctor(fileName, options),Options::CACHE_SHADERS);
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shader,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1569,19 +1561,18 @@ ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shad
 
 
     return result;
-#endif
 }
+#endif
 
 ReaderWriter::ReadResult Registry::readScriptImplementation(const std::string& fileName,const Options* options)
 {
     return readImplementation(ReadScriptFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& image,const std::string& fileName,const Options* options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     // record the errors reported by readerwriters.
     typedef std::vector<ReaderWriter::WriteResult> Results;
     Results results;
@@ -1617,8 +1608,8 @@ ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& imag
     ReaderWriter::WriteResult result = results.back();
 
     return result;
-#endif
 }
+#endif
 
 void Registry::addEntryToObjectCache(const std::string& filename, osg::Object* object, double timestamp)
 {

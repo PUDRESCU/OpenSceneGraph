@@ -17,6 +17,8 @@
 #include <osgDB/WriteFile>
 #include <stdexcept>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 namespace osgDB
 {
 
@@ -129,9 +131,6 @@ inline const std::string & getFileName(const osg::Object & obj, WriteType type)
 
 inline bool doWrite(const osg::Object & obj, WriteType type, const std::string& fileName, const Options * options)
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     switch(type) {
         case WRITE_TYPE_IMAGE:        return writeImageFile      (static_cast<const osg::Image       &>(obj), fileName, options);
         case WRITE_TYPE_HEIGHT_FIELD: return writeHeightFieldFile(static_cast<const osg::HeightField &>(obj), fileName, options);
@@ -140,7 +139,6 @@ inline bool doWrite(const osg::Object & obj, WriteType type, const std::string& 
         // WRITE_TYPE_OBJECT
         default:                      return writeObjectFile(obj, fileName, options);
     }
-#endif
 }
 
 
@@ -159,9 +157,6 @@ ExternalFileWriter::ExternalFileWriter(const std::string & destDirectory)
 
 bool ExternalFileWriter::write(const osg::Object & obj, const Options * options, std::string * out_absolutePath, std::string * out_relativePath)
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     ObjectsSet::iterator it( _objects.find(&obj) );
     if (it != _objects.end())
     {
@@ -233,7 +228,6 @@ bool ExternalFileWriter::write(const osg::Object & obj, const Options * options,
     if (out_relativePath) *out_relativePath = relativeDestinationPath;
 
     return written;
-#endif
 }
 
 
@@ -269,3 +263,5 @@ void ExternalFileWriter::generateObjectName(std::string & out_relativePath, std:
 }
 
 }
+
+#endif

@@ -16,6 +16,8 @@
 
 #include <osgDB/Output>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 namespace osgDB {
 
 class ParameterOutput
@@ -34,38 +36,27 @@ class ParameterOutput
 
         void begin()
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             _fw.indent() << "{"<<std::endl;
             _fw.moveIn();
-          #endif
         }
 
         void newLine()
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             if (_column!=0) _fw << std::endl;
             _column = 0;
-          #endif
         }
 
         void end()
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             if (_column!=0) _fw << std::endl;
             _fw.moveOut();
             _fw.indent() << "}"<<std::endl;
             _column = 0;
-          #endif
         }
 
         template<class T>
         void write(const T& t)
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             if (_column==0) _fw.indent();
 
             _fw << t;
@@ -80,35 +71,28 @@ class ParameterOutput
             {
                 _fw << " ";
             }
-          #endif
         }
 
         template<class Iterator>
         void write(Iterator first, Iterator last)
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             for(Iterator itr=first;
                 itr!=last;
                 ++itr)
             {
                 write(*itr);
             }
-          #endif
         }
 
         template<class Iterator>
         void writeAsInts(Iterator first, Iterator last)
         {
-          #ifdef IM_SIZE_REDUCTION
-          #else
             for(Iterator itr=first;
                 itr!=last;
                 ++itr)
             {
                 write((int)*itr);
             }
-          #endif
         }
 
 
@@ -125,8 +109,6 @@ class ParameterOutput
 template<class Iterator>
 void writeArray(Output& fw, Iterator first, Iterator last,int noItemsPerLine=0)
 {
-  #ifdef IM_SIZE_REDUCTION
-  #else
     if (noItemsPerLine==0) noItemsPerLine=fw.getNumIndicesPerLine();
 
     fw.indent() << "{"<<std::endl;
@@ -157,15 +139,12 @@ void writeArray(Output& fw, Iterator first, Iterator last,int noItemsPerLine=0)
 
     fw.moveOut();
     fw.indent()<<"}"<<std::endl;
-  #endif
 }
 
 
 template<class Iterator>
 void writeArrayAsInts(Output& fw, Iterator first, Iterator last,int noItemsPerLine=0)
 {
-  #ifdef IM_SIZE_REDUCTION
-  #else
     if (noItemsPerLine==0) noItemsPerLine=fw.getNumIndicesPerLine();
 
     fw.indent() << "{"<<std::endl;
@@ -196,10 +175,9 @@ void writeArrayAsInts(Output& fw, Iterator first, Iterator last,int noItemsPerLi
 
     fw.moveOut();
     fw.indent()<<"}"<<std::endl;
-  #endif
 }
 
 
 }
-
+#endif
 #endif                                            // __SG_OUTPUT_H

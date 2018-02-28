@@ -102,11 +102,10 @@ static std::string padwithspaces(const std::string& str, unsigned int padLength)
     return newStr;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 bool osgDB::outputPluginDetails(std::ostream& out, const std::string& fileName)
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     osgDB::ReaderWriterInfoList infoList;
     if (osgDB::queryPlugin(fileName, infoList))
     {
@@ -186,6 +185,5 @@ bool osgDB::outputPluginDetails(std::ostream& out, const std::string& fileName)
         out<<"Plugin "<<fileName<<" not found."<<std::endl;
         return false;
     }
-#endif
 }
-
+#endif

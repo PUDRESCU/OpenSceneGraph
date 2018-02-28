@@ -23,6 +23,7 @@ const char* getTypeStringFromPtr(const osg::Object*) { return "OBJECT"; }
 osgDB::BaseSerializer::Type getTypeEnumFromPtr(const osg::Image*) { return osgDB::BaseSerializer::RW_IMAGE; }
 const char* getTypeStringFromPtr(const osg::Image*) { return "IMAGE"; }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ///////////////////////////////////////////////////////////////////
 //
 // PropertyOutputIterator enables the get of class properties
@@ -78,7 +79,8 @@ public:
     std::string         _propertyName;
     std::string         _markName;
 };
-
+#endif
+  
 ///////////////////////////////////////////////////////////////////
 //
 // PropertyInputIterator enables the set of class properties
@@ -165,12 +167,12 @@ public:
 // ClassInterface class provides a generic mechanism for get/setting class properties using the osgDB serializers
 //
 ClassInterface::ClassInterface():
-    _outputStream(0),
     _inputStream(0)
 {
+#ifndef IM_NO_WRITE_SERIALIZATION
     _poi = new PropertyOutputIterator;
     _outputStream.setOutputIterator(_poi);
-
+#endif
     _pii = new PropertyInputIterator;
     _inputStream.setInputIterator(_pii);
 
@@ -314,6 +316,7 @@ osg::Object* ClassInterface::createObject(const std::string& compoundClassName) 
 
 bool ClassInterface::copyPropertyDataFromObject(const osg::Object* object, const std::string& propertyName, void* valuePtr, unsigned int valueSize, osgDB::BaseSerializer::Type valueType)
 {
+#ifndef IM_NO_WRITE_SERIALIZATION
     _poi->flush();
 
     osgDB::BaseSerializer::Type sourceType;
@@ -352,6 +355,9 @@ bool ClassInterface::copyPropertyDataFromObject(const osg::Object* object, const
         OSG_INFO<<"ClassInterface::copyPropertyDataFromObject() serializer write failed."<<std::endl;
         return false;
     }
+#else
+  return false;
+#endif
 }
 
 bool ClassInterface::copyPropertyDataToObject(osg::Object* object, const std::string& propertyName, const void* valuePtr, unsigned int valueSize, osgDB::BaseSerializer::Type valueType)

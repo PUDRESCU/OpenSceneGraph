@@ -16,15 +16,13 @@ static bool readArea( osgDB::InputStream& is, osg::Viewport& attr )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::Viewport& attr )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << attr.x() << attr.y() << attr.width() << attr.height() << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Viewport,
                          new osg::Viewport,

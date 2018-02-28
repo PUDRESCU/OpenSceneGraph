@@ -3,16 +3,13 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define BOXPLACER_FUNCTION( PROP ) \
     static bool check##PROP( const osgParticle::BoxPlacer& obj ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osgParticle::BoxPlacer& obj ) { \
         float min, max; is >> min >> max; \
         obj.set##PROP( min, max ); return true; \
-    } \
-    static bool write##PROP( osgDB::OutputStream& os, const osgParticle::BoxPlacer& obj ) { \
-        return true; \
-    }
+    } 
 #else
 #define BOXPLACER_FUNCTION( PROP ) \
     static bool check##PROP( const osgParticle::BoxPlacer& obj ) { return true; } \

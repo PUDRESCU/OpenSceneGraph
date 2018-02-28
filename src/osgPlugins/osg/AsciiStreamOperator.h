@@ -20,162 +20,110 @@ public:
 
     virtual bool isBinary() const { return false; }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
     virtual void writeBool( bool b )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         indentIfRequired();
         if ( b ) *_out << "TRUE ";
         else *_out << "FALSE ";
-#endif
     }
 
     virtual void writeChar( char c )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << (short)c << ' ';
-#endif
     }
 
     virtual void writeUChar( unsigned char c )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << (unsigned short)c << ' ';
-#endif
     }
 
     virtual void writeShort( short s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << s << ' ';
-#endif
     }
 
     virtual void writeUShort( unsigned short s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << s << ' ';
-#endif
     }
 
     virtual void writeInt( int i )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << i << ' ';
-#endif
     }
 
     virtual void writeUInt( unsigned int i )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << i << ' ';
-#endif
     }
 
     virtual void writeLong( long l )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << l << ' ';
-#endif
     }
 
     virtual void writeULong( unsigned long l )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << l << ' ';
-#endif
     }
 
     virtual void writeFloat( float f )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << f << ' ';
-#endif
     }
 
     virtual void writeDouble( double d )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << d << ' ';
-#endif
     }
 
     virtual void writeString( const std::string& s )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
       indentIfRequired(); *_out << s << ' ';
-#endif
     }
 
     virtual void writeStream( std::ostream& (*fn)(std::ostream&) )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         indentIfRequired(); *_out << fn;
         if ( isEndl( fn ) )
         {
             _readyForIndent = true;
         }
-#endif
     }
 
     virtual void writeBase( std::ios_base& (*fn)(std::ios_base&) )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         indentIfRequired(); *_out << fn;
-#endif
     }
 
     virtual void writeGLenum( const osgDB::ObjectGLenum& value )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         GLenum e = value.get();
         const std::string& enumString = osgDB::Registry::instance()->getObjectWrapperManager()->getString("GL", e);
         indentIfRequired(); *_out << enumString << ' ';
-#endif
     }
 
     virtual void writeProperty( const osgDB::ObjectProperty& prop )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         std::string enumString = prop._name;
         if ( prop._mapProperty )
         {
             enumString = osgDB::Registry::instance()->getObjectWrapperManager()->getString(prop._name, prop._value);
         }
         indentIfRequired(); *_out << enumString << ' ';
-#endif
     }
 
     virtual void writeMark( const osgDB::ObjectMark& mark )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         _indent += mark._indentDelta;
         indentIfRequired(); *_out << mark._name;
-#endif
     }
 
     virtual void writeCharArray( const char* /*s*/, unsigned int /*size*/ ) {}
 
     virtual void writeWrappedString( const std::string& str )
     {
-#ifdef IM_SIZE_REDUCTION
-#else
         std::string wrappedStr;
         unsigned int size = str.size();
         for ( unsigned int i=0; i<size; ++i )
@@ -191,9 +139,8 @@ public:
 
         indentIfRequired();
         writeString( wrappedStr );
-#endif
     }
-
+#endif
 protected:
 
     inline void indentIfRequired()

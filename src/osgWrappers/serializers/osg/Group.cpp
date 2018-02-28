@@ -23,11 +23,9 @@ static bool readChildren( osgDB::InputStream& is, osg::Group& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::Group& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = node.getNumChildren();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -36,8 +34,8 @@ static bool writeChildren( osgDB::OutputStream& os, const osg::Group& node )
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 struct GroupGetNumChildren : public osgDB::MethodObject
 {

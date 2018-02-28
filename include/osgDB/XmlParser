@@ -18,6 +18,10 @@
 
 namespace osgDB {
 
+extern OSGDB_EXPORT std::string trimEnclosingSpaces(const std::string& str);
+
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 // forward declare
 class XmlNode;
 
@@ -32,8 +36,6 @@ inline XmlNode* readXmlFile(const std::string& filename)
 
 /** read an Xml from from an istream.*/
 extern OSGDB_EXPORT XmlNode* readXmlStream(std::istream& fin);
-
-extern OSGDB_EXPORT std::string trimEnclosingSpaces(const std::string& str);
 
 /** XmlNode class for very basic reading and writing of xml files.*/
 class OSGDB_EXPORT XmlNode : public osg::Referenced
@@ -151,6 +153,6 @@ class OSGDB_EXPORT XmlNode : public osg::Referenced
 
         bool readAndReplaceControl(std::string& contents, Input& input);
 };
-
+#endif
 }
 #endif

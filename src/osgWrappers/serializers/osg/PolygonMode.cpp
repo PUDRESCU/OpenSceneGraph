@@ -36,11 +36,9 @@ static bool readMode( osgDB::InputStream& is, osg::PolygonMode& attr )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeMode( osgDB::OutputStream& os, const osg::PolygonMode& attr )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << os.PROPERTY("UseFrontAndBack") << attr.getFrontAndBack() << std::endl;
 
     os << os.PROPERTY("Front");
@@ -51,8 +49,8 @@ static bool writeMode( osgDB::OutputStream& os, const osg::PolygonMode& attr )
     writeModeValue( os, (int)attr.getMode(osg::PolygonMode::BACK) );
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( PolygonMode,
                          new osg::PolygonMode,

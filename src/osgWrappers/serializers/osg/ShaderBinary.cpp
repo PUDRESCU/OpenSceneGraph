@@ -29,11 +29,9 @@ static bool readData( osgDB::InputStream& is, osg::ShaderBinary& sb )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeData( osgDB::OutputStream& os, const osg::ShaderBinary& sb )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     if ( os.isBinary() )
     {
         os << (unsigned int)sb.getSize();
@@ -51,8 +49,8 @@ static bool writeData( osgDB::OutputStream& os, const osg::ShaderBinary& sb )
         os << os.END_BRACKET << std::endl;
     }
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( ShaderBinary,
                          new osg::ShaderBinary,

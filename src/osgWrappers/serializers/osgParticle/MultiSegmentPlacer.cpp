@@ -20,11 +20,9 @@ static bool readVertices( osgDB::InputStream& is, osgParticle::MultiSegmentPlace
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeVertices( osgDB::OutputStream& os, const osgParticle::MultiSegmentPlacer& placer )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = placer.numVertices();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -34,8 +32,8 @@ static bool writeVertices( osgDB::OutputStream& os, const osgParticle::MultiSegm
     os << std::endl;
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleMultiSegmentPlacer,
                          new osgParticle::MultiSegmentPlacer,

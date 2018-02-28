@@ -225,11 +225,10 @@ bool ObjectWrapper::read( InputStream& is, osg::Object& obj )
     return readOK;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 bool ObjectWrapper::write( OutputStream& os, const osg::Object& obj )
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     bool writeOK = true;
     int outputVersion = os.getFileVersion(_domain);
     for ( SerializerList::iterator itr=_serializers.begin();
@@ -253,8 +252,8 @@ bool ObjectWrapper::write( OutputStream& os, const osg::Object& obj )
         }
     }
     return writeOK;
-#endif
 }
+#endif
 
 bool ObjectWrapper::readSchema( const StringList& properties, const TypeList& )
 {
@@ -299,6 +298,7 @@ bool ObjectWrapper::readSchema( const StringList& properties, const TypeList& )
     return size==_serializers.size();
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 void ObjectWrapper::writeSchema( StringList& properties, TypeList& types )
 {
     SerializerList::iterator sitr = _serializers.begin();
@@ -314,6 +314,7 @@ void ObjectWrapper::writeSchema( StringList& properties, TypeList& types )
         ++titr;
     }
 }
+#endif
 
 void ObjectWrapper::addMethodObject(const std::string& methodName, MethodObject* mo)
 {

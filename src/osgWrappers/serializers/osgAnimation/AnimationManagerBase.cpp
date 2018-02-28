@@ -23,11 +23,9 @@ static bool readAnimations( osgDB::InputStream& is, osgAnimation::AnimationManag
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeAnimations( osgDB::OutputStream& os, const osgAnimation::AnimationManagerBase& manager )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgAnimation::AnimationList& animations = manager.getAnimationList();
     os.writeSize(animations.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osgAnimation::AnimationList::const_iterator itr=animations.begin();
@@ -37,8 +35,8 @@ static bool writeAnimations( osgDB::OutputStream& os, const osgAnimation::Animat
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgAnimation_AnimationManagerBase,
                          /*new osgAnimation::AnimationManagerBase*/NULL,

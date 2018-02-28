@@ -24,11 +24,9 @@ static bool readStackedTransforms( osgDB::InputStream& is, osgAnimation::UpdateM
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeStackedTransforms( osgDB::OutputStream& os, const osgAnimation::UpdateMatrixTransform& obj )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgAnimation::StackedTransform& transform = obj.getStackedTransforms();
     os.writeSize(transform.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osgAnimation::StackedTransform::const_iterator itr=transform.begin();
@@ -38,8 +36,8 @@ static bool writeStackedTransforms( osgDB::OutputStream& os, const osgAnimation:
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgAnimation_UpdateMatrixTransform,
                          new osgAnimation::UpdateMatrixTransform,

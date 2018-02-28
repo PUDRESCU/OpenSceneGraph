@@ -18,15 +18,13 @@ static bool readArea( osgDB::InputStream& is, osg::HeightField& shape )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << shape.getNumColumns() << shape.getNumRows() << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _heights
 static bool checkHeights( const osg::HeightField& shape )
@@ -53,15 +51,13 @@ static bool readHeights( osgDB::InputStream& is, osg::HeightField& shape )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeHeights( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os.writeArray( shape.getFloatArray() );
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( HeightField,
                          new osg::HeightField,

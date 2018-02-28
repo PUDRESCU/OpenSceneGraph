@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define ARRAY_FUNCTIONS( PROP, TYPE ) \
     static bool check##PROP(const osg::TriangleMesh& shape) { \
         return shape.get##PROP()!=NULL; \
@@ -12,10 +12,7 @@
         osg::ref_ptr<osg::Array> array = is.readArray(); \
         shape.set##PROP( dynamic_cast<TYPE*>(array.get()) ); \
         return true; \
-    } \
-    static bool write##PROP(osgDB::OutputStream& os, const osg::TriangleMesh& shape) { \
-        return true; \
-    }
+    } 
 #else
 #define ARRAY_FUNCTIONS( PROP, TYPE ) \
     static bool check##PROP(const osg::TriangleMesh& shape) { \

@@ -41,11 +41,9 @@ static bool readDomains( osgDB::InputStream& is, osgParticle::DomainOperator& dp
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeDomains( osgDB::OutputStream& os, const osgParticle::DomainOperator& dp )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = dp.getNumDomains();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -86,8 +84,8 @@ static bool writeDomains( osgDB::OutputStream& os, const osgParticle::DomainOper
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleDomainOperator,
                          new osgParticle::DomainOperator,

@@ -20,11 +20,9 @@ static bool readParticleSystems( osgDB::InputStream& is, osgParticle::ParticleSy
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeParticleSystems( osgDB::OutputStream& os, const osgParticle::ParticleSystemUpdater& updater )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = updater.getNumParticleSystems();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -33,8 +31,8 @@ static bool writeParticleSystems( osgDB::OutputStream& os, const osgParticle::Pa
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleParticleSystemUpdater,
                          new osgParticle::ParticleSystemUpdater,

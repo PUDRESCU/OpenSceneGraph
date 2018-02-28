@@ -24,11 +24,9 @@ static bool readColorMap( osgDB::InputStream& is, osg::TransferFunction1D& func 
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeColorMap( osgDB::OutputStream& os, const osg::TransferFunction1D& func )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::TransferFunction1D::ColorMap& map = func.getColorMap();
     os.writeSize(map.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::TransferFunction1D::ColorMap::const_iterator itr=map.begin();
@@ -38,8 +36,8 @@ static bool writeColorMap( osgDB::OutputStream& os, const osg::TransferFunction1
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 #endif
 
 

@@ -23,11 +23,9 @@ static bool readFileNames( osgDB::InputStream& is, osg::ImageSequence& image )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeFileNames( osgDB::OutputStream& os, const osg::ImageSequence& image )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();
     os.writeSize(imageDataList.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::ImageSequence::ImageDataList::const_iterator itr=imageDataList.begin();
@@ -39,8 +37,8 @@ static bool writeFileNames( osgDB::OutputStream& os, const osg::ImageSequence& i
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _images
 static bool checkImages( const osg::ImageSequence& image )
@@ -60,11 +58,9 @@ static bool readImages( osgDB::InputStream& is, osg::ImageSequence& image )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeImages( osgDB::OutputStream& os, const osg::ImageSequence& image)
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();
     os.writeSize(imageDataList.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::ImageSequence::ImageDataList::const_iterator itr=imageDataList.begin();
@@ -75,8 +71,8 @@ static bool writeImages( osgDB::OutputStream& os, const osg::ImageSequence& imag
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( ImageSequence,
                          new osg::ImageSequence,

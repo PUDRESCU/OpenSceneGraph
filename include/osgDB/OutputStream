@@ -30,6 +30,8 @@
 #include <iostream>
 #include <sstream>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 namespace osgDB
 {
 
@@ -92,173 +94,97 @@ public:
     // Serialization related functions
     OutputStream& operator<<( bool b )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeBool(b); return *this;
-      #endif
     }
     
     OutputStream& operator<<( char c )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeChar(c); return *this;
-      #endif
     }
     
     OutputStream& operator<<( signed char c)
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeChar(c); return *this;
-      #endif
     }
     
     OutputStream& operator<<( unsigned char c )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeUChar(c); return *this;
-      #endif
     }
     
     OutputStream& operator<<( short s )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeShort(s); return *this;
-      #endif
     }
     
     OutputStream& operator<<( unsigned short s )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeUShort(s); return *this;
-      #endif
     }
     
     OutputStream& operator<<( int i )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeInt(i); return *this;
-      #endif
     }
     
     OutputStream& operator<<( unsigned int i )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeUInt(i); return *this;
-      #endif
     }
     
     OutputStream& operator<<( long l )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeLong(l); return *this;
-      #endif
     }
     
     OutputStream& operator<<( unsigned long l )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeULong(l); return *this;
-      #endif
     }
     
     OutputStream& operator<<( float f )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeFloat(f); return *this;
-      #endif
     }
     
     OutputStream& operator<<( double d )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeDouble(d); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const std::string& s )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeString(s); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const char* s )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeString(s); return *this;
-      #endif
     }
     
     OutputStream& operator<<( std::ostream& (*fn)(std::ostream&) )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeStream(fn); return *this;
-      #endif
     }
     
     OutputStream& operator<<( std::ios_base& (*fn)(std::ios_base&) )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeBase(fn); return *this;
-      #endif
     }
 
     OutputStream& operator<<( const ObjectGLenum& value )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeGLenum(value); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const ObjectProperty& prop )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeProperty(prop); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const ObjectMark& mark )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       _out->writeMark(mark); return *this;
-      #endif
     }
 
     OutputStream& operator<<( const osg::Vec2b& v );
@@ -296,100 +222,59 @@ public:
 
     OutputStream& operator<<( const osg::Image* img )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeImage(img); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const osg::Array* a )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(a); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const osg::PrimitiveSet* p )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(p); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const osg::Object* obj )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(obj); return *this;
-      #endif
     }
 
     OutputStream& operator<<( const osg::ref_ptr<osg::Image>& ptr )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeImage(ptr.get()); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const osg::ref_ptr<osg::Array>& ptr )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(ptr.get()); return *this;
-      #endif
     }
     
     OutputStream& operator<<( const osg::ref_ptr<osg::PrimitiveSet>& ptr )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(ptr.get()); return *this;
-      #endif
     }
 
     template<typename T> OutputStream& operator<<( const osg::ref_ptr<T>& ptr )
     {
-      #ifdef IM_SIZE_REDUCTION
-      return *this;
-      #else
       writeObject(ptr.get()); return *this;
-      #endif
     }
 
     // Convenient methods for writing
     void writeWrappedString( const std::string& str )
     {
-      #ifdef IM_SIZE_REDUCTION
-      #else
       _out->writeWrappedString(str);
-      #endif
     }
     void writeCharArray( const char* s, unsigned int size )
     {
-      #ifdef IM_SIZE_REDUCTION
-      #else
       _out->writeCharArray(s, size);
-      #endif
     }
 
     // method for converting all data structure sizes to unsigned int to ensure architecture portability.
     template<typename T>
     void writeSize(T size)
     {
-      #ifdef IM_SIZE_REDUCTION
-      #else
       *this<<static_cast<unsigned int>(size);
-      #endif
     }
 
     // Global writing functions
@@ -407,10 +292,12 @@ public:
     void start( OutputIterator* outIterator, WriteType type );
 
     void compress( std::ostream* ostream );
-
+    
+#ifndef IM_NO_WRITE_SERIALIZATION
     // Schema handlers
     void writeSchema( std::ostream& fout );
-
+#endif
+    
     // Exception handlers
     inline void throwException( const std::string& msg );
     const OutputException* getException() const { return _exception.get(); }
@@ -453,5 +340,5 @@ void OutputStream::throwException( const std::string& msg )
 }
 
 }
-
+#endif
 #endif

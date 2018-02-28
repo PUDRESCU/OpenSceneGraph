@@ -71,6 +71,7 @@ class OSGDB_EXPORT ReadFileCallback : public virtual osg::Referenced
         virtual ~ReadFileCallback() {}
 };
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 class OSGDB_EXPORT WriteFileCallback : public virtual osg::Referenced
 {
     public:
@@ -90,6 +91,7 @@ class OSGDB_EXPORT WriteFileCallback : public virtual osg::Referenced
     protected:
         virtual ~WriteFileCallback() {}
 };
+#endif
 
 class OSGDB_EXPORT FileLocationCallback : public virtual osg::Referenced
 {

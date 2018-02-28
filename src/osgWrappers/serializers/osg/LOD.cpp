@@ -18,15 +18,13 @@ static bool readUserCenter( osgDB::InputStream& is, osg::LOD& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUserCenter( osgDB::OutputStream& os, const osg::LOD& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << osg::Vec3d(node.getCenter()) << (double)node.getRadius() << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _rangeList
 static bool checkRangeList( const osg::LOD& node )
@@ -47,11 +45,9 @@ static bool readRangeList( osgDB::InputStream& is, osg::LOD& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeRangeList( osgDB::OutputStream& os, const osg::LOD& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::LOD::RangeList& ranges = node.getRangeList();
     os.writeSize(ranges.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osg::LOD::RangeList::const_iterator itr=ranges.begin();
@@ -61,8 +57,8 @@ static bool writeRangeList( osgDB::OutputStream& os, const osg::LOD& node )
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( LOD,
                          new osg::LOD,

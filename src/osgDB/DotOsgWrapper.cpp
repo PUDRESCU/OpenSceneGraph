@@ -629,14 +629,12 @@ osg::Shader* DeprecatedDotOsgWrapperManager::readShader(Input& fr)
     return NULL;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 //
 // Write object to output
 //
 bool DeprecatedDotOsgWrapperManager::writeObject(const osg::Object& obj,Output& fw)
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     if (obj.referenceCount()>1)
     {
         std::string uniqueID;
@@ -760,6 +758,5 @@ bool DeprecatedDotOsgWrapperManager::writeObject(const osg::Object& obj,Output& 
     }
 
     return false;
-#endif
 }
-
+#endif

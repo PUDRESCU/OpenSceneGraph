@@ -44,10 +44,10 @@ static osg::Array* readArray( osgDB::InputStream& is)
     return array.release();
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os << os.PROPERTY("Array") << (array!=0);
     if ( array!=0 ) os << array;
     else os << std::endl;
@@ -59,10 +59,10 @@ static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 
     os << os.PROPERTY("Binding"); writeAttributeBinding(os, osg::getBinding(array)); os << std::endl;
     os << os.PROPERTY("Normalize") << ((array!=0 && array->getNormalize()) ? 1:0) << std::endl;
-#endif
 }
+#endif
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define ADD_ARRAYDATA_FUNCTIONS( ORIGINAL_PROP, PROP ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##PROP()!=0; } \
@@ -71,9 +71,6 @@ static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
         osg::Array* array = readArray(is); \
         geom.set##PROP(array); \
         is >> is.END_BRACKET; \
-        return true; \
-    } \
-    static bool write##ORIGINAL_PROP( osgDB::OutputStream& os, const osg::Geometry& geom ) { \
         return true; \
     }
 #else
@@ -101,7 +98,7 @@ ADD_ARRAYDATA_FUNCTIONS( ColorData, ColorArray )
 ADD_ARRAYDATA_FUNCTIONS( SecondaryColorData, SecondaryColorArray )
 ADD_ARRAYDATA_FUNCTIONS( FogCoordData, FogCoordArray )
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define ADD_ARRAYLIST_FUNCTIONS( ORIGINAL_PROP, PROP, LISTNAME ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##LISTNAME().size()>0; } \
@@ -113,9 +110,6 @@ ADD_ARRAYDATA_FUNCTIONS( FogCoordData, FogCoordArray )
             geom.set##PROP(i, array); \
             is >> is.END_BRACKET; } \
         is >> is.END_BRACKET; \
-        return true; \
-    } \
-    static bool write##ORIGINAL_PROP( osgDB::OutputStream& os, const osg::Geometry& geom ) { \
         return true; \
     }
 #else
@@ -175,10 +169,13 @@ static bool readFastPathHint( osgDB::InputStream& is, osg::Geometry& geom )
     if ( !is.isBinary() ) is >> value;
     return true;
 }
+
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeFastPathHint( osgDB::OutputStream& os, const osg::Geometry& geom )
 {
     return true;
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Geometry,
                          new osg::Geometry,

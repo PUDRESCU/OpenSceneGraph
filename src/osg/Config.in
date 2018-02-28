@@ -33,4 +33,6 @@
 #cmakedefine OSG_DISABLE_MSVC_WARNINGS
 #cmakedefine OSG_PROVIDE_READFILE
 #cmakedefine IM_SIZE_REDUCTION
+#cmakedefine IM_NO_WRITE_SERIALIZATION
+
 #endif

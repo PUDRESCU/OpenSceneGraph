@@ -21,11 +21,9 @@ static bool readChildren( osgDB::InputStream& is, osg::CompositeShape& shape )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::CompositeShape& shape )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = shape.getNumChildren();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -34,8 +32,8 @@ static bool writeChildren( osgDB::OutputStream& os, const osg::CompositeShape& s
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( CompositeShape,
                          new osg::CompositeShape,

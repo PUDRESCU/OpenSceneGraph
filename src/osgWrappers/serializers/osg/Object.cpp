@@ -21,17 +21,15 @@ static bool readUserData( osgDB::InputStream& is, osg::Object& obj )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUserData( osgDB::OutputStream& os, const osg::Object& obj )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << os.BEGIN_BRACKET << std::endl;
     os.writeObject(dynamic_cast<const osg::Object*>(obj.getUserData()));
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Object,
                          new osg::DummyObject,

@@ -73,10 +73,9 @@ static osg::Camera::Attachment readBufferAttachment( osgDB::InputStream& is )
     return attachment;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static void writeBufferAttachment( osgDB::OutputStream& os, const osg::Camera::Attachment& attachment )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os << os.PROPERTY("Type");
     if ( attachment._internalFormat!=GL_NONE )
     {
@@ -105,8 +104,8 @@ static void writeBufferAttachment( osgDB::OutputStream& os, const osg::Camera::A
 
     os << os.PROPERTY("MultisampleSamples") << attachment._multisampleSamples << std::endl;
     os << os.PROPERTY("MultisampleColorSamples") << attachment._multisampleColorSamples << std::endl;
-#endif
 }
+#endif
 
 // _renderOrder & _renderOrderNum
 static bool checkRenderOrder( const osg::Camera& node )
@@ -122,16 +121,14 @@ static bool readRenderOrder( osgDB::InputStream& is, osg::Camera& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeRenderOrder( osgDB::OutputStream& os, const osg::Camera& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     writeOrderValue( os, (int)node.getRenderOrder() );
     os << node.getRenderOrderNum() << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _bufferAttachmentMap
 static bool checkBufferAttachmentMap( const osg::Camera& node )
@@ -171,11 +168,9 @@ static bool readBufferAttachmentMap( osgDB::InputStream& is, osg::Camera& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeBufferAttachmentMap( osgDB::OutputStream& os, const osg::Camera& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::Camera::BufferAttachmentMap& map = node.getBufferAttachmentMap();
     os.writeSize(map.size()); os<< os.BEGIN_BRACKET << std::endl;
     for ( osg::Camera::BufferAttachmentMap::const_iterator itr=map.begin();
@@ -188,8 +183,8 @@ static bool writeBufferAttachmentMap( osgDB::OutputStream& os, const osg::Camera
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( Camera,
                          new osg::Camera,

@@ -12,16 +12,14 @@ static bool readRateRange( osgDB::InputStream& is, osgParticle::VariableRateCoun
     obj.setRateRange( min, max ); return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeRateRange( osgDB::OutputStream& os, const osgParticle::VariableRateCounter& obj )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgParticle::rangef& range = obj.getRateRange();
     os << range.minimum << range.maximum << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleVariableRateCounter,
                          /*new osgParticle::VariableRateCounter*/NULL,

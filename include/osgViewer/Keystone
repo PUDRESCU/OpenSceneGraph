@@ -71,9 +71,11 @@ public:
 
     osg::Node* createGrid();
 
+#ifndef IM_NO_WRITE_SERIALIZATION
     /** Write the file specified by the "filename" user value field. Return true if file successfully written. */
     bool writeToFile();
-
+#endif
+    
     /** Convenience function that loads and assigns any keystone files specified in the DisplaySettings::KeystoneFileNames list, return true if Keystone's assigned to DisplaySettings.*/
     static bool loadKeystoneFiles(osg::DisplaySettings* ds);
 

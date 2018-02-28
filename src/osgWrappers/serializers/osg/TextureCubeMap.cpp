@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define FACE_IMAGE_FUNCTION( PROP, FACE ) \
     static bool check##PROP( const osg::TextureCubeMap& tex ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::TextureCubeMap& tex ) { \
@@ -13,10 +13,7 @@
             is >> is.END_BRACKET; \
         } \
         return true; \
-    } \
-    static bool write##PROP( osgDB::OutputStream& os, const osg::TextureCubeMap& tex ) { \
-        return true; \
-    }
+    } 
 #else
 #define FACE_IMAGE_FUNCTION( PROP, FACE ) \
     static bool check##PROP( const osg::TextureCubeMap& tex ) { return true; } \

@@ -24,11 +24,9 @@ static bool readFileNames( osgDB::InputStream& is, osg::ProxyNode& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeFileNames( osgDB::OutputStream& os, const osg::ProxyNode& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << node.getNumFileNames() << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<node.getNumFileNames(); ++i )
     {
@@ -37,8 +35,8 @@ static bool writeFileNames( osgDB::OutputStream& os, const osg::ProxyNode& node 
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _children
 static bool checkChildren( const osg::ProxyNode& node )
@@ -62,11 +60,9 @@ static bool readChildren( osgDB::InputStream& is, osg::ProxyNode& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::ProxyNode& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size=node.getNumFileNames(), dynamicLoadedSize=0;
     for ( unsigned int i=0; i<size; ++i )
     {
@@ -88,9 +84,8 @@ static bool writeChildren( osgDB::OutputStream& os, const osg::ProxyNode& node )
     }
     os << std::endl;
     return true;
-#endif
 }
-
+#endif
 // _userDefinedCenter, _radius
 static bool checkUserCenter( const osg::ProxyNode& node )
 {
@@ -105,15 +100,13 @@ static bool readUserCenter( osgDB::InputStream& is, osg::ProxyNode& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeUserCenter( osgDB::OutputStream& os, const osg::ProxyNode& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << osg::Vec3d(node.getCenter()) << (double)node.getRadius() << std::endl;
     return true;
-#endif
 }
+#endif
 
 struct ProxyNodeFinishedObjectReadCallback : public osgDB::FinishedObjectReadCallback
 {

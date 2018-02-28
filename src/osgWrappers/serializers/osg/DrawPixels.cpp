@@ -17,17 +17,15 @@ static bool readArea( osgDB::InputStream& is, osg::DrawPixels& drawable )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::DrawPixels& drawable )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int x, y, w, h;
     drawable.getSubImageDimensions( x, y, w, h );
     os << x << y << w << h << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( DrawPixels,
                          new osg::DrawPixels,

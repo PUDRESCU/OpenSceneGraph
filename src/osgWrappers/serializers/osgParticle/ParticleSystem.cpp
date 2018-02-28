@@ -4,8 +4,9 @@
 #include <osgDB/OutputStream>
 
 extern bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p );
+#ifndef IM_NO_WRITE_SERIALIZATION
 extern bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p );
-
+#endif
 // _def_bbox
 static bool checkDefaultBoundingBox( const osgParticle::ParticleSystem& ps )
 {
@@ -23,11 +24,9 @@ static bool readDefaultBoundingBox( osgDB::InputStream& is, osgParticle::Particl
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeDefaultBoundingBox( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osg::BoundingBox& bb = ps.getDefaultBoundingBox();
     os << os.BEGIN_BRACKET << std::endl;
     os << os.PROPERTY("Minimum") << osg::Vec3d(bb._min) << std::endl;
@@ -35,8 +34,8 @@ static bool writeDefaultBoundingBox( osgDB::OutputStream& os, const osgParticle:
     os << os.END_BRACKET;
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _defaultParticleTemplate
 static bool checkDefaultParticleTemplate( const osgParticle::ParticleSystem& ps )
@@ -52,16 +51,14 @@ static bool readDefaultParticleTemplate( osgDB::InputStream& is, osgParticle::Pa
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeDefaultParticleTemplate( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgParticle::Particle& p = ps.getDefaultParticleTemplate();
     writeParticle( os, p );
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleParticleSystem,
                          new osgParticle::ParticleSystem,

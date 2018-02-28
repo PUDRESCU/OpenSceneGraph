@@ -30,18 +30,16 @@ static bool readDatabasePath( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeDatabasePath( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << (!node.getDatabasePath().empty());
     if ( !node.getDatabasePath().empty() )
         os.writeWrappedString( node.getDatabasePath() );
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _perRangeDataList
 static bool checkRangeDataList( const osg::PagedLOD& node )
@@ -72,11 +70,9 @@ static bool readRangeDataList( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeRangeDataList( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size = node.getNumFileNames();
     os << size << os.BEGIN_BRACKET << std::endl;
     for ( unsigned int i=0; i<size; ++i )
@@ -94,8 +90,8 @@ static bool writeRangeDataList( osgDB::OutputStream& os, const osg::PagedLOD& no
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 // _children
 static bool checkChildren( const osg::PagedLOD& node )
@@ -119,11 +115,9 @@ static bool readChildren( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     unsigned int size=node.getNumFileNames(), dynamicLoadedSize=0;
     for ( unsigned int i=0; i<size; ++i )
     {
@@ -145,8 +139,8 @@ static bool writeChildren( osgDB::OutputStream& os, const osg::PagedLOD& node )
     }
     os << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( PagedLOD,
                          new osg::PagedLOD,

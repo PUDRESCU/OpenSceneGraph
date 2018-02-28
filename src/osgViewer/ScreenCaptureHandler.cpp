@@ -533,11 +533,9 @@ ScreenCaptureHandler::WriteToFile::WriteToFile(const std::string& filename,
 {
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 void ScreenCaptureHandler::WriteToFile::operator () (const osg::Image& image, const unsigned int context_id)
 {
-#ifdef IM_SIZE_REDUCTION
-  return;
-#else
     if (_savePolicy == SEQUENTIAL_NUMBER)
     {
         if (_contextSaveCounter.size() <= context_id)
@@ -566,9 +564,8 @@ void ScreenCaptureHandler::WriteToFile::operator () (const osg::Image& image, co
     {
         _contextSaveCounter[context_id]++;
     }
-#endif
 }
-
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //

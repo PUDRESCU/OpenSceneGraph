@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifndef IM_NO_WRITE_SERIALIZATION
+
 using namespace std;
 using namespace osgDB;
 
@@ -137,44 +139,28 @@ std::string Output::wrapString(const std::string& str)
 
 bool Output::writeObject(const osg::Object& obj)
 {
-#ifdef IM_SIZE_REDUCTION
-  return true;
-#else
     return Registry::instance()->getDeprecatedDotOsgObjectWrapperManager()->writeObject(obj,*this);
-#endif
 }
 
 
 void Output::writeBeginObject(const std::string& name)
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     indent() << name << " {" << std::endl;
-#endif
 }
 
 void Output::writeEndObject()
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     indent() << "}" << std::endl;
-#endif
 }
 
 void Output::writeUseID(const std::string& id)
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     indent() << "Use " << id << std::endl;
-#endif
 }
 
 void Output::writeUniqueID(const std::string& id)
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     indent() << "UniqueID " << id << std::endl;
-#endif
 }
 
 bool Output::getUniqueIDForObject(const osg::Object* obj,std::string& uniqueID)
@@ -273,3 +259,5 @@ bool Output::getExternalFileWritten(const std::string& filename) const
     if (itr != _externalFileWritten.end()) return itr->second;
     return false;
 }
+
+#endif

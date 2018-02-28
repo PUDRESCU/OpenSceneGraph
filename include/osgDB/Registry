@@ -153,7 +153,9 @@ class OSGDB_EXPORT Registry : public osg::Referenced
 
         typedef class osgDB::FindFileCallback FindFileCallback;
         typedef class osgDB::ReadFileCallback ReadFileCallback;
+#ifndef IM_NO_WRITE_SERIALIZATION
         typedef class osgDB::WriteFileCallback WriteFileCallback;
+#endif
         typedef class osgDB::FileLocationCallback FileLocationCallback;
 
         /** Set the Registry callback to use in place of the default findFile calls.*/
@@ -260,7 +262,7 @@ class OSGDB_EXPORT Registry : public osg::Referenced
         }
         ReaderWriter::ReadResult readScriptImplementation(const std::string& fileName,const Options* options);
 
-
+#ifndef IM_NO_WRITE_SERIALIZATION
         /** Set the Registry callback to use in place of the default writeFile calls.*/
         void setWriteFileCallback( WriteFileCallback* cb) { _writeFileCallback = cb; }
 
@@ -318,7 +320,7 @@ class OSGDB_EXPORT Registry : public osg::Referenced
             else return writeScriptImplementation(obj,fileName,options);
         }
         ReaderWriter::WriteResult writeScriptImplementation(const osg::Script& obj, const std::string& fileName,const Options* options);
-
+#endif
         inline void _buildKdTreeIfRequired(ReaderWriter::ReadResult& result, const Options* options)
         {
             bool doKdTreeBuilder = (options && options->getBuildKdTreesHint()!=Options::NO_PREFERENCE) ?
@@ -600,7 +602,9 @@ class OSGDB_EXPORT Registry : public osg::Referenced
 
         osg::ref_ptr<FindFileCallback>      _findFileCallback;
         osg::ref_ptr<ReadFileCallback>      _readFileCallback;
+#ifndef IM_NO_WRITE_SERIALIZATION
         osg::ref_ptr<WriteFileCallback>     _writeFileCallback;
+#endif
         osg::ref_ptr<FileLocationCallback>  _fileLocationCallback;
 
         OpenThreads::ReentrantMutex _pluginMutex;

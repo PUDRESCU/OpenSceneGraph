@@ -4,7 +4,10 @@
 #include <osgDB/OutputStream>
 
 extern bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p );
+
+#ifndef IM_NO_WRITE_SERIALIZATION
 extern bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p );
+#endif
 
 static bool checkParticleTemplate( const osgParticle::Emitter& emitter )
 {
@@ -19,16 +22,14 @@ static bool readParticleTemplate( osgDB::InputStream& is, osgParticle::Emitter& 
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeParticleTemplate( osgDB::OutputStream& os, const osgParticle::Emitter& emitter )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgParticle::Particle& p = emitter.getParticleTemplate();
     writeParticle( os, p );
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleEmitter,
                          /*new osgParticle::Emitter*/NULL,

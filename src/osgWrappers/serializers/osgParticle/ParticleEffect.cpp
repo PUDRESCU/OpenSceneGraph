@@ -21,17 +21,15 @@ static bool readParticleSystem( osgDB::InputStream& is, osgParticle::ParticleEff
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeParticleSystem( osgDB::OutputStream& os, const osgParticle::ParticleEffect& effect )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     os << os.BEGIN_BRACKET << std::endl;
     os << effect.getParticleSystem();
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgParticleParticleEffect,
                          /*new osgParticle::ParticleEffect*/NULL,

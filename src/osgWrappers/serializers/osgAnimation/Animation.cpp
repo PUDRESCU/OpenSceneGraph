@@ -77,21 +77,16 @@ static void readContainer2( osgDB::InputStream& is, ContainerType* container )
     }
 
 // writing channel helpers
-
+#ifndef IM_NO_WRITE_SERIALIZATION
 static void writeChannel( osgDB::OutputStream& os, osgAnimation::Channel* ch )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os << os.PROPERTY("Name"); os.writeWrappedString(ch->getName()); os << std::endl;
     os << os.PROPERTY("TargetName");os.writeWrappedString(ch->getTargetName()); os << std::endl;
-#endif
 }
 
 template <typename ContainerType>
 static void writeContainer( osgDB::OutputStream& os, ContainerType* container )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     os << os.PROPERTY("KeyFrameContainer") << (container!=NULL);
     if ( container!=NULL )
     {
@@ -103,14 +98,11 @@ static void writeContainer( osgDB::OutputStream& os, ContainerType* container )
         os << os.END_BRACKET;
     }
     os << std::endl;
-#endif
 }
 
 template <typename ContainerType>
 static void writeContainer2( osgDB::OutputStream& os, ContainerType* container )
 {
-#ifdef IM_SIZE_REDUCTION
-#else
     typedef typename ContainerType::KeyType KeyType;
     os << os.PROPERTY("KeyFrameContainer") << (container!=NULL);
     if ( container!=NULL )
@@ -126,10 +118,10 @@ static void writeContainer2( osgDB::OutputStream& os, ContainerType* container )
         os << os.END_BRACKET;
     }
     os << std::endl;
-#endif
 }
+#endif
 
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_NO_WRITE_SERIALIZATION
 #define WRITE_CHANNEL_FUNC( NAME, CHANNEL, CONTAINER )
 #define WRITE_CHANNEL_FUNC2( NAME, CHANNEL, CONTAINER )
 #else
@@ -205,11 +197,9 @@ static bool readChannels( osgDB::InputStream& is, osgAnimation::Animation& ani )
     return true;
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 static bool writeChannels( osgDB::OutputStream& os, const osgAnimation::Animation& ani )
 {
-#ifdef IM_SIZE_REDUCTION
-    return true;
-#else
     const osgAnimation::ChannelList& channels = ani.getChannels();
     os.writeSize(channels.size()); os << os.BEGIN_BRACKET << std::endl;
     for ( osgAnimation::ChannelList::const_iterator itr=channels.begin();
@@ -247,8 +237,8 @@ static bool writeChannels( osgDB::OutputStream& os, const osgAnimation::Animatio
     }
     os << os.END_BRACKET << std::endl;
     return true;
-#endif
 }
+#endif
 
 REGISTER_OBJECT_WRAPPER( osgAnimation_Animation,
                          new osgAnimation::Animation,

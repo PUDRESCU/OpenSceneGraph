@@ -75,11 +75,9 @@ ReaderWriter::ReadResult FileCache::readObject(const std::string& originalFileNa
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ReaderWriter::WriteResult FileCache::writeObject(const osg::Object& object, const std::string& originalFileName, const osgDB::Options* options) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -100,8 +98,8 @@ ReaderWriter::WriteResult FileCache::writeObject(const osg::Object& object, cons
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#endif
 }
+#endif
 
 ReaderWriter::ReadResult FileCache::readImage(const std::string& originalFileName, const osgDB::Options* options) const
 {
@@ -117,11 +115,9 @@ ReaderWriter::ReadResult FileCache::readImage(const std::string& originalFileNam
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ReaderWriter::WriteResult FileCache::writeImage(const osg::Image& image, const std::string& originalFileName, const osgDB::Options* options) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -142,8 +138,8 @@ ReaderWriter::WriteResult FileCache::writeImage(const osg::Image& image, const s
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#endif
 }
+#endif
 
 ReaderWriter::ReadResult FileCache::readHeightField(const std::string& originalFileName, const osgDB::Options* options) const
 {
@@ -159,11 +155,9 @@ ReaderWriter::ReadResult FileCache::readHeightField(const std::string& originalF
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ReaderWriter::WriteResult FileCache::writeHeightField(const osg::HeightField& hf, const std::string& originalFileName, const osgDB::Options* options) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -184,8 +178,8 @@ ReaderWriter::WriteResult FileCache::writeHeightField(const osg::HeightField& hf
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#endif
 }
+#endif
 
 ReaderWriter::ReadResult FileCache::readNode(const std::string& originalFileName, const osgDB::Options* options, bool buildKdTreeIfRequired) const
 {
@@ -201,11 +195,9 @@ ReaderWriter::ReadResult FileCache::readNode(const std::string& originalFileName
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ReaderWriter::WriteResult FileCache::writeNode(const osg::Node& node, const std::string& originalFileName, const osgDB::Options* options) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -226,9 +218,8 @@ ReaderWriter::WriteResult FileCache::writeNode(const osg::Node& node, const std:
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#endif
 }
-
+#endif
 
 ReaderWriter::ReadResult FileCache::readShader(const std::string& originalFileName, const osgDB::Options* options) const
 {
@@ -244,11 +235,9 @@ ReaderWriter::ReadResult FileCache::readShader(const std::string& originalFileNa
     }
 }
 
+#ifndef IM_NO_WRITE_SERIALIZATION
 ReaderWriter::WriteResult FileCache::writeShader(const osg::Shader& shader, const std::string& originalFileName, const osgDB::Options* options) const
 {
-#ifdef IM_SIZE_REDUCTION
-  return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#else
     std::string cacheFileName = createCacheFileName(originalFileName);
     if (!cacheFileName.empty())
     {
@@ -269,9 +258,8 @@ ReaderWriter::WriteResult FileCache::writeShader(const osg::Shader& shader, cons
         return result;
     }
     return ReaderWriter::WriteResult::FILE_NOT_HANDLED;
-#endif
 }
-
+#endif
 
 bool FileCache::isCachedFileBlackListed(const std::string& originalFileName) const
 {
@@ -309,21 +297,27 @@ bool FileCache::removeFileFromBlackListed(const std::string& originalFileName) c
             {
                 std::string cacheFileName = revision->getFilesAdded()->getName();
                 if (containsServerAddress(cacheFileName)) cacheFileName = createCacheFileName(cacheFileName);
+#ifndef IM_NO_WRITE_SERIALIZATION
                 if (!cacheFileName.empty()) writeObjectFile(*(revision->getFilesAdded()), cacheFileName);
+#endif
             }
 
             if (revision->getFilesRemoved() && revision->getFilesRemoved()->removeFile(localPath))
             {
                 std::string cacheFileName = revision->getFilesRemoved()->getName();
                 if (containsServerAddress(cacheFileName)) cacheFileName = createCacheFileName(cacheFileName);
+#ifndef IM_NO_WRITE_SERIALIZATION
                 if (!cacheFileName.empty()) writeObjectFile(*(revision->getFilesRemoved()), cacheFileName);
+#endif
             }
 
             if (revision->getFilesModified() && revision->getFilesModified()->removeFile(localPath))
             {
                 std::string cacheFileName = revision->getFilesModified()->getName();
                 if (containsServerAddress(cacheFileName)) cacheFileName = createCacheFileName(cacheFileName);
+#ifndef IM_NO_WRITE_SERIALIZATION
                 if (!cacheFileName.empty()) writeObjectFile(*(revision->getFilesModified()), cacheFileName);
+#endif
             }
         }
     }
@@ -403,7 +397,9 @@ bool FileCache::loadDatabaseRevisionsForFile(const std::string& originalFileName
         if (needToWriteRevisionsFileToDisk)
         {
             OSG_INFO<<"Need to write DatabaseRevions "<<revisionsFileName<<" to local FileCache"<<std::endl;
+#ifndef IM_NO_WRITE_SERIALIZATION
             if (!cacheFileName.empty()) writeObjectFile(*dr_remote, cacheFileName);
+#endif
         }
         else
         {
@@ -497,7 +493,9 @@ FileList* FileCache::readFileList(const std::string& originalFileName) const
         {
             OSG_INFO<<"     loadeded FileList from remote system "<<fileList->getName()<<std::endl;
             OSG_INFO<<"     Need to write to local file cache "<<fileList->getName()<<std::endl;
+#ifndef IM_NO_WRITE_SERIALIZATION
             if (!cacheFileListName.empty()) writeObjectFile(*fileList, cacheFileListName);
+#endif
         }
     }
     return fileList.release();
