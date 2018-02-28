@@ -461,6 +461,7 @@ class OSG_EXPORT GLExtensions : public osg::Referenced
         void (GL_APIENTRY * glTexParameterIuiv) (GLenum target, GLenum pname, const GLuint* data);
         void (GL_APIENTRY * glBindImageTexture) (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
 
+#ifndef IM_OSG_SIZE_REDUCTION
         // Texture3D extensions
         bool isTexture3DSupported;
         bool isTexture3DFast;
@@ -473,12 +474,11 @@ class OSG_EXPORT GLExtensions : public osg::Referenced
         void (GL_APIENTRY * glCopyTexSubImage3D) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height );
         void (GL_APIENTRY * glCompressedTexImage3D) (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid *data);
         void (GL_APIENTRY * glCompressedTexSubImage3D) ( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid *data );
-
         // Texture2DArray extensions
         bool isTexture2DArraySupported;
         GLint maxLayerCount;
         GLint max2DSize;
-
+#endif
 
         // Blending
         bool isBlendColorSupported;
@@ -501,7 +501,9 @@ class OSG_EXPORT GLExtensions : public osg::Referenced
 
         // Stencil
         bool isStencilWrapSupported;
+#ifndef IM_OSG_SIZE_REDUCTION
         bool isStencilTwoSidedSupported;
+#endif
         bool isOpenGL20Supported;
         bool isSeparateStencilSupported;
 
@@ -515,11 +517,11 @@ class OSG_EXPORT GLExtensions : public osg::Referenced
         // ColorMask
         void (GL_APIENTRY * glColorMaski)(GLuint buf, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
         // ClampColor
         bool isClampColorSupported;
         void (GL_APIENTRY * glClampColor) (GLenum target, GLenum mode);
-
+#endif
 
         // PrimitiveRestartIndex
         void (GL_APIENTRY * glPrimitiveRestartIndex) ( GLuint index );
@@ -561,7 +563,9 @@ class OSG_EXPORT GLExtensions : public osg::Referenced
 
         void (GL_APIENTRY * glFramebufferTexture1D) (GLenum, GLenum, GLenum, GLuint, GLint);
         void (GL_APIENTRY * glFramebufferTexture2D) (GLenum, GLenum, GLenum, GLuint, GLint);
+#ifndef IM_OSG_SIZE_REDUCTION
         void (GL_APIENTRY * glFramebufferTexture3D) (GLenum, GLenum, GLenum, GLuint, GLint, GLint);
+#endif
         void (GL_APIENTRY * glFramebufferTexture) (GLenum, GLenum, GLint, GLint);
         void (GL_APIENTRY * glFramebufferTextureLayer) (GLenum, GLenum, GLuint, GLint, GLint);
         void (GL_APIENTRY * glFramebufferTextureFace)( GLenum target, GLenum attachment, GLuint texture, GLint level, GLenum face );

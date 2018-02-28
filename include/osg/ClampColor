@@ -36,6 +36,8 @@
     #define GL_CLAMP_FRAGMENT_COLOR           0x891B
 #endif
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Encapsulates OpenGL ClampColor state. */
@@ -93,5 +95,5 @@ class OSG_EXPORT ClampColor : public StateAttribute
 };
 
 }
-
+#endif
 #endif

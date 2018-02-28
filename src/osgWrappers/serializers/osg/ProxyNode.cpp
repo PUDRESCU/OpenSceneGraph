@@ -5,6 +5,8 @@
 #include <osgDB/FileNameUtils>
 #include <osgDB/ReadFile>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 // _filenameList
 static bool checkFileNames( const osg::ProxyNode& node )
 {
@@ -159,3 +161,4 @@ REGISTER_OBJECT_WRAPPER( ProxyNode,
 
     wrapper->addFinishedObjectReadCallback(new ProxyNodeFinishedObjectReadCallback());
 }
+#endif

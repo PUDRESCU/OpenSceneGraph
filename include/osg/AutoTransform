@@ -19,6 +19,8 @@
 #include <osg/Quat>
 #include <osg/Viewport>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** AutoTransform is a derived form of Transform that automatically
@@ -157,5 +159,5 @@ class OSG_EXPORT AutoTransform : public Transform
 };
 
 }
-
+#endif
 #endif

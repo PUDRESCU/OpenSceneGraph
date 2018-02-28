@@ -131,10 +131,12 @@ void SceneGraphBuilder::FrontFace(GLenum mode)
     addAttribute(new osg::FrontFace(osg::FrontFace::Mode(mode)));
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void SceneGraphBuilder::LineStipple(GLint factor, GLushort pattern)
 {
     addAttribute(new osg::LineStipple(factor, pattern));
 }
+#endif
 
 void SceneGraphBuilder::LineWidth(GLfloat lineWidth)
 {
@@ -156,6 +158,7 @@ void SceneGraphBuilder::PolygonOffset(GLfloat factor, GLfloat units)
     addAttribute(new osg::PolygonOffset(factor,units));
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void SceneGraphBuilder::PolygonStipple(const GLubyte* mask)
 {
     addAttribute(new osg::PolygonStipple(mask));
@@ -165,6 +168,8 @@ void SceneGraphBuilder::ShadeModel(GLenum mode)
 {
     addAttribute(new osg::ShadeModel(osg::ShadeModel::Mode(mode)));
 }
+#endif
+
 void SceneGraphBuilder::Enable(GLenum mode)
 {
     addMode(mode, true);

@@ -17,6 +17,8 @@
 #include <osg/Drawable>
 #include <osg/Callback>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Implements cluster culling to cull back facing drawables. Derived from
@@ -80,5 +82,5 @@ class OSG_EXPORT ClusterCullingCallback : public DrawableCullCallback, public No
 
 
 }
-
+#endif
 #endif

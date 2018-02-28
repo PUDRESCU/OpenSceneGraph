@@ -11,6 +11,7 @@
  * OpenSceneGraph Public License for more details.
 */
 #include <osg/Scissor>
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 
@@ -31,4 +32,4 @@ void Scissor::apply(State&) const
 {
     glScissor(_x,_y,_width,_height);
 }
-
+#endif

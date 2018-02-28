@@ -3,6 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 REGISTER_OBJECT_WRAPPER( LogicOp,
                          new osg::LogicOp,
                          osg::LogicOp,
@@ -27,3 +28,4 @@ REGISTER_OBJECT_WRAPPER( LogicOp,
         ADD_ENUM_VALUE( OR_INVERTED );
     END_ENUM_SERIALIZER();  // _opcode
 }
+#endif

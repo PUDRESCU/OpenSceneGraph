@@ -20,6 +20,8 @@
     #define GL_LINE_STIPPLE 0x0B24
 #endif
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 class OSG_EXPORT LineStipple : public StateAttribute
@@ -79,5 +81,5 @@ class OSG_EXPORT LineStipple : public StateAttribute
 };
 
 }
-
+#endif
 #endif

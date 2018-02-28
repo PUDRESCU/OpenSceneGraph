@@ -34,18 +34,19 @@ class OSG_EXPORT CullStack : public osg::CullSettings
         CullStack(const CullStack& cs);
 
         ~CullStack();
-
+#ifndef IM_OSG_SIZE_REDUCTION
         typedef std::vector<ShadowVolumeOccluder>   OccluderList;
-
+#endif
         void reset();
 
         void pushCullingSet();
         void popCullingSet();
-
+        
+#ifndef IM_OSG_SIZE_REDUCTION
         void setOccluderList(const ShadowVolumeOccluderList& svol) { _occluderList = svol; }
         ShadowVolumeOccluderList& getOccluderList() { return _occluderList; }
         const ShadowVolumeOccluderList& getOccluderList() const { return _occluderList; }
-
+#endif
         void pushViewport(osg::Viewport* viewport);
         void popViewport();
 
@@ -170,10 +171,12 @@ class OSG_EXPORT CullStack : public osg::CullSettings
 
 
     protected:
-
+    
+#ifndef IM_OSG_SIZE_REDUCTION
         // base set of shadow volume occluder to use in culling.
         ShadowVolumeOccluderList                                    _occluderList;
-
+#endif
+        
         typedef fast_back_stack< ref_ptr<RefMatrix> >                  MatrixStack;
 
         MatrixStack                                                 _projectionStack;

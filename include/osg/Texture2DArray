@@ -17,6 +17,8 @@
 #include <osg/Texture>
 #include <list>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Texture2DArray state class which encapsulates OpenGL 2D array texture functionality.
@@ -150,5 +152,5 @@ class OSG_EXPORT Texture2DArray : public Texture
 };
 
 }
-
+#endif
 #endif

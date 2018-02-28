@@ -14,6 +14,8 @@
 #include <osg/ShadeModel>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 ShadeModel::ShadeModel(Mode mode):
@@ -34,3 +36,4 @@ void ShadeModel::apply(State&) const
     OSG_NOTICE<<"Warning: ShadeModel::apply(State&) - not supported."<<std::endl;
 #endif
 }
+#endif

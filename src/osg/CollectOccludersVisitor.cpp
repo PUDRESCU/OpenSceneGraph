@@ -43,7 +43,9 @@ CollectOccludersVisitor::~CollectOccludersVisitor()
 void CollectOccludersVisitor::reset()
 {
     CullStack::reset();
+#ifndef IM_OSG_SIZE_REDUCTION
     _occluderSet.clear();
+#endif
 }
 
 float CollectOccludersVisitor::getDistanceToEyePoint(const Vec3& pos, bool withLODScale) const
@@ -156,6 +158,7 @@ void CollectOccludersVisitor::apply(osg::OccluderNode& node)
 
     if (node.getOccluder())
     {
+#ifndef IM_OSG_SIZE_REDUCTION
         // computeOccluder will check if the occluder is the view frustum,
         // if it ins't then the it will return false, when in it will
         // clip the occluder's polygons in clip space, then create occluder
@@ -176,6 +179,7 @@ void CollectOccludersVisitor::apply(osg::OccluderNode& node)
                 //std::cout << "    rejecting Occluder as its volume is too small "<<svo.getVolume()<<std::endl;
             }
         }
+#endif
     }
 
     handle_cull_callbacks_and_traverse(node);
@@ -189,6 +193,7 @@ void CollectOccludersVisitor::apply(osg::OccluderNode& node)
 
 void CollectOccludersVisitor::removeOccludedOccluders()
 {
+#ifndef IM_OSG_SIZE_REDUCTION
     if (_occluderSet.empty()) return;
 
     ShadowVolumeOccluderSet::iterator occludeeItr=_occluderSet.begin();
@@ -250,7 +255,6 @@ void CollectOccludersVisitor::removeOccludedOccluders()
         }
     }
 
-
     if (_occluderSet.size()<=_maximumNumberOfActiveOccluders) return;
 
     // move the iterator to the _maximumNumberOfActiveOccluders th occluder.
@@ -260,5 +264,5 @@ void CollectOccludersVisitor::removeOccludedOccluders()
 
     // discard last occluders.
     _occluderSet.erase(occludeeItr,_occluderSet.end());
-
+#endif
 }

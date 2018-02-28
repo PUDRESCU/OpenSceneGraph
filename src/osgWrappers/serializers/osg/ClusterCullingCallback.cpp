@@ -6,6 +6,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( ClusterCullingCallback,
                          new osg::ClusterCullingCallback,
                          osg::ClusterCullingCallback,
@@ -16,6 +18,6 @@ REGISTER_OBJECT_WRAPPER( ClusterCullingCallback,
     ADD_FLOAT_SERIALIZER( Radius, -1.0f );  // _radius
     ADD_FLOAT_SERIALIZER( Deviation, -1.0f );  // _deviation
 }
-
+#endif
 #undef OBJECT_CAST
 #define OBJECT_CAST static_cast

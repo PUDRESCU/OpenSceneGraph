@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( LightModel,
                          new osg::LightModel,
                          osg::LightModel,
@@ -18,3 +20,4 @@ REGISTER_OBJECT_WRAPPER( LightModel,
     ADD_BOOL_SERIALIZER( LocalViewer, false );  // _localViewer
     ADD_BOOL_SERIALIZER( TwoSided, false );  // _twoSided
 }
+#endif

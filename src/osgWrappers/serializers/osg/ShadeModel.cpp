@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( ShadeModel,
                          new osg::ShadeModel,
                          osg::ShadeModel,
@@ -13,3 +15,4 @@ REGISTER_OBJECT_WRAPPER( ShadeModel,
         ADD_ENUM_VALUE( SMOOTH );
     END_ENUM_SERIALIZER();  // _mode
 }
+#endif

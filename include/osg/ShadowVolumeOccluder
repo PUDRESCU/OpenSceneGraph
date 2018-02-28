@@ -18,6 +18,8 @@
 #include <osg/ConvexPlanarOccluder>
 #include <osg/Node>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 class CullStack;
@@ -168,5 +170,5 @@ inline void ShadowVolumeOccluder::popCurrentMask()
 }
 
 }    // end of namespace
-
+#endif
 #endif

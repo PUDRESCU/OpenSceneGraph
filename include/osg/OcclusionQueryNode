@@ -20,6 +20,7 @@
 #include <osg/Group>
 #include <osg/Geometry>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osg {
 
@@ -202,5 +203,5 @@ protected:
 
 }
 
-
+#endif
 #endif

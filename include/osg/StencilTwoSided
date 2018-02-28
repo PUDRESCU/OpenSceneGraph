@@ -16,11 +16,13 @@
 
 #include <osg/Stencil>
 
-namespace osg {
-
 #ifndef GL_STENCIL_TEST_TWO_SIDE
 #define GL_STENCIL_TEST_TWO_SIDE 0x8910
 #endif
+
+#ifndef IM_OSG_SIZE_REDUCTION
+
+namespace osg {
 
 /** Provides OpenGL two sided stencil functionality, also known as separate stencil.
  *  It enables to specify different stencil function for front and back facing polygons.
@@ -160,5 +162,5 @@ class OSG_EXPORT StencilTwoSided : public StateAttribute
 };
 
 }
-
+#endif
 #endif

@@ -2,7 +2,7 @@
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
-
+#ifndef IM_OSG_SIZE_REDUCTION
 #if 0
 
 static bool checkColorMap( const osg::TransferFunction1D& func )
@@ -52,3 +52,5 @@ REGISTER_OBJECT_WRAPPER( TransferFunction1D,
     ADD_MAP_SERIALIZER(ColorMap, osg::TransferFunction1D::ColorMap, osgDB::BaseSerializer::RW_FLOAT, osgDB::BaseSerializer::RW_VEC4F);
 #endif
 }
+
+#endif

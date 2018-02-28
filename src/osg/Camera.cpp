@@ -443,7 +443,7 @@ void Camera::resizeAttachments(int width, int height)
                     texture->dirtyTextureObject();
                 }
             }
-
+#ifndef IM_OSG_SIZE_REDUCTION
             {
                 osg::Texture3D* texture = dynamic_cast<osg::Texture3D*>(attachment._texture.get());
                 if (texture && ((texture->getTextureWidth()!=width) || (texture->getTextureHeight()!=height)))
@@ -453,7 +453,6 @@ void Camera::resizeAttachments(int width, int height)
                     texture->dirtyTextureObject();
                 }
             }
-
             {
                 osg::Texture2DArray* texture = dynamic_cast<osg::Texture2DArray*>(attachment._texture.get());
                 if (texture && ((texture->getTextureWidth()!=width) || (texture->getTextureHeight()!=height)))
@@ -463,6 +462,7 @@ void Camera::resizeAttachments(int width, int height)
                     texture->dirtyTextureObject();
                 }
             }
+#endif
         }
 
         if (attachment._image.valid() && (attachment._image->s()!=width || attachment._image->s()!=height) )

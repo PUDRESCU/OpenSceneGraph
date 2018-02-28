@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( LightSource,
                          new osg::LightSource,
                          osg::LightSource,
@@ -15,3 +17,4 @@ REGISTER_OBJECT_WRAPPER( LightSource,
         ADD_ENUM_VALUE( ABSOLUTE_RF );
     END_ENUM_SERIALIZER();  // _referenceFrame
 }
+#endif

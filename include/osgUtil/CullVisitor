@@ -101,8 +101,11 @@ class OSGUTIL_EXPORT CullVisitor : public osg::NodeVisitor, public osg::CullStac
         virtual void apply(osg::Node&);
         virtual void apply(osg::Geode& node);
         virtual void apply(osg::Drawable& drawable);
+#ifndef IM_OSG_SIZE_REDUCTION
         virtual void apply(osg::Billboard& node);
         virtual void apply(osg::LightSource& node);
+        virtual void apply(osg::OcclusionQueryNode& node);
+#endif
         virtual void apply(osg::ClipNode& node);
         virtual void apply(osg::TexGenNode& node);
 
@@ -114,7 +117,6 @@ class OSGUTIL_EXPORT CullVisitor : public osg::NodeVisitor, public osg::CullStac
         virtual void apply(osg::ClearNode& node);
         virtual void apply(osg::Camera& node);
         virtual void apply(osg::OccluderNode& node);
-        virtual void apply(osg::OcclusionQueryNode& node);
 
         /** Push state set on the current state group.
           * If the state exists in a child state group of the current

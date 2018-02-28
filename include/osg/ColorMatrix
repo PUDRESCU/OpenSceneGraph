@@ -17,6 +17,8 @@
 #include <osg/Matrix>
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Encapsulates OpenGL color matrix functionality. */
@@ -68,5 +70,5 @@ class OSG_EXPORT ColorMatrix : public StateAttribute
 
 }
 
-
+#endif
 #endif

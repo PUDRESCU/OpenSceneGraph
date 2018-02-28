@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( LineStipple,
                          new osg::LineStipple,
                          osg::LineStipple,
@@ -11,3 +13,4 @@ REGISTER_OBJECT_WRAPPER( LineStipple,
     ADD_GLINT_SERIALIZER( Factor, 1 );  // _factor
     ADD_HEXSHORT_SERIALIZER( Pattern, 0xffff );  // _pattern
 }
+#endif

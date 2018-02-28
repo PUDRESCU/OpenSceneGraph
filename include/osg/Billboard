@@ -17,6 +17,8 @@
 #include <osg/Matrix>
 #include <osg/Geode>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Billboard is a derived form of Geode that orients its osg::Drawable
@@ -128,5 +130,5 @@ class OSG_EXPORT Billboard : public Geode
 };
 
 }
-
+#endif
 #endif

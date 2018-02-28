@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( OcclusionQueryNode,
                          new osg::OcclusionQueryNode,
                          osg::OcclusionQueryNode,
@@ -13,3 +15,4 @@ REGISTER_OBJECT_WRAPPER( OcclusionQueryNode,
     ADD_UINT_SERIALIZER( QueryFrameCount, 0 );  // _queryFrameCount
     ADD_BOOL_SERIALIZER( DebugDisplay, false );  // _debugBB
 }
+#endif

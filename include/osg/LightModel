@@ -17,6 +17,8 @@
 #include <osg/StateAttribute>
 #include <osg/Vec4>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 class OSG_EXPORT LightModel : public StateAttribute
@@ -91,5 +93,5 @@ class OSG_EXPORT LightModel : public StateAttribute
 };
 
 }
-
+#endif
 #endif

@@ -16,6 +16,8 @@
 
 #include <osg/Texture>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Encapsulates OpenGL 3D texture functionality. Doesn't support cube maps,
@@ -175,5 +177,5 @@ class OSG_EXPORT Texture3D : public Texture
 };
 
 }
-
+#endif
 #endif

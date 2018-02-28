@@ -4,6 +4,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 static bool checkRestartIndex( const osg::PrimitiveRestartIndex& )
 {
     return true;
@@ -35,3 +36,4 @@ REGISTER_OBJECT_WRAPPER( PrimitiveRestartIndex,
 {
     ADD_USER_SERIALIZER( RestartIndex );
 }
+#endif

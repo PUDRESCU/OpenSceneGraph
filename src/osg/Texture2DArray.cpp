@@ -17,6 +17,7 @@
 
 #include <string.h>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 
@@ -699,3 +700,4 @@ void Texture2DArray::allocateMipmap(State& state) const
         state.haveAppliedTextureAttribute(state.getActiveTextureUnit(), this);
     }
 }
+#endif

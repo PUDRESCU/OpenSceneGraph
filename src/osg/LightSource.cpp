@@ -12,6 +12,8 @@
 */
 #include <osg/LightSource>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 LightSource::LightSource():
@@ -81,3 +83,4 @@ void LightSource::setThreadSafeRefUnref(bool threadSafe)
 
     if (_light.valid()) _light->setThreadSafeRefUnref(threadSafe);
 }
+#endif

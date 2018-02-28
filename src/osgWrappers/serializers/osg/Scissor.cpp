@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 static bool checkArea( const osg::Scissor& attr )
 {
     return true;
@@ -31,3 +33,4 @@ REGISTER_OBJECT_WRAPPER( Scissor,
 {
     ADD_USER_SERIALIZER( Area );  // _x, _y, _width, _height
 }
+#endif

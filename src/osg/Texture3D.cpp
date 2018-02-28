@@ -18,6 +18,7 @@
 
 #include <string.h>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 
 using namespace osg;
@@ -579,3 +580,4 @@ void Texture3D::allocateMipmap(State& state) const
     }
 #endif
 }
+#endif

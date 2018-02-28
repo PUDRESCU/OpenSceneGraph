@@ -16,6 +16,8 @@
 #include <osg/GLExtensions>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -156,3 +158,4 @@ void StencilTwoSided::apply(State& state) const
                 "   not found (contextID " << contextID << "). OpenGL 2.0 or one of extensions\n"
                 "   GL_EXT_stencil_two_side or GL_ATI_separate_stencil is required." << std::endl;
 }
+#endif

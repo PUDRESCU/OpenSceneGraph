@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 static bool checkImages( const osg::Texture2DArray& tex )
 {
     return tex.getNumImages()>0;
@@ -44,3 +46,4 @@ REGISTER_OBJECT_WRAPPER( Texture2DArray,
     ADD_INT_SERIALIZER( TextureHeight, 0 );  // _textureHeight
     ADD_INT_SERIALIZER( TextureDepth, 0 );  // _textureDepth
 }
+#endif

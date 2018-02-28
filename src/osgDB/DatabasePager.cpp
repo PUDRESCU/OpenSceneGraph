@@ -1678,11 +1678,13 @@ void DatabasePager::addLoadedDataToSceneGraph(const osg::FrameStamp &frameStamp)
             }
             else
             {
+#ifndef IM_OSG_SIZE_REDUCTION
                 osg::ProxyNode* proxyNode = dynamic_cast<osg::ProxyNode*>(group.get());
                 if (proxyNode)
                 {
                     proxyNode->getDatabaseRequest(proxyNode->getNumChildren()) = 0;
                 }
+#endif
             }
 
             group->addChild(databaseRequest->_loadedModel.get());

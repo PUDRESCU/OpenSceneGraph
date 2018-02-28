@@ -14,6 +14,8 @@
 #include <osg/TriangleFunctor>
 #include <osg/CullSettings>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -199,3 +201,4 @@ void ClusterCullingCallback::operator()(Node* node, NodeVisitor* nv)
         traverse(node,nv);
     }
 }
+#endif

@@ -96,20 +96,24 @@ void NodeVisitor::apply(Geode& node)
     apply(static_cast<Group&>(node));
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void NodeVisitor::apply(Billboard& node)
 {
     apply(static_cast<Geode&>(node));
 }
+#endif
 
 void NodeVisitor::apply(Group& node)
 {
     apply(static_cast<Node&>(node));
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void NodeVisitor::apply(ProxyNode& node)
 {
     apply(static_cast<Group&>(node));
 }
+#endif
 
 void NodeVisitor::apply(Projection& node)
 {
@@ -130,12 +134,12 @@ void NodeVisitor::apply(TexGenNode& node)
 {
     apply(static_cast<Group&>(node));
 }
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void NodeVisitor::apply(LightSource& node)
 {
     apply(static_cast<Group&>(node));
 }
-
+#endif
 void NodeVisitor::apply(Transform& node)
 {
     apply(static_cast<Group&>(node));
@@ -190,8 +194,9 @@ void NodeVisitor::apply(OccluderNode& node)
 {
     apply(static_cast<Group&>(node));
 }
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void NodeVisitor::apply(OcclusionQueryNode& node)
 {
     apply(static_cast<Group&>(node));
 }
+#endif

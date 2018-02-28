@@ -744,6 +744,7 @@ bool CullVisitor::updateCalculatedNearFar(const osg::Matrix& matrix,const osg::D
 
     if (isBillboard)
     {
+#ifndef IM_OSG_SIZE_REDUCTION
 
 #ifdef TIME_BILLBOARD_NEAR_FAR_CALCULATION
         static unsigned int lastFrameNumber = getTraversalNumber();
@@ -807,6 +808,7 @@ bool CullVisitor::updateCalculatedNearFar(const osg::Matrix& matrix,const osg::D
         elapsed_time += osg::Timer::instance()->delta_m(start_t,end_t);
         ++numBillboards;
 #endif
+#endif
     }
     else
     {
@@ -842,10 +844,12 @@ bool CullVisitor::updateCalculatedNearFar(const osg::Matrix& matrix,const osg::D
                 MatrixPlanesDrawables mpd;
                 if (isBillboard)
                 {
+#ifndef IM_OSG_SIZE_REDUCTION
                     // OSG_WARN<<"Adding billboard into deffered list"<<std::endl;
                     osg::Polytope transformed_frustum;
                     transformed_frustum.setAndTransformProvidingInverse(getProjectionCullingStack().back().getFrustum(),matrix);
                     mpd.set(matrix,&drawable,transformed_frustum);
+#endif
                 }
                 else
                 {
@@ -1051,7 +1055,7 @@ void CullVisitor::apply(osg::Drawable& drawable)
     }
 }
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void CullVisitor::apply(Billboard& node)
 {
     if (isCulled(node)) return;
@@ -1127,7 +1131,6 @@ void CullVisitor::apply(Billboard& node)
 
 }
 
-
 void CullVisitor::apply(LightSource& node)
 {
     // push the node's state.
@@ -1154,6 +1157,7 @@ void CullVisitor::apply(LightSource& node)
     // pop the node's state off the geostate stack.
     if (node_state) popStateSet();
 }
+#endif
 
 void CullVisitor::apply(ClipNode& node)
 {
@@ -1720,7 +1724,7 @@ void CullVisitor::apply(osg::OccluderNode& node)
     // pop the current mask for the disabled occluder
     popOccludersCurrentMask(_nodePath);
 }
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void CullVisitor::apply(osg::OcclusionQueryNode& node)
 {
     if (isCulled(node)) return;
@@ -1752,4 +1756,4 @@ void CullVisitor::apply(osg::OcclusionQueryNode& node)
     // pop the culling mode.
     popCurrentMask();
 }
-
+#endif

@@ -38,6 +38,8 @@
 
 #include <OpenThreads/Thread>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 //
 // Support classes, used by (and private to) OcclusionQueryNode.
 //   (Note a lot of this is historical. OcclusionQueryNode formaerly
@@ -749,3 +751,4 @@ const osg::QueryGeometry* OcclusionQueryNode::getQueryGeometry() const
 
 
 }
+#endif

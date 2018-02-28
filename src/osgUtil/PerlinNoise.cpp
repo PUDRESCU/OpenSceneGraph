@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include <osgUtil/PerlinNoise>
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osgUtil;
 
@@ -341,4 +342,4 @@ osg::Texture3D* PerlinNoise::create3DNoiseTexture(int texSize )
     noiseTexture->setImage( create3DNoiseImage(texSize) );
     return noiseTexture;
 }
-
+#endif

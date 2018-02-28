@@ -13,6 +13,8 @@
 #include <osg/LogicOp>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 LogicOp::LogicOp():
@@ -37,4 +39,4 @@ void LogicOp::apply(State&) const
     OSG_NOTICE<<"Warning: LogicOp::apply(State&) - not supported."<<std::endl;
 #endif
 }
-
+#endif

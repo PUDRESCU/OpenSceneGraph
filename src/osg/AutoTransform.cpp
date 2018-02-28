@@ -15,6 +15,8 @@
 #include <osg/Notify>
 #include <osg/io_utils>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 AutoTransform::AutoTransform():
@@ -393,3 +395,4 @@ BoundingSphere AutoTransform::computeBound() const
 
     return bsphere;
 }
+#endif

@@ -1301,6 +1301,9 @@ osg::Camera* View::assignStereoCamera(osg::DisplaySettings* ds, osg::GraphicsCon
     return camera.release();
 }
 #endif
+
+#ifndef IM_OSG_SIZE_REDUCTION
+
 static const GLubyte patternVertEven[] = {
     0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
     0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
@@ -1375,7 +1378,7 @@ static const GLubyte patternCheckerboard[] = {
     0x55, 0x55, 0x55, 0x55,
     0xAA, 0xAA, 0xAA, 0xAA};
 
-#ifndef IM_OSG_SIZE_REDUCTION
+
 void View::assignStereoOrKeystoneToCamera(osg::Camera* camera, osg::DisplaySettings* ds)
 {
     if (!camera || camera->getGraphicsContext()==0) return;

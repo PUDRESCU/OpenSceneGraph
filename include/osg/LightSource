@@ -18,6 +18,8 @@
 #include <osg/Light>
 #include <osg/Group>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Leaf Node for defining a light in the scene. */
@@ -89,5 +91,5 @@ class OSG_EXPORT LightSource : public Group
 };
 
 }
-
+#endif
 #endif

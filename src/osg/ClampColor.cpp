@@ -16,6 +16,7 @@
 #include <osg/Notify>
 #include <osg/buffered_value>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 
@@ -53,3 +54,4 @@ void ClampColor::apply(State& state) const
     extensions->glClampColor(GL_CLAMP_FRAGMENT_COLOR, _clampFragmentColor);
     extensions->glClampColor(GL_CLAMP_READ_COLOR, _clampReadColor);
 }
+#endif

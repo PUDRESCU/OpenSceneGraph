@@ -75,10 +75,10 @@ class OSGUTIL_EXPORT UpdateVisitor : public osg::NodeVisitor
         }
 
         virtual void apply(osg::Geode& node)        { handle_callbacks_and_traverse(node); }
+#ifndef IM_OSG_SIZE_REDUCTION
         virtual void apply(osg::Billboard& node)    { handle_callbacks_and_traverse(node); }
-
         virtual void apply(osg::LightSource& node)  { handle_callbacks_and_traverse(node); }
-
+#endif
         virtual void apply(osg::Group& node)        { handle_callbacks_and_traverse(node); }
         virtual void apply(osg::Transform& node)    { handle_callbacks_and_traverse(node); }
         virtual void apply(osg::Projection& node)   { handle_callbacks_and_traverse(node); }

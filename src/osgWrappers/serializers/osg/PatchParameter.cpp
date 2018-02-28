@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( PatchParameter,
                          new osg::PatchParameter,
                          osg::PatchParameter,
@@ -12,3 +14,4 @@ REGISTER_OBJECT_WRAPPER( PatchParameter,
     ADD_VEC2_SERIALIZER( PatchDefaultInnerLevel, osg::Vec2(1.0f,1.0f));
     ADD_VEC4_SERIALIZER( PatchDefaultOuterLevel, osg::Vec4(1.0f,1.0f,1.0f,1.0f));
 }
+#endif

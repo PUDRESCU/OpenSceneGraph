@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 static bool checkMasks( const osg::SampleMaski& )
 {
     return true;
@@ -35,3 +37,4 @@ REGISTER_OBJECT_WRAPPER( SampleMaski,
 {
     ADD_USER_SERIALIZER( Masks );  //
 }
+#endif

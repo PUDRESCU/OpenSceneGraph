@@ -15,6 +15,8 @@
 #include <osg/Notify>
 #include <osg/io_utils>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 PatchParameter::PatchParameter(GLint vertices):
@@ -40,3 +42,4 @@ void PatchParameter::apply(State& state) const
         extensions->glPatchParameterfv( GL_PATCH_DEFAULT_OUTER_LEVEL, _patchDefaultOuterLevel.ptr() );
     }
 }
+#endif

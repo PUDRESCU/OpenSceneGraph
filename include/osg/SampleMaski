@@ -16,6 +16,8 @@
 
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /**
@@ -50,5 +52,5 @@ class OSG_EXPORT SampleMaski : public StateAttribute
 };
 
 }
-
+#endif
 #endif

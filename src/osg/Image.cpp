@@ -1075,11 +1075,12 @@ void Image::readImageFromCurrentTexture(unsigned int contextID, bool copyMipMaps
     glGetBooleanv(GL_TEXTURE_BINDING_3D, &binding3D);
     glGetBooleanv(GL_TEXTURE_BINDING_CUBE_MAP, &bindingCubeMap);
 
+#ifndef IM_OSG_SIZE_REDUCTION
     if (extensions->isTexture2DArraySupported)
     {
         glGetBooleanv(GL_TEXTURE_BINDING_2D_ARRAY_EXT, &binding2DArray);
     }
-
+#endif
     GLenum textureMode = binding1D ? GL_TEXTURE_1D : binding2D ? GL_TEXTURE_2D : binding3D ? GL_TEXTURE_3D : binding2DArray ? GL_TEXTURE_2D_ARRAY_EXT : 0;
     if (bindingCubeMap)
     {

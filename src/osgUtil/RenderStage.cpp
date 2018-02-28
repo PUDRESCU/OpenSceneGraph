@@ -294,7 +294,9 @@ void RenderStage::runCameraSetUp(osg::RenderInfo& renderInfo)
             osg::Texture1D* texture1D = 0;
             osg::Texture2D* texture2D = 0;
             osg::Texture2DMultisample* texture2DMS = 0;
+#ifndef IM_OSG_SIZE_REDUCTION
             osg::Texture3D* texture3D = 0;
+#endif
             osg::TextureCubeMap* textureCubeMap = 0;
             osg::TextureRectangle* textureRectangle = 0;
             if (0 != (texture1D=dynamic_cast<osg::Texture1D*>(texture)))
@@ -318,6 +320,7 @@ void RenderStage::runCameraSetUp(osg::RenderInfo& renderInfo)
                     texture2DMS->setTextureSize(width,height);
                 }
             }
+#ifndef IM_OSG_SIZE_REDUCTION
             else if (0 != (texture3D = dynamic_cast<osg::Texture3D*>(texture)))
             {
                 if (texture3D->getTextureWidth()==0 || texture3D->getTextureHeight()==0 || texture3D->getTextureDepth()==0 )
@@ -326,6 +329,7 @@ void RenderStage::runCameraSetUp(osg::RenderInfo& renderInfo)
                     texture3D->setTextureSize(width,height,height);
                 }
             }
+#endif
             else if (0 != (textureCubeMap = dynamic_cast<osg::TextureCubeMap*>(texture)))
             {
                 if (textureCubeMap->getTextureWidth()==0 || textureCubeMap->getTextureHeight()==0)
@@ -819,7 +823,9 @@ void RenderStage::copyTexture(osg::RenderInfo& renderInfo)
     // need to implement texture cube map etc...
     osg::Texture1D* texture1D = 0;
     osg::Texture2D* texture2D = 0;
+#ifndef IM_OSG_SIZE_REDUCTION
     osg::Texture3D* texture3D = 0;
+#endif
     osg::TextureRectangle* textureRec = 0;
     osg::TextureCubeMap* textureCubeMap = 0;
 
@@ -855,6 +861,7 @@ void RenderStage::copyTexture(osg::RenderInfo& renderInfo)
                                      static_cast<int>(_viewport->y()),
                                      static_cast<int>(_viewport->width()));
     }
+#ifndef IM_OSG_SIZE_REDUCTION
     else if ((texture3D = dynamic_cast<osg::Texture3D*>(_texture.get())) != 0)
     {
         // need to implement
@@ -867,6 +874,7 @@ void RenderStage::copyTexture(osg::RenderInfo& renderInfo)
                                      static_cast<int>(_viewport->width()),
                                      static_cast<int>(_viewport->height()));
     }
+#endif
     else if ((textureCubeMap = dynamic_cast<osg::TextureCubeMap*>(_texture.get())) != 0)
     {
         // need to implement

@@ -25,9 +25,10 @@ class OSG_EXPORT CollectOccludersVisitor : public osg::NodeVisitor, public osg::
 {
     public:
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
         typedef std::set<ShadowVolumeOccluder> ShadowVolumeOccluderSet;
-
+#endif
+        
         CollectOccludersVisitor();
         virtual ~CollectOccludersVisitor();
 
@@ -64,10 +65,12 @@ class OSG_EXPORT CollectOccludersVisitor : public osg::NodeVisitor, public osg::
         void setCreateDrawablesOnOccludeNodes(bool flag) { _createDrawables=flag; }
         bool getCreateDrawablesOnOccludeNodes() const { return _createDrawables; }
 
+#ifndef IM_OSG_SIZE_REDUCTION
         void setCollectedOccluderSet(const ShadowVolumeOccluderSet& svol) { _occluderSet = svol; }
         ShadowVolumeOccluderSet& getCollectedOccluderSet() { return _occluderSet; }
         const ShadowVolumeOccluderSet& getCollectedOccluderSet() const { return _occluderSet; }
-
+#endif
+        
         /** Removes occluded occluders for the collected occluders list, then
           * discards all but MaximumNumberOfActiveOccluders of occluders,
           * discarding the occluders with the lowest shadow occluder volume. */
@@ -99,7 +102,9 @@ class OSG_EXPORT CollectOccludersVisitor : public osg::NodeVisitor, public osg::
         float                       _minimumShadowOccluderVolume;
         unsigned                    _maximumNumberOfActiveOccluders;
         bool                        _createDrawables;
+#ifndef IM_OSG_SIZE_REDUCTION
         ShadowVolumeOccluderSet     _occluderSet;
+#endif
 
 };
 

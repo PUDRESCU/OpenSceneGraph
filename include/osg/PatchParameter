@@ -18,6 +18,8 @@
 #include <osg/Vec4>
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Class which encapsulates glPatchParameter(..).
@@ -83,5 +85,5 @@ class OSG_EXPORT PatchParameter : public StateAttribute
 };
 
 }
-
+#endif
 #endif

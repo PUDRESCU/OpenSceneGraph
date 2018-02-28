@@ -14,6 +14,7 @@
 #include <math.h>
 
 #include <osg/Billboard>
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 
@@ -347,3 +348,4 @@ BoundingSphere Billboard::computeBound() const
 
     return bsphere;
 }
+#endif

@@ -16,6 +16,8 @@
 #include <osg/GLExtensions>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 PrimitiveRestartIndex::PrimitiveRestartIndex()
@@ -62,3 +64,4 @@ void PrimitiveRestartIndex::apply(State& state) const
     OSG_WARN << "PrimitiveRestartIndex failed as the required graphics capabilities were not found\n"
                 "   OpenGL 3.1 or GL_NV_primitive_restart extension is required." << std::endl;
 }
+#endif

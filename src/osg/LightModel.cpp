@@ -17,6 +17,8 @@
 #include <osg/LightModel>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -80,4 +82,4 @@ void LightModel::apply(State&) const
     OSG_NOTICE<<"Warning: LightModel::apply(State&) - not supported."<<std::endl;
 #endif
 }
-
+#endif

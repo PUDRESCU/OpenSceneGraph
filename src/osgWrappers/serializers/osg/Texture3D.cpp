@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( Texture3D,
                          new osg::Texture3D,
                          osg::Texture3D,
@@ -13,3 +15,4 @@ REGISTER_OBJECT_WRAPPER( Texture3D,
     ADD_INT_SERIALIZER( TextureHeight, 0 );  // _textureHeight
     ADD_INT_SERIALIZER( TextureDepth, 0 );  // _textureDepth
 }
+#endif

@@ -18,7 +18,7 @@
 #include <osg/Shader>
 
 #include <map>
-
+#ifndef IM_OSG_SIZE_REDUCTION
 namespace osg {
 
 
@@ -127,5 +127,5 @@ class OSG_EXPORT TransferFunction1D : public osg::TransferFunction
 };
 
 }
-
+#endif
 #endif

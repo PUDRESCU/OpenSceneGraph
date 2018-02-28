@@ -274,8 +274,10 @@ class OSGUTIL_EXPORT Optimizer
 
                 virtual void apply(osg::Node& geode);
                 virtual void apply(osg::Geode& geode);
+#ifndef IM_OSG_SIZE_REDUCTION
                 virtual void apply(osg::Billboard& geode);
                 virtual void apply(osg::ProxyNode& node);
+#endif
                 virtual void apply(osg::PagedLOD& node);
                 virtual void apply(osg::Transform& transform);
 
@@ -285,14 +287,18 @@ class OSGUTIL_EXPORT Optimizer
 
                 typedef std::vector<osg::Transform*>                TransformStack;
                 typedef std::set<osg::Drawable*>                    DrawableSet;
+#ifndef IM_OSG_SIZE_REDUCTION
                 typedef std::set<osg::Billboard*>                   BillboardSet;
+#endif
                 typedef std::set<osg::Node* >                       NodeSet;
                 typedef std::set<osg::Transform*>                   TransformSet;
 
                 TransformStack  _transformStack;
                 NodeSet         _excludedNodeSet;
                 DrawableSet     _drawableSet;
+#ifndef IM_OSG_SIZE_REDUCTION
                 BillboardSet    _billboardSet;
+#endif
                 TransformSet    _transformSet;
         };
 
@@ -316,14 +322,16 @@ class OSGUTIL_EXPORT Optimizer
                 virtual void apply(osg::Transform& transform);
                 virtual void apply(osg::LOD& lod);
                 virtual void apply(osg::Geode& geode);
+#ifndef IM_OSG_SIZE_REDUCTION
                 virtual void apply(osg::Billboard& billboard);
-
+#endif
             protected:
 
                 void transformGeode(osg::Geode& geode);
                 void transformDrawable(osg::Drawable& drawable);
+#ifndef IM_OSG_SIZE_REDUCTION
                 void transformBillboard(osg::Billboard& billboard);
-
+#endif
                 std::vector<osg::Matrix> _matrixStack;
 
         };
@@ -385,6 +393,7 @@ class OSGUTIL_EXPORT Optimizer
 
         };
 
+#ifndef IM_OSG_SIZE_REDUCTION
         /** Remove loaded proxy nodes.*/
         class OSGUTIL_EXPORT RemoveLoadedProxyNodesVisitor : public BaseOptimizerVisitor
         {
@@ -401,7 +410,8 @@ class OSGUTIL_EXPORT Optimizer
                 void removeRedundantNodes();
 
         };
-
+#endif
+        
         /** Tessellate all geodes, to remove POLYGONS.*/
         class OSGUTIL_EXPORT TessellateVisitor : public BaseOptimizerVisitor
         {
@@ -550,8 +560,9 @@ class OSGUTIL_EXPORT Optimizer
                 }
 
                 virtual void apply(osg::Geode& geode) { mergeGeode(geode); }
+#ifndef IM_OSG_SIZE_REDUCTION
                 virtual void apply(osg::Billboard&) { /* don't do anything*/ }
-
+#endif
                 bool mergeGeode(osg::Geode& geode);
 
                 static bool geometryContainsSharedArrays(osg::Geometry& geom);
@@ -638,6 +649,7 @@ class OSGUTIL_EXPORT Optimizer
 
         };
 
+#ifndef IM_OSG_SIZE_REDUCTION
         /** Flatten MatrixTransform/Billboard pairs.*/
         class OSGUTIL_EXPORT FlattenBillboardVisitor : public BaseOptimizerVisitor
         {
@@ -657,7 +669,7 @@ class OSGUTIL_EXPORT Optimizer
                 BillboardNodePathMap _billboards;
 
         };
-
+#endif
         /** Texture Atlas Builder creates a set of textures/images which each contain multiple images.
           * Texture Atlas' are used to make it possible to use much wider batching of data. */
         class OSGUTIL_EXPORT TextureAtlasBuilder

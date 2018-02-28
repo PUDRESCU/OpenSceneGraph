@@ -205,10 +205,14 @@ struct FrameBufferAttachment::Pimpl
         RENDERBUFFER,
         TEXTURE1D,
         TEXTURE2D,
+#ifndef IM_OSG_SIZE_REDUCTION
         TEXTURE3D,
+#endif
         TEXTURECUBE,
         TEXTURERECT,
+#ifndef IM_OSG_SIZE_REDUCTION
         TEXTURE2DARRAY,
+#endif
         TEXTURE2DMULTISAMPLE
     };
 
@@ -272,6 +276,7 @@ FrameBufferAttachment::FrameBufferAttachment(Texture2DMultisample* target, unsig
     _ximpl->textureTarget = target;
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 FrameBufferAttachment::FrameBufferAttachment(Texture3D* target, unsigned int zoffset, unsigned int level)
 {
     _ximpl = new Pimpl(Pimpl::TEXTURE3D, level);
@@ -285,6 +290,7 @@ FrameBufferAttachment::FrameBufferAttachment(Texture2DArray* target, unsigned in
     _ximpl->textureTarget = target;
     _ximpl->zoffset = layer;
 }
+#endif
 
 FrameBufferAttachment::FrameBufferAttachment(TextureCubeMap* target, unsigned int face, unsigned int level)
 {
@@ -328,7 +334,8 @@ FrameBufferAttachment::FrameBufferAttachment(Camera::Attachment& attachment)
             _ximpl->textureTarget = texture2DMS;
             return;
         }
-
+      
+#ifndef IM_OSG_SIZE_REDUCTION
         osg::Texture3D* texture3D = dynamic_cast<osg::Texture3D*>(texture);
         if (texture3D)
         {
@@ -337,7 +344,7 @@ FrameBufferAttachment::FrameBufferAttachment(Camera::Attachment& attachment)
             _ximpl->zoffset = attachment._face;
             return;
         }
-
+      
         osg::Texture2DArray* texture2DArray = dynamic_cast<osg::Texture2DArray*>(texture);
         if (texture2DArray)
         {
@@ -346,7 +353,7 @@ FrameBufferAttachment::FrameBufferAttachment(Camera::Attachment& attachment)
             _ximpl->zoffset = attachment._face;
             return;
         }
-
+#endif
         osg::TextureCubeMap* textureCubeMap = dynamic_cast<osg::TextureCubeMap*>(texture);
         if (textureCubeMap)
         {
@@ -478,6 +485,7 @@ void FrameBufferAttachment::attach(State &state, GLenum target, GLenum attachmen
     case Pimpl::TEXTURE2DMULTISAMPLE:
         ext->glFramebufferTexture2D(target, attachment_point, GL_TEXTURE_2D_MULTISAMPLE, tobj->id(), _ximpl->level);
         break;
+#ifndef IM_OSG_SIZE_REDUCTION
     case Pimpl::TEXTURE3D:
         if (_ximpl->zoffset == Camera::FACE_CONTROLLED_BY_GEOMETRY_SHADER)
         {
@@ -500,6 +508,7 @@ void FrameBufferAttachment::attach(State &state, GLenum target, GLenum attachmen
         else
             ext->glFramebufferTextureLayer(target, attachment_point, tobj->id(), _ximpl->level, _ximpl->zoffset);
         break;
+#endif
     case Pimpl::TEXTURERECT:
         ext->glFramebufferTexture2D(target, attachment_point, GL_TEXTURE_RECTANGLE, tobj->id(), 0);
         break;
@@ -565,10 +574,12 @@ unsigned int FrameBufferAttachment::getTextureLevel() const
     return _ximpl->level;
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 unsigned int FrameBufferAttachment::getTexture3DZOffset() const
 {
     return _ximpl->zoffset;
 }
+#endif
 
 unsigned int FrameBufferAttachment::getTextureArrayLayer() const
 {

@@ -679,6 +679,7 @@ void IntersectVisitor::apply(Geode& geode)
     leaveNode();
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 void IntersectVisitor::apply(Billboard& node)
 {
@@ -703,7 +704,7 @@ void IntersectVisitor::apply(Billboard& node)
 
     leaveNode();
 }
-
+#endif
 
 void IntersectVisitor::apply(Group& node)
 {

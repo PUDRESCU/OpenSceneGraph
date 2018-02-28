@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 BEGIN_USER_TABLE( Function, osg::StencilTwoSided );
     ADD_USER_VALUE( NEVER );
     ADD_USER_VALUE( LESS );
@@ -96,3 +98,4 @@ REGISTER_OBJECT_WRAPPER( StencilTwoSided,
     ADD_USER_SERIALIZER( StencilPassAndDepthPassOperation );  // _zpass
     ADD_USER_SERIALIZER( WriteMask );  // _writeMask
 }
+#endif

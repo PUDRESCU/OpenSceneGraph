@@ -16,6 +16,8 @@
 #include <osg/State>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 ColorMatrix::ColorMatrix()
@@ -43,3 +45,4 @@ void ColorMatrix::apply(State& state) const
     OSG_NOTICE<<"Warning: ColorMatrix::apply(State&) - not supported."<<std::endl;
 #endif
 }
+#endif

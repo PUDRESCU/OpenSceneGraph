@@ -13,6 +13,8 @@
 
 #include <osg/AudioStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 AudioSink::AudioSink() :
@@ -28,3 +30,4 @@ AudioStream::AudioStream(const AudioStream& audio,const CopyOp& copyop):
     osg::Object(audio, copyop)
 {
 }
+#endif

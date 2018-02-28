@@ -610,9 +610,11 @@ GLExtensions::GLExtensions(unsigned int contextID)
     setGLExtensionFuncPtr(glProgramParameteri,  "glProgramParameteri", "glProgramParameteriEXT" );
 
     // ARB_tesselation_shader
+#ifndef IM_OSG_SIZE_REDUCTION
     setGLExtensionFuncPtr(glPatchParameteri, "glPatchParameteri" );
     setGLExtensionFuncPtr(glPatchParameterfv, "glPatchParameterfv");
-
+#endif
+  
     // EXT_gpu_shader4
     setGLExtensionFuncPtr(glGetUniformuiv,  "glGetUniformuiv", "glGetUniformuivEXT" );
     setGLExtensionFuncPtr(glBindFragDataLocation,  "glBindFragDataLocation", "glBindFragDataLocationEXT" );
@@ -772,11 +774,12 @@ GLExtensions::GLExtensions(unsigned int contextID)
     isTextureMultisampleSupported = isGLExtensionSupported(contextID, "GL_ARB_texture_multisample");
     isOpenGL32upported = (glVersion >= 3.2f);
 
+#ifndef IM_OSG_SIZE_REDUCTION
     // function pointers
     setGLExtensionFuncPtr(glSampleMaski, "glSampleMaski");
     // protect against buggy drivers (maybe not necessary)
     isSampleMaskiSupported = glSampleMaski!=0;
-
+#endif
 
 
     // old styple Vertex/Fragment Programs
@@ -880,7 +883,7 @@ GLExtensions::GLExtensions(unsigned int contextID)
         else isTextureStorageEnabled = true;
     }
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
     // Texture3D extensions
     isTexture3DFast = OSG_GL3_FEATURES || isGLExtensionSupported(contextID,"GL_EXT_texture3D");
 
@@ -906,6 +909,7 @@ GLExtensions::GLExtensions(unsigned int contextID)
     max2DSize = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max2DSize);
     maxLayerCount = 0;
+#endif
   
 #if !defined(OSG_GLES1_AVAILABLE) && !defined(OSG_GLES2_AVAILABLE)
     glGetIntegerv(GL_MAX_ARRAY_TEXTURE_LAYERS_EXT, &maxLayerCount);
@@ -945,7 +949,9 @@ GLExtensions::GLExtensions(unsigned int contextID)
 
     // Stencil`
     isStencilWrapSupported = isGLExtensionOrVersionSupported(contextID, "GL_EXT_stencil_wrap", 1.4f);
+#ifndef IM_OSG_SIZE_REDUCTION
     isStencilTwoSidedSupported = isGLExtensionSupported(contextID, "GL_EXT_stencil_two_side");
+#endif
     isOpenGL20Supported = (glVersion >= 2.0f);
     isSeparateStencilSupported = isGLExtensionSupported(contextID, "GL_ATI_separate_stencil");
 
@@ -960,7 +966,7 @@ GLExtensions::GLExtensions(unsigned int contextID)
     // Color Mask
     setGLExtensionFuncPtr(glColorMaski, "glColorMaski", "glColorMaskiARB");
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
     // ClampColor
     isClampColorSupported = OSG_GL3_FEATURES ||
                              isGLExtensionSupported(contextID,"GL_ARB_color_buffer_float") ||
@@ -971,7 +977,7 @@ GLExtensions::GLExtensions(unsigned int contextID)
 
     // PrimitiveRestartIndex
     setGLExtensionFuncPtr(glPrimitiveRestartIndex, "glPrimitiveRestartIndex", "glPrimitiveRestartIndexNV");
-
+#endif
 
     // Point
     isPointParametersSupported = OSG_GL3_FEATURES || (glVersion >= 1.4f)  ||
@@ -1015,7 +1021,9 @@ GLExtensions::GLExtensions(unsigned int contextID)
 
     setGLExtensionFuncPtr(glFramebufferTexture1D, "glFramebufferTexture1D", "glFramebufferTexture1DEXT", "glFramebufferTexture1DOES");
     setGLExtensionFuncPtr(glFramebufferTexture2D, "glFramebufferTexture2D", "glFramebufferTexture2DEXT", "glFramebufferTexture2DOES");
+#ifndef IM_OSG_SIZE_REDUCTION
     setGLExtensionFuncPtr(glFramebufferTexture3D, "glFramebufferTexture3D", "glFramebufferTexture3DEXT", "glFramebufferTexture3DOES");
+#endif
     setGLExtensionFuncPtr(glFramebufferTexture, "glFramebufferTexture", "glFramebufferTextureEXT", "glFramebufferTextureOES");
     setGLExtensionFuncPtr(glFramebufferTextureLayer, "glFramebufferTextureLayer", "glFramebufferTextureLayerEXT", "glFramebufferTextureLayerOES");
     setGLExtensionFuncPtr(glFramebufferTextureFace,  "glFramebufferTextureFace", "glFramebufferTextureFaceEXT", "glFramebufferTextureFaceOES" );

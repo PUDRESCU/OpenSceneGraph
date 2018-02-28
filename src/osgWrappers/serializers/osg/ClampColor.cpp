@@ -3,6 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 REGISTER_OBJECT_WRAPPER( ClampColor,
                          new osg::ClampColor,
                          osg::ClampColor,
@@ -12,3 +13,4 @@ REGISTER_OBJECT_WRAPPER( ClampColor,
     ADD_GLENUM_SERIALIZER( ClampFragmentColor, GLenum, GL_FIXED_ONLY );  // _clampFragmentColor
     ADD_GLENUM_SERIALIZER( ClampReadColor, GLenum, GL_FIXED_ONLY );  // _clampReadColor
 }
+#endif

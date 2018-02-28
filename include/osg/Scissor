@@ -16,6 +16,8 @@
 
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 /** Encapsulate OpenGL glScissor. */
@@ -106,5 +108,5 @@ class OSG_EXPORT Scissor : public StateAttribute
 };
 
 }
-
+#endif
 #endif

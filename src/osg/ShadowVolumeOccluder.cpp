@@ -16,6 +16,8 @@
 #include <osg/Group>
 #include <osg/Geode>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -361,3 +363,4 @@ bool ShadowVolumeOccluder::contains(const BoundingBox& bound)
     //std::cout << "+ not in occluder"<<std::endl;
     return false;
 }
+#endif

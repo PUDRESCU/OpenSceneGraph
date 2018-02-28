@@ -242,6 +242,7 @@ void IntersectionVisitor::apply(osg::Geode& geode)
     leave();
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void IntersectionVisitor::apply(osg::Billboard& billboard)
 {
     if (!enter(billboard)) return;
@@ -287,6 +288,7 @@ void IntersectionVisitor::apply(osg::Billboard& billboard)
 
     leave();
 }
+#endif
 
 void IntersectionVisitor::apply(osg::LOD& lod)
 {

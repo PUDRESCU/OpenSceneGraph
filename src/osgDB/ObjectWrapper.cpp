@@ -386,7 +386,9 @@ ObjectWrapperManager::ObjectWrapperManager()
     // Modes
     glTable.add( "GL_ALPHA_TEST", GL_ALPHA_TEST );
     glTable.add( "GL_BLEND", GL_BLEND );
+#ifndef IM_OSG_SIZE_REDUCTION
     glTable.add( "GL_COLOR_LOGIC_OP", GL_COLOR_LOGIC_OP );
+#endif
     glTable.add( "GL_COLOR_MATERIAL", GL_COLOR_MATERIAL );
     glTable.add( "GL_CULL_FACE", GL_CULL_FACE );
     glTable.add( "GL_DEPTH_TEST", GL_DEPTH_TEST );
@@ -398,7 +400,9 @@ ObjectWrapperManager::ObjectWrapperManager()
     glTable.add( "GL_POLYGON_OFFSET_FILL", GL_POLYGON_OFFSET_FILL );
     glTable.add( "GL_POLYGON_OFFSET_LINE", GL_POLYGON_OFFSET_LINE );
     glTable.add( "GL_POLYGON_OFFSET_POINT", GL_POLYGON_OFFSET_POINT );
+#ifndef IM_OSG_SIZE_REDUCTION
     glTable.add( "GL_POLYGON_STIPPLE", GL_POLYGON_STIPPLE );
+#endif
     glTable.add( "GL_SCISSOR_TEST", GL_SCISSOR_TEST);
     glTable.add( "GL_STENCIL_TEST", GL_STENCIL_TEST );
     glTable.add( "GL_STENCIL_TEST_TWO_SIDE", GL_STENCIL_TEST_TWO_SIDE );

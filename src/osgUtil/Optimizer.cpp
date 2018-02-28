@@ -172,6 +172,7 @@ void Optimizer::optimize(osg::Node* node, unsigned int options)
         node->accept(tsv);
     }
 
+#ifndef IM_OSG_SIZE_REDUCTION
     if (options & REMOVE_LOADED_PROXY_NODES)
     {
         OSG_INFO<<"Optimizer::optimize() doing REMOVE_LOADED_PROXY_NODES"<<std::endl;
@@ -181,7 +182,8 @@ void Optimizer::optimize(osg::Node* node, unsigned int options)
         rlpnv.removeRedundantNodes();
 
     }
-
+#endif
+  
     if (options & COMBINE_ADJACENT_LODS)
     {
         OSG_INFO<<"Optimizer::optimize() doing COMBINE_ADJACENT_LODS"<<std::endl;
@@ -341,14 +343,14 @@ void Optimizer::optimize(osg::Node* node, unsigned int options)
         rrnv.removeRedundantNodes();
 
     }
-
+#ifndef IM_OSG_SIZE_REDUCTION
     if (options & FLATTEN_BILLBOARDS)
     {
         FlattenBillboardVisitor fbv(this);
         node->accept(fbv);
         fbv.process();
     }
-
+#endif
     if (options & SPATIALIZE_GROUPS)
     {
         OSG_INFO<<"Optimizer::optimize() doing SPATIALIZE_GROUPS"<<std::endl;
@@ -751,12 +753,12 @@ class CollectLowestTransformsVisitor : public BaseOptimizerVisitor
         {
             traverse(geode);
         }
-
+#ifndef IM_OSG_SIZE_REDUCTION
         virtual void apply(osg::Billboard& geode)
         {
             traverse(geode);
         }
-
+#endif
 
         void collectDataFor(osg::Node* node)
         {
@@ -766,7 +768,7 @@ class CollectLowestTransformsVisitor : public BaseOptimizerVisitor
 
             _currentObjectList.pop_back();
         }
-
+#ifndef IM_OSG_SIZE_REDUCTION
         void collectDataFor(osg::Billboard* billboard)
         {
             _currentObjectList.push_back(billboard);
@@ -775,7 +777,7 @@ class CollectLowestTransformsVisitor : public BaseOptimizerVisitor
 
             _currentObjectList.pop_back();
         }
-
+#endif
         void collectDataFor(osg::Drawable* drawable)
         {
             _currentObjectList.push_back(drawable);
@@ -817,7 +819,9 @@ class CollectLowestTransformsVisitor : public BaseOptimizerVisitor
         {
             // disable if object is a light point node.
             if (strcmp(node->className(),"LightPointNode")==0) return false;
+#ifndef IM_OSG_SIZE_REDUCTION
             if (dynamic_cast<const osg::ProxyNode*>(node)) return false;
+#endif
             if (dynamic_cast<const osg::PagedLOD*>(node)) return false;
             return BaseOptimizerVisitor::isOperationPermissibleForObject(node);
         }
@@ -946,6 +950,7 @@ void CollectLowestTransformsVisitor::doTransform(osg::Object* obj,osg::Matrix& m
         return;
     }
 
+#ifndef IM_OSG_SIZE_REDUCTION
     osg::Billboard* billboard = dynamic_cast<osg::Billboard*>(obj);
     if (billboard)
     {
@@ -974,6 +979,7 @@ void CollectLowestTransformsVisitor::doTransform(osg::Object* obj,osg::Matrix& m
 
         return;
     }
+#endif
 }
 
 void CollectLowestTransformsVisitor::disableObject(ObjectMap::iterator itr)
@@ -1149,13 +1155,14 @@ void Optimizer::FlattenStaticTransformsVisitor::apply(osg::Node& node)
     traverse(node);
 }
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void Optimizer::FlattenStaticTransformsVisitor::apply(osg::ProxyNode& node)
 {
     _excludedNodeSet.insert(&node);
 
     traverse(node);
 }
+#endif
 
 void Optimizer::FlattenStaticTransformsVisitor::apply(osg::PagedLOD& node)
 {
@@ -1186,6 +1193,7 @@ void Optimizer::FlattenStaticTransformsVisitor::apply(osg::Geode& geode)
     }
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 void Optimizer::FlattenStaticTransformsVisitor::apply(osg::Billboard& billboard)
 {
     if (!_transformStack.empty())
@@ -1193,7 +1201,7 @@ void Optimizer::FlattenStaticTransformsVisitor::apply(osg::Billboard& billboard)
         _billboardSet.insert(&billboard);
     }
 }
-
+#endif
 void Optimizer::FlattenStaticTransformsVisitor::apply(osg::Transform& transform)
 {
     if (!_transformStack.empty())
@@ -1228,13 +1236,14 @@ bool Optimizer::FlattenStaticTransformsVisitor::removeTransforms(osg::Node* node
         cltv.collectDataFor(*ditr);
     }
 
+#ifndef IM_OSG_SIZE_REDUCTION
     for(BillboardSet::iterator bitr=_billboardSet.begin();
         bitr!=_billboardSet.end();
         ++bitr)
     {
         cltv.collectDataFor(*bitr);
     }
-
+#endif
     cltv.setUpMaps();
 
     for(TransformSet::iterator titr=_transformSet.begin();
@@ -1471,6 +1480,7 @@ void Optimizer::RemoveRedundantNodesVisitor::removeRedundantNodes()
     _redundantNodeList.clear();
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 ////////////////////////////////////////////////////////////////////////////
 // RemoveLoadedProxyNodesVisitor.
@@ -1551,7 +1561,7 @@ void Optimizer::RemoveLoadedProxyNodesVisitor::removeRedundantNodes()
     }
     _redundantNodeList.clear();
 }
-
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -3153,6 +3163,7 @@ bool Optimizer::MergeGeodesVisitor::mergeGeode(osg::Geode& lhs, osg::Geode& rhs)
 }
 
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 ////////////////////////////////////////////////////////////////////////////
 // FlattenBillboardVisitor
@@ -3258,7 +3269,7 @@ void Optimizer::FlattenBillboardVisitor::process()
     }
 
 }
-
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -4654,6 +4665,7 @@ void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::apply(
     }
 }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 
 void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::apply(osg::Billboard& billboard)
 {
@@ -4687,7 +4699,7 @@ void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::apply(
         }
     }
 }
-
+#endif
 
 void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::transformGeode(osg::Geode& geode)
 {
@@ -4737,7 +4749,7 @@ void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::transf
     }
 }
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
 void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::transformBillboard(osg::Billboard& billboard)
 {
     osg::Vec3 axis = osg::Matrix::transform3x3(billboard.getAxis(), _matrixStack.back());
@@ -4764,6 +4776,6 @@ void Optimizer::FlattenStaticTransformsDuplicatingSharedSubgraphsVisitor::transf
 
     billboard.dirtyBound();
 }
-
+#endif
 
 

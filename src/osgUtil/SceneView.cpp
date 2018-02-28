@@ -33,6 +33,8 @@
 using namespace osg;
 using namespace osgUtil;
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 static const GLubyte patternVertEven[] = {
     0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
     0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
@@ -105,7 +107,7 @@ static const GLubyte patternCheckerboard[] = {
     0xAA, 0xAA, 0xAA, 0xAA,
     0x55, 0x55, 0x55, 0x55,
     0xAA, 0xAA, 0xAA, 0xAA};
-
+#endif
 SceneView::SceneView(DisplaySettings* ds)
 {
     _displaySettings = ds;
@@ -212,9 +214,11 @@ void SceneView::setDefaults(unsigned int options)
         #endif
 
         #if !defined(OSG_GLES1_AVAILABLE) && !defined(OSG_GLES2_AVAILABLE) && defined(OSG_GL_FIXED_FUNCTION_AVAILABLE)
+#ifndef IM_OSG_SIZE_REDUCTION
             osg::LightModel* lightmodel = new osg::LightModel;
             lightmodel->setAmbientIntensity(osg::Vec4(0.1f,0.1f,0.1f,1.0f));
             _globalStateSet->setAttributeAndModes(lightmodel, osg::StateAttribute::ON);
+#endif
         #endif
     }
     else
@@ -811,11 +815,12 @@ bool SceneView::cullStage(const osg::Matrixd& projection,const osg::Matrixd& mod
         // sort the occluder from largest occluder volume to smallest.
         _collectOccludersVisitor->removeOccludedOccluders();
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
         OSG_DEBUG << "finished searching for occluder - found "<<_collectOccludersVisitor->getCollectedOccluderSet().size()<<std::endl;
 
         cullVisitor->getOccluderList().clear();
         std::copy(_collectOccludersVisitor->getCollectedOccluderSet().begin(),_collectOccludersVisitor->getCollectedOccluderSet().end(), std::back_insert_iterator<CullStack::OccluderList>(cullVisitor->getOccluderList()));
+#endif
     }
 
 
@@ -1228,6 +1233,7 @@ void SceneView::draw()
         case(osg::DisplaySettings::HORIZONTAL_INTERLACE):
         case(osg::DisplaySettings::CHECKERBOARD):
             {
+#ifndef IM_OSG_SIZE_REDUCTION
             #if !defined(OSG_GLES1_AVAILABLE) && !defined(OSG_GLES2_AVAILABLE) && !defined(OSG_GL3_AVAILABLE)
                 if( 0 == ( _camera->getInheritanceMask() & DRAW_BUFFER) )
                 {
@@ -1316,6 +1322,7 @@ void SceneView::draw()
             #else
                 OSG_NOTICE<<"Warning: SceneView::draw() - VERTICAL_INTERLACE, HORIZONTAL_INTERLACE, and CHECKERBOARD stereo not supported."<<std::endl;
             #endif
+#endif
             }
             break;
         default:

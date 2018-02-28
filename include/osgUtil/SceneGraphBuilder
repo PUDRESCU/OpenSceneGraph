@@ -47,13 +47,17 @@ class OSGUTIL_EXPORT SceneGraphBuilder
         void CullFace(GLenum mode);
         void DepthFunc(GLenum mode);
         void FrontFace(GLenum mode);
+#ifndef IM_OSG_SIZE_REDUCTION
         void LineStipple(GLint factor, GLushort pattern);
+#endif
         void LineWidth(GLfloat lineWidth);
         void PointSize(GLfloat pointSize);
         void PolygonMode(GLenum face, GLenum mode);
         void PolygonOffset(GLfloat factor, GLfloat units);
+#ifndef IM_OSG_SIZE_REDUCTION
         void PolygonStipple(const GLubyte* mask);
         void ShadeModel(GLenum mode);
+#endif
 
         void Enable(GLenum mode);
         void Disable(GLenum mode);

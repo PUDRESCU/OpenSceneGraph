@@ -14,6 +14,8 @@
 #include <osg/PolygonStipple>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 #include <algorithm>
 
 using namespace osg;
@@ -87,4 +89,4 @@ void PolygonStipple::apply(State&) const
     OSG_NOTICE<<"Warning: PolygonStipple::apply(State&) - not supported."<<std::endl;
 #endif
 }
-
+#endif

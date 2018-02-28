@@ -17,6 +17,8 @@
 #include <osg/GL>
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 namespace osg {
 
 #ifndef OSG_GL_FIXED_FUNCTION_AVAILABLE
@@ -73,5 +75,5 @@ class OSG_EXPORT ShadeModel : public StateAttribute
 };
 
 }
-
+#endif
 #endif

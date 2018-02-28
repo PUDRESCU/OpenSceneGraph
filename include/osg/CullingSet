@@ -41,7 +41,9 @@ class OSG_EXPORT CullingSet : public Referenced
             _mask(cs._mask),
             _frustum(cs._frustum),
             _stateFrustumList(cs._stateFrustumList),
+#ifndef IM_OSG_SIZE_REDUCTION
             _occluderList(cs._occluderList),
+#endif
             _pixelSizeVector(cs._pixelSizeVector),
             _smallFeatureCullingPixelSize(cs._smallFeatureCullingPixelSize)
         {
@@ -51,17 +53,21 @@ class OSG_EXPORT CullingSet : public Referenced
             _mask(cs._mask),
             _frustum(cs._frustum),
             _stateFrustumList(cs._stateFrustumList),
+#ifndef IM_OSG_SIZE_REDUCTION
             _occluderList(cs._occluderList),
+#endif
             _pixelSizeVector(pixelSizeVector),
             _smallFeatureCullingPixelSize(cs._smallFeatureCullingPixelSize)
         {
             _frustum.transformProvidingInverse(matrix);
+#ifndef IM_OSG_SIZE_REDUCTION
             for(OccluderList::iterator itr=_occluderList.begin();
                 itr!=_occluderList.end();
                 ++itr)
             {
                 itr->transformProvidingInverse(matrix);
             }
+#endif
         }
 
         CullingSet& operator = (const CullingSet& cs)
@@ -71,7 +77,9 @@ class OSG_EXPORT CullingSet : public Referenced
             _mask = cs._mask;
             _frustum = cs._frustum;
             _stateFrustumList = cs._stateFrustumList;
+#ifndef IM_OSG_SIZE_REDUCTION
             _occluderList = cs._occluderList;
+#endif
             _pixelSizeVector = cs._pixelSizeVector;
             _smallFeatureCullingPixelSize = cs._smallFeatureCullingPixelSize;
 
@@ -84,7 +92,9 @@ class OSG_EXPORT CullingSet : public Referenced
             _mask = cs._mask;
             _frustum = cs._frustum;
             _stateFrustumList = cs._stateFrustumList;
+#ifndef IM_OSG_SIZE_REDUCTION
             _occluderList = cs._occluderList;
+#endif
             _pixelSizeVector = cs._pixelSizeVector;
             _smallFeatureCullingPixelSize = cs._smallFeatureCullingPixelSize;
         }
@@ -93,7 +103,9 @@ class OSG_EXPORT CullingSet : public Referenced
         {
             _mask = cs._mask;
             _stateFrustumList = cs._stateFrustumList;
+#ifndef IM_OSG_SIZE_REDUCTION
             _occluderList = cs._occluderList;
+#endif
             _pixelSizeVector = pixelSizeVector;
             _smallFeatureCullingPixelSize = cs._smallFeatureCullingPixelSize;
 
@@ -108,18 +120,20 @@ class OSG_EXPORT CullingSet : public Referenced
             {
                 sitr->second.transformProvidingInverse(matrix);
             }
-
+#ifndef IM_OSG_SIZE_REDUCTION
             for(OccluderList::iterator oitr=_occluderList.begin();
                 oitr!=_occluderList.end();
                 ++oitr)
             {
                 oitr->transformProvidingInverse(matrix);
             }
-
+#endif
         }
 
+#ifndef IM_OSG_SIZE_REDUCTION
         typedef std::vector<ShadowVolumeOccluder>   OccluderList;
-
+#endif
+        
         typedef int Mask;
 
         enum MaskValues
@@ -153,9 +167,11 @@ class OSG_EXPORT CullingSet : public Referenced
 
         void getStateFrustumList(StateFrustumList& sfl) { _stateFrustumList = sfl; }
         StateFrustumList& getStateFrustumList() { return _stateFrustumList; }
-
+        
+#ifndef IM_OSG_SIZE_REDUCTION
         void addOccluder(ShadowVolumeOccluder& cv) { _occluderList.push_back(cv); }
-
+#endif
+        
         void setPixelSizeVector(const Vec4& v) { _pixelSizeVector = v; }
 
         Vec4& getPixelSizeVector() { return _pixelSizeVector; }
@@ -195,6 +211,7 @@ class OSG_EXPORT CullingSet : public Referenced
             {
             }
 
+#ifndef IM_OSG_SIZE_REDUCTION
             if (_mask&SHADOW_OCCLUSION_CULLING)
             {
                 // is it in one of the shadow occluder volumes.
@@ -208,7 +225,7 @@ class OSG_EXPORT CullingSet : public Referenced
                     }
                 }
             }
-
+#endif
             return false;
         }
 
@@ -224,6 +241,7 @@ class OSG_EXPORT CullingSet : public Referenced
             {
             }
 
+#ifndef IM_OSG_SIZE_REDUCTION
             if (_mask&SHADOW_OCCLUSION_CULLING)
             {
                 // is it in one of the shadow occluder volumes.
@@ -237,7 +255,7 @@ class OSG_EXPORT CullingSet : public Referenced
                     }
                 }
             }
-
+#endif
             return false;
         }
 
@@ -253,6 +271,8 @@ class OSG_EXPORT CullingSet : public Referenced
             {
                 if (((bs.center()*_pixelSizeVector)*_smallFeatureCullingPixelSize)>bs.radius()) return true;
             }
+
+#ifndef IM_OSG_SIZE_REDUCTION
 #ifdef COMPILE_WITH_SHADOW_OCCLUSION_CULLING
             if (_mask&SHADOW_OCCLUSION_CULLING)
             {
@@ -267,6 +287,7 @@ class OSG_EXPORT CullingSet : public Referenced
                     }
                 }
             }
+#endif
 #endif
             return false;
         }
@@ -292,7 +313,7 @@ class OSG_EXPORT CullingSet : public Referenced
                 }
             }
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
 #ifdef COMPILE_WITH_SHADOW_OCCLUSION_CULLING
             if (!_occluderList.empty())
             {
@@ -303,6 +324,7 @@ class OSG_EXPORT CullingSet : public Referenced
                     itr->pushCurrentMask();
                 }
             }
+#endif
 #endif
         }
 
@@ -320,6 +342,7 @@ class OSG_EXPORT CullingSet : public Referenced
                 }
             }
 
+#ifndef IM_OSG_SIZE_REDUCTION
 #ifdef COMPILE_WITH_SHADOW_OCCLUSION_CULLING
             if (!_occluderList.empty())
             {
@@ -330,6 +353,7 @@ class OSG_EXPORT CullingSet : public Referenced
                     itr->popCurrentMask();
                 }
             }
+#endif
 #endif
         }
 
@@ -353,7 +377,9 @@ class OSG_EXPORT CullingSet : public Referenced
         Mask                _mask;
         Polytope            _frustum;
         StateFrustumList    _stateFrustumList;
+#ifndef IM_OSG_SIZE_REDUCTION
         OccluderList        _occluderList;
+#endif
         Vec4                _pixelSizeVector;
         float               _smallFeatureCullingPixelSize;
 

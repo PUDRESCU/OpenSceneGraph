@@ -17,6 +17,8 @@
 
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 #ifndef GL_POLYGON_STIPPLE
     #define GL_POLYGON_STIPPLE  0x0B42
 #endif
@@ -64,5 +66,5 @@ class OSG_EXPORT PolygonStipple : public StateAttribute
 };
 
 }
-
+#endif
 #endif

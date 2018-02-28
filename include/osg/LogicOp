@@ -16,6 +16,8 @@
 
 #include <osg/StateAttribute>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 #ifndef OSG_GL_FIXED_FUNCTION_AVAILABLE
     #define GL_CLEAR            0x1500
     #define GL_SET              0x150F
@@ -109,5 +111,5 @@ class OSG_EXPORT LogicOp : public StateAttribute
 };
 
 }
-
+#endif
 #endif

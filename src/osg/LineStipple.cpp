@@ -14,6 +14,8 @@
 #include <osg/LineStipple>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -46,4 +48,4 @@ void LineStipple::apply(State&) const
     OSG_NOTICE<<"Warning: LineStipple::apply(State&) - not supported."<<std::endl;
 #endif
 }
-
+#endif

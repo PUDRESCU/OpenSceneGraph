@@ -16,7 +16,7 @@
 #include <osg/Notify>
 #include <osg/io_utils>
 
-
+#ifndef IM_OSG_SIZE_REDUCTION
 using namespace osg;
 
 ///////////////////////////////////////////////////////////////////////
@@ -223,3 +223,4 @@ void TransferFunction1D::updateImage()
 
     _image->dirty();
 }
+#endif

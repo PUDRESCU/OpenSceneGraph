@@ -263,8 +263,10 @@ class OSG_EXPORT RenderBuffer: public Object
 class Texture1D;
 class Texture2D;
 class Texture2DMultisample;
+#ifndef IM_OSG_SIZE_REDUCTION
 class Texture3D;
 class Texture2DArray;
+#endif
 class TextureCubeMap;
 class TextureRectangle;
 
@@ -278,8 +280,10 @@ class OSG_EXPORT FrameBufferAttachment
         explicit FrameBufferAttachment(Texture1D* target, unsigned int level = 0);
         explicit FrameBufferAttachment(Texture2D* target, unsigned int level = 0);
         explicit FrameBufferAttachment(Texture2DMultisample* target, unsigned int level = 0);
+#ifndef IM_OSG_SIZE_REDUCTION
         explicit FrameBufferAttachment(Texture3D* target, unsigned int zoffset, unsigned int level = 0);
         explicit FrameBufferAttachment(Texture2DArray* target, unsigned int layer, unsigned int level = 0);
+#endif
         explicit FrameBufferAttachment(TextureCubeMap* target, unsigned int face, unsigned int level = 0);
         explicit FrameBufferAttachment(TextureRectangle* target);
         explicit FrameBufferAttachment(Camera::Attachment& attachment);
@@ -301,7 +305,9 @@ class OSG_EXPORT FrameBufferAttachment
 
         unsigned int getCubeMapFace() const;
         unsigned int getTextureLevel() const;
+#ifndef IM_OSG_SIZE_REDUCTION
         unsigned int getTexture3DZOffset() const;
+#endif
         unsigned int getTextureArrayLayer() const;
 
     private:

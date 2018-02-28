@@ -3,6 +3,7 @@
 #include <osgDB/ObjectWrapper>
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
+#ifndef IM_OSG_SIZE_REDUCTION
 
 static bool checkPositionList( const osg::Billboard& node )
 {
@@ -53,3 +54,4 @@ REGISTER_OBJECT_WRAPPER( Billboard,
     ADD_VEC3_SERIALIZER( Normal, osg::Vec3f() );  // _normal
     ADD_USER_SERIALIZER( PositionList );  // _positionList
 }
+#endif

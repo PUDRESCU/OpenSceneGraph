@@ -16,6 +16,8 @@
 #include <osg/GLExtensions>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 
@@ -64,3 +66,4 @@ void SampleMaski::apply(State& state) const
     OSG_WARN << "SampleMaski failed as the required graphics capabilities were not found. \n"
                 "OpenGL 3.2 or  ARB_texture_multisample extension is required." << std::endl;
 }
+#endif

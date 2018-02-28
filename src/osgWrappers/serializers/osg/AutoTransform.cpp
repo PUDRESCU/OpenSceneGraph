@@ -3,6 +3,8 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 REGISTER_OBJECT_WRAPPER( AutoTransform,
                          new osg::AutoTransform,
                          osg::AutoTransform,
@@ -25,3 +27,4 @@ REGISTER_OBJECT_WRAPPER( AutoTransform,
     ADD_QUAT_SERIALIZER( Rotation, osg::Quat() );  // _rotation
     ADD_FLOAT_SERIALIZER( AutoScaleTransitionWidthRatio, 0.25f );  // _autoScaleTransitionWidthRatio
 }
+#endif

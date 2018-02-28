@@ -31,10 +31,12 @@ ImageStream::ImageStream():
 }
 
 ImageStream::ImageStream(const ImageStream& image,const CopyOp& copyop):
-    Image(image,copyop),
-    _status(image._status),
-    _loopingMode(image._loopingMode),
-    _audioStreams(image._audioStreams)
+    Image(image,copyop)
+    ,_status(image._status)
+    ,_loopingMode(image._loopingMode)
+#ifndef IM_OSG_SIZE_REDUCTION
+    ,_audioStreams(image._audioStreams)
+#endif
 {
 }
 

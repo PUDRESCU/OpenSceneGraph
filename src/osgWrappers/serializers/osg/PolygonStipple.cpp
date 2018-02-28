@@ -4,6 +4,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
+#ifndef IM_OSG_SIZE_REDUCTION
 static bool checkMask( const osg::PolygonStipple& attr )
 {
     return true;
@@ -59,3 +60,4 @@ REGISTER_OBJECT_WRAPPER( PolygonStipple,
 {
     ADD_USER_SERIALIZER( Mask );  // _mask
 }
+#endif

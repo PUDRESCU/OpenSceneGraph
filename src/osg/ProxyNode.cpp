@@ -15,6 +15,8 @@
 #include <osg/CullStack>
 #include <osg/Notify>
 
+#ifndef IM_OSG_SIZE_REDUCTION
+
 using namespace osg;
 
 ProxyNode::ProxyNode() :
@@ -123,5 +125,5 @@ BoundingSphere ProxyNode::computeBound() const
         return Group::computeBound();
     }
 }
-
+#endif
 

@@ -32,6 +32,7 @@
 
 #include <osg/Texture3D>
 #include <osgUtil/Export>
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgUtil
 {
@@ -93,5 +94,5 @@ inline osg::Texture3D* create3DNoiseTexture(int texSize )
 }
 
 }
-
+#endif
 #endif // PERLINENOISE_H
