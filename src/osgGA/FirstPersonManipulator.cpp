@@ -18,7 +18,7 @@
 #include <osgGA/FirstPersonManipulator>
 #include <cassert>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;

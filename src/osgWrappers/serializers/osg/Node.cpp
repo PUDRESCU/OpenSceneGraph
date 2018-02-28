@@ -22,7 +22,7 @@ static bool readInitialBound( osgDB::InputStream& is, osg::Node& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeInitialBound( osgDB::OutputStream& os, const osg::Node& node )
 {
     const osg::BoundingSphere& bs = node.getInitialBound();
@@ -53,7 +53,7 @@ static bool readDescriptions( osgDB::InputStream& is, osg::Node& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDescriptions( osgDB::OutputStream& os, const osg::Node& node )
 {
     const osg::Node::DescriptionList& slist = node.getDescriptions();

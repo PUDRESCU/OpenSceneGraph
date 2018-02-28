@@ -4,7 +4,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 REGISTER_OBJECT_WRAPPER( osgViewer_Keystone,
                          new osgViewer::Keystone,

@@ -86,12 +86,12 @@ public:
     void addFinishedObjectReadCallback ( FinishedObjectReadCallback* forc) { _finishedObjectReadCallbacks.push_back(forc); }
 
     bool read( InputStream&, osg::Object& );
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     bool write( OutputStream&, const osg::Object& );
 #endif
     
     bool readSchema( const StringList& properties, const TypeList& types );
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     void writeSchema( StringList& properties, TypeList& types );
 #endif
     void resetSchema() { if ( _backupSerializers.size()>0 ) _serializers = _backupSerializers; }

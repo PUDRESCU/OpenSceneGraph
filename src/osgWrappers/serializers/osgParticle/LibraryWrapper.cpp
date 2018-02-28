@@ -37,7 +37,7 @@ USE_SERIALIZER_WRAPPER(osgParticleSegmentPlacer)
 USE_SERIALIZER_WRAPPER(osgParticleShooter)
 USE_SERIALIZER_WRAPPER(osgParticleSinkOperator)
 USE_SERIALIZER_WRAPPER(osgParticleVariableRateCounter)
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 USE_SERIALIZER_WRAPPER(osgParticleExplosionDebrisEffect)
 USE_SERIALIZER_WRAPPER(osgParticleExplosionEffect)
 USE_SERIALIZER_WRAPPER(osgParticleFireEffect)

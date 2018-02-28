@@ -17,7 +17,7 @@
 #include <osgDB/WriteFile>
 #include <stdexcept>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 namespace osgDB
 {

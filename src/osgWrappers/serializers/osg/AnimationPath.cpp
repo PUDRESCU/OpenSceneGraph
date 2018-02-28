@@ -34,7 +34,7 @@ static bool readTimeControlPointMap( osgDB::InputStream& is, osg::AnimationPath&
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeTimeControlPointMap( osgDB::OutputStream& os, const osg::AnimationPath& path )
 {
     const osg::AnimationPath::TimeControlPointMap& map = path.getTimeControlPointMap();

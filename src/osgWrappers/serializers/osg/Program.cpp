@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define PROGRAM_LIST_FUNC( PROP, TYPE, DATA ) \
     static bool check##PROP(const osg::Program& attr) \
     { return attr.get##TYPE().size()>0; } \
@@ -45,7 +45,7 @@
 PROGRAM_LIST_FUNC( AttribBinding, AttribBindingList, BindAttribLocation )
 PROGRAM_LIST_FUNC( FragDataBinding, FragDataBindingList, BindFragDataLocation )
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define PROGRAM_PARAMETER_FUNC( PROP, NAME ) \
     static bool check##PROP(const osg::Program& attr) \
     { return true; } \
@@ -91,7 +91,7 @@ static bool readShaders( osgDB::InputStream& is, osg::Program& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeShaders( osgDB::OutputStream& os, const osg::Program& attr )
 {
     unsigned int size = attr.getNumShaders();
@@ -122,7 +122,7 @@ static bool readFeedBackVaryingsName( osgDB::InputStream& is, osg::Program& attr
 	is >> is.END_BRACKET;
 	return true;
 }
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeFeedBackVaryingsName( osgDB::OutputStream& os, const osg::Program& attr )
 {
 	unsigned int size = attr.getNumTransformFeedBackVaryings();
@@ -147,7 +147,7 @@ static bool readFeedBackMode( osgDB::InputStream& is, osg::Program& attr )
 	attr.setTransformFeedBackMode(size);
 	return true;
 }
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeFeedBackMode( osgDB::OutputStream& os, const osg::Program& attr )
 {
 	os << attr.getTransformFeedBackMode()<< std::endl;
@@ -170,7 +170,7 @@ static bool readComputeGroups( osgDB::InputStream& is, osg::Program& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeComputeGroups( osgDB::OutputStream& os, const osg::Program& attr )
 {
     GLint numX = 0, numY = 0, numZ = 0;

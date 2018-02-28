@@ -26,7 +26,7 @@ static bool readDrawables( osgDB::InputStream& is, osg::Geode& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDrawables( osgDB::OutputStream& os, const osg::Geode& node )
 {
     unsigned int size = node.getNumDrawables();

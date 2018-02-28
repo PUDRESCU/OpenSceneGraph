@@ -22,7 +22,7 @@
 #include <osgGA/GUIEventHandler>
 #include <osgViewer/Export>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgViewer
 {
@@ -71,7 +71,7 @@ public:
 
     osg::Node* createGrid();
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     /** Write the file specified by the "filename" user value field. Return true if file successfully written. */
     bool writeToFile();
 #endif

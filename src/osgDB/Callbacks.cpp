@@ -69,7 +69,7 @@ ReaderWriter::ReadResult ReadFileCallback::readScript(const std::string& filenam
     return osgDB::Registry::instance()->readScriptImplementation(filename,options);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //

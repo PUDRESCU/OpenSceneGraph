@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 // _particleSystem
 static bool checkParticleSystem( const osgParticle::ParticleEffect& effect )
@@ -21,7 +21,7 @@ static bool readParticleSystem( osgDB::InputStream& is, osgParticle::ParticleEff
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeParticleSystem( osgDB::OutputStream& os, const osgParticle::ParticleEffect& effect )
 {
     os << os.BEGIN_BRACKET << std::endl;

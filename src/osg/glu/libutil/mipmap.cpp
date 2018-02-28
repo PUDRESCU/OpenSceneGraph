@@ -3964,7 +3964,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_FLOAT:
             dstImage = (GLfloat *)malloc(memreq);
             break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         case GL_BYTE:
           dstImage = (GLbyte *)malloc(memreq);
           break;
@@ -4024,7 +4024,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                              (const GLfloat *)usersImage, (GLfloat *)dstImage,
                              element_size, rowsize, group_size, myswap_bytes);
             break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
           case GL_BYTE:
             halveImage_byte(cmpts, width, height,
                             (const GLbyte *)usersImage, (GLbyte *)dstImage,
@@ -4135,7 +4135,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
         case GL_FLOAT:
           dstImage = (GLfloat *)malloc(memreq);
           break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         case GL_BYTE:
           dstImage = (GLbyte *)malloc(memreq);
           break;
@@ -4195,7 +4195,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
             case GL_FLOAT:
                 dstImage = (GLfloat *)malloc(memreq);
                 break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
             case GL_BYTE:
                 dstImage = (GLbyte *)malloc(memreq);
                 break;
@@ -4258,7 +4258,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                  (GLfloat *)dstImage, element_size,
                                  rowsize, group_size, myswap_bytes);
             break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         case GL_BYTE:
             scale_internal_byte(cmpts, width, height,
                                 (const GLbyte *)usersImage, newwidth, newheight,
@@ -4388,7 +4388,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
           case GL_FLOAT:
             dstImage = (GLfloat *)malloc(memreq);
             break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
           case GL_BYTE:
             dstImage = (GLbyte *)malloc(memreq);
             break;
@@ -4464,7 +4464,7 @@ static int gluBuild2DMipmapLevelsCore(GLenum target, GLint internalFormat,
                                  (GLfloat *)srcImage, (GLfloat *)dstImage, element_size,
                                  rowsize, group_size, myswap_bytes);
                 break;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
             case GL_BYTE:
                 halveImage_byte(cmpts, newwidth, newheight,
                 (GLbyte *)srcImage, (GLbyte *)dstImage, element_size,

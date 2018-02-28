@@ -20,7 +20,7 @@ static bool readVertices( osgDB::InputStream& is, osgParticle::MultiSegmentPlace
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeVertices( osgDB::OutputStream& os, const osgParticle::MultiSegmentPlacer& placer )
 {
     unsigned int size = placer.numVertices();

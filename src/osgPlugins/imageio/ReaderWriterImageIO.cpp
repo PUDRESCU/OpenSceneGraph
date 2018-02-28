@@ -1195,7 +1195,7 @@ public:
         return read_result;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     WriteResult writeImageStream(const osg::Image& osg_image, std::ostream& fout, const osgDB::ReaderWriter::Options* the_options) const
     {
         if (!osg_image.isDataContiguous())

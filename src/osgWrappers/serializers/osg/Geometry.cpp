@@ -44,7 +44,7 @@ static osg::Array* readArray( osgDB::InputStream& is)
     return array.release();
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 {
@@ -62,7 +62,7 @@ static void writeArray( osgDB::OutputStream& os, const osg::Array* array)
 }
 #endif
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define ADD_ARRAYDATA_FUNCTIONS( ORIGINAL_PROP, PROP ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##PROP()!=0; } \
@@ -98,7 +98,7 @@ ADD_ARRAYDATA_FUNCTIONS( ColorData, ColorArray )
 ADD_ARRAYDATA_FUNCTIONS( SecondaryColorData, SecondaryColorArray )
 ADD_ARRAYDATA_FUNCTIONS( FogCoordData, FogCoordArray )
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define ADD_ARRAYLIST_FUNCTIONS( ORIGINAL_PROP, PROP, LISTNAME ) \
     static bool check##ORIGINAL_PROP( const osg::Geometry& geom ) \
     { return geom.get##LISTNAME().size()>0; } \
@@ -170,7 +170,7 @@ static bool readFastPathHint( osgDB::InputStream& is, osg::Geometry& geom )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeFastPathHint( osgDB::OutputStream& os, const osg::Geometry& geom )
 {
     return true;

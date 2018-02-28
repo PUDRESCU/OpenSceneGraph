@@ -410,7 +410,7 @@ bool Viewer::checkEvents()
 
 int Viewer::run()
 {
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (!getCameraManipulator() && getCamera()->getAllowEventFocus())
     {
         setCameraManipulator(new osgGA::TrackballManipulator());
@@ -1106,7 +1106,7 @@ void Viewer::eventTraversal()
         ++itr)
     {
         osgGA::Event* event = itr->get();
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         if (event && _cameraManipulator.valid())
         {
             _cameraManipulator->handle( event, 0, _eventVisitor.get());
@@ -1191,7 +1191,7 @@ void Viewer::updateTraversal()
 
         _updateVisitor->setTraversalMode(tm);
     }
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         setFusionDistance( getCameraManipulator()->getFusionDistanceMode(),
@@ -1347,7 +1347,7 @@ double Viewer::elapsedTime()
 
 void Viewer::getUsage(osg::ApplicationUsage& usage) const
 {
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         _cameraManipulator->getUsage(usage);

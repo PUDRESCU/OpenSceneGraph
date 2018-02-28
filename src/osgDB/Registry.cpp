@@ -1316,7 +1316,7 @@ ReaderWriter::ReadResult Registry::readObjectImplementation(const std::string& f
     return readImplementation(ReadObjectFunctor(fileName, options),Options::CACHE_OBJECTS);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeObjectImplementation(const Object& obj,const std::string& fileName,const Options* options)
 {
@@ -1364,7 +1364,7 @@ ReaderWriter::ReadResult Registry::readImageImplementation(const std::string& fi
     return readImplementation(ReadImageFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeImageImplementation(const Image& image,const std::string& fileName,const Options* options)
 {
@@ -1411,7 +1411,7 @@ ReaderWriter::ReadResult Registry::readHeightFieldImplementation(const std::stri
     return readImplementation(ReadHeightFieldFunctor(fileName, options),Options::CACHE_HEIGHTFIELDS);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeHeightFieldImplementation(const HeightField& HeightField,const std::string& fileName,const Options* options)
 {
@@ -1470,7 +1470,7 @@ ReaderWriter::ReadResult Registry::readNodeImplementation(const std::string& fil
 #endif
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeNodeImplementation(const Node& node,const std::string& fileName,const Options* options)
 {
@@ -1519,7 +1519,7 @@ ReaderWriter::ReadResult Registry::readShaderImplementation(const std::string& f
     return readImplementation(ReadShaderFunctor(fileName, options),Options::CACHE_SHADERS);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeShaderImplementation(const Shader& shader,const std::string& fileName,const Options* options)
 {
@@ -1569,7 +1569,7 @@ ReaderWriter::ReadResult Registry::readScriptImplementation(const std::string& f
     return readImplementation(ReadScriptFunctor(fileName, options),Options::CACHE_IMAGES);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 ReaderWriter::WriteResult Registry::writeScriptImplementation(const Script& image,const std::string& fileName,const Options* options)
 {

@@ -21,7 +21,7 @@ static bool readUserData( osgDB::InputStream& is, osg::Object& obj )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeUserData( osgDB::OutputStream& os, const osg::Object& obj )
 {
     os << os.BEGIN_BRACKET << std::endl;

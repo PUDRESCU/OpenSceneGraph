@@ -36,7 +36,7 @@ static bool readMode( osgDB::InputStream& is, osg::PolygonMode& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMode( osgDB::OutputStream& os, const osg::PolygonMode& attr )
 {
     os << os.PROPERTY("UseFrontAndBack") << attr.getFrontAndBack() << std::endl;

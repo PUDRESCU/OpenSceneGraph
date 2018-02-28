@@ -5,7 +5,7 @@
 #include <osg/Types>
 #include <vector>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 class BinaryOutputIterator : public osgDB::OutputIterator
 {

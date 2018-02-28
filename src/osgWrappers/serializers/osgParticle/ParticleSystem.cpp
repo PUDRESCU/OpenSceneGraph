@@ -4,7 +4,7 @@
 #include <osgDB/OutputStream>
 
 extern bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p );
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 extern bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p );
 #endif
 // _def_bbox
@@ -24,7 +24,7 @@ static bool readDefaultBoundingBox( osgDB::InputStream& is, osgParticle::Particl
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDefaultBoundingBox( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
     const osg::BoundingBox& bb = ps.getDefaultBoundingBox();
@@ -51,7 +51,7 @@ static bool readDefaultParticleTemplate( osgDB::InputStream& is, osgParticle::Pa
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDefaultParticleTemplate( osgDB::OutputStream& os, const osgParticle::ParticleSystem& ps )
 {
     const osgParticle::Particle& p = ps.getDefaultParticleTemplate();

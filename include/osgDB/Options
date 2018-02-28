@@ -222,7 +222,7 @@ class OSGDB_EXPORT Options : public osg::Object
         /** Get the const readFile callback.*/
         ReadFileCallback* getReadFileCallback() const { return _readFileCallback.get(); }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
         /** Set the callback to use in place of the default writeFile calls.*/
         void setWriteFileCallback( WriteFileCallback* cb) { _writeFileCallback = cb; }
@@ -277,7 +277,7 @@ class OSGDB_EXPORT Options : public osg::Object
 
         osg::ref_ptr<FindFileCallback>      _findFileCallback;
         osg::ref_ptr<ReadFileCallback>      _readFileCallback;
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
         osg::ref_ptr<WriteFileCallback>     _writeFileCallback;
 #endif
         osg::ref_ptr<FileLocationCallback>  _fileLocationCallback;

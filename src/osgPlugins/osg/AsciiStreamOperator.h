@@ -1,4 +1,4 @@
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 #ifndef OSGDB_ASCIISTREAMOPERATOR
 #define OSGDB_ASCIISTREAMOPERATOR
@@ -20,7 +20,7 @@ public:
 
     virtual bool isBinary() const { return false; }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual void writeBool( bool b )
     {
         indentIfRequired();

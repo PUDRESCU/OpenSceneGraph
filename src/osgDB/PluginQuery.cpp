@@ -102,7 +102,7 @@ static std::string padwithspaces(const std::string& str, unsigned int padLength)
     return newStr;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 bool osgDB::outputPluginDetails(std::ostream& out, const std::string& fileName)
 {

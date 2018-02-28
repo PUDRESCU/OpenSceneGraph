@@ -20,7 +20,7 @@ static bool readRestartIndex( osgDB::InputStream& is, osg::PrimitiveRestartIndex
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeRestartIndex( osgDB::OutputStream& os, const osg::PrimitiveRestartIndex& attr )
 {
     os << attr.getRestartIndex() << std::endl;

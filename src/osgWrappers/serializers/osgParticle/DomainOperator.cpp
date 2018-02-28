@@ -41,7 +41,7 @@ static bool readDomains( osgDB::InputStream& is, osgParticle::DomainOperator& dp
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDomains( osgDB::OutputStream& os, const osgParticle::DomainOperator& dp )
 {
     unsigned int size = dp.getNumDomains();

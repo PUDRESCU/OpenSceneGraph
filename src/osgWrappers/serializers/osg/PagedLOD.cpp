@@ -30,7 +30,7 @@ static bool readDatabasePath( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeDatabasePath( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
     os << (!node.getDatabasePath().empty());
@@ -70,7 +70,7 @@ static bool readRangeDataList( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeRangeDataList( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
     unsigned int size = node.getNumFileNames();
@@ -115,7 +115,7 @@ static bool readChildren( osgDB::InputStream& is, osg::PagedLOD& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::PagedLOD& node )
 {
     unsigned int size=node.getNumFileNames(), dynamicLoadedSize=0;

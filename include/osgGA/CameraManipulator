@@ -25,7 +25,7 @@
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/GUIActionAdapter>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgGA{
 

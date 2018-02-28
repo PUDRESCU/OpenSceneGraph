@@ -225,7 +225,7 @@ bool ObjectWrapper::read( InputStream& is, osg::Object& obj )
     return readOK;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 bool ObjectWrapper::write( OutputStream& os, const osg::Object& obj )
 {
@@ -298,7 +298,7 @@ bool ObjectWrapper::readSchema( const StringList& properties, const TypeList& )
     return size==_serializers.size();
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 void ObjectWrapper::writeSchema( StringList& properties, TypeList& types )
 {
     SerializerList::iterator sitr = _serializers.begin();

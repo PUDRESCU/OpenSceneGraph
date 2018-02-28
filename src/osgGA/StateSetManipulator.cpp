@@ -7,7 +7,7 @@
 #include <osg/TextureRectangle>
 #include <osg/TextureCubeMap>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 // #define COMPILE_TEXENVFILTER_USAGE
 #if COMPILE_TEXENVFILTER_USAGE

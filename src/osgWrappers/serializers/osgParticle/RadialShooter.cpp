@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define RADIALSHOOTER_FLOAT_FUNCTION( PROP ) \
     static bool check##PROP( const osgParticle::RadialShooter& obj ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osgParticle::RadialShooter& obj ) { \

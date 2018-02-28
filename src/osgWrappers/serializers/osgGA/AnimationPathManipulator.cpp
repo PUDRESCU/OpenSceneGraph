@@ -1,6 +1,6 @@
 #include <osgGA/AnimationPathManipulator>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 #define OBJECT_CAST dynamic_cast
 

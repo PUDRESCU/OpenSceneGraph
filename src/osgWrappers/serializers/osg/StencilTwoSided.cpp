@@ -31,7 +31,7 @@ END_USER_TABLE()
 USER_READ_FUNC( Operation, readOperation )
 USER_WRITE_FUNC( Operation, writeOperation )
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define STENCIL_INT_VALUE_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::StencilTwoSided& attr ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::StencilTwoSided& attr ) { \

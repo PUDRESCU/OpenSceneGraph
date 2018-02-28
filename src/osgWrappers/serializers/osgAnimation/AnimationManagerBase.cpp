@@ -23,7 +23,7 @@ static bool readAnimations( osgDB::InputStream& is, osgAnimation::AnimationManag
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeAnimations( osgDB::OutputStream& os, const osgAnimation::AnimationManagerBase& manager )
 {
     const osgAnimation::AnimationList& animations = manager.getAnimationList();

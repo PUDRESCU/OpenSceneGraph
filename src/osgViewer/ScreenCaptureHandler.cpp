@@ -533,7 +533,7 @@ ScreenCaptureHandler::WriteToFile::WriteToFile(const std::string& filename,
 {
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 void ScreenCaptureHandler::WriteToFile::operator () (const osg::Image& image, const unsigned int context_id)
 {
     if (_savePolicy == SEQUENTIAL_NUMBER)

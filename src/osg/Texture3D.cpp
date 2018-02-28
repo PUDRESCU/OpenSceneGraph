@@ -58,7 +58,7 @@ Texture3D::~Texture3D()
 
 int Texture3D::compare(const StateAttribute& sa) const
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return 0;
 #else
     // check the types are equal and then create the rhs variable
@@ -111,7 +111,7 @@ int Texture3D::compare(const StateAttribute& sa) const
 
 void Texture3D::setImage(Image* image)
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     if (_image == image) return;
@@ -149,7 +149,7 @@ void Texture3D::setImage(Image* image)
 
 void Texture3D::computeRequiredTextureDimensions(State& state, const osg::Image& image,GLsizei& inwidth, GLsizei& inheight,GLsizei& indepth, GLsizei& numMipmapLevels) const
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     const GLExtensions* extensions = state.get<GLExtensions>();
@@ -211,7 +211,7 @@ void Texture3D::computeRequiredTextureDimensions(State& state, const osg::Image&
 
 void Texture3D::apply(State& state) const
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     // get the contextID (user defined ID of 0 upwards) for the
@@ -367,7 +367,7 @@ void Texture3D::computeInternalFormat() const
 
 void Texture3D::applyTexImage3D(GLenum target, Image* image, State& state, GLsizei& inwidth, GLsizei& inheight, GLsizei& indepth, GLsizei& numMipmapLevels) const
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     // if we don't have a valid image we can't create a texture!
@@ -497,7 +497,7 @@ void Texture3D::applyTexImage3D(GLenum target, Image* image, State& state, GLsiz
 
 void Texture3D::copyTexSubImage3D(State& state, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height )
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     const unsigned int contextID = state.getContextID();
@@ -529,7 +529,7 @@ void Texture3D::copyTexSubImage3D(State& state, int xoffset, int yoffset, int zo
 
 void Texture3D::allocateMipmap(State& state) const
 {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
     return;
 #else
     const unsigned int contextID = state.getContextID();

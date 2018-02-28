@@ -32,7 +32,7 @@
 #cmakedefine OSG_USE_UTF8_FILENAME
 #cmakedefine OSG_DISABLE_MSVC_WARNINGS
 #cmakedefine OSG_PROVIDE_READFILE
-#cmakedefine IM_SIZE_REDUCTION
-#cmakedefine IM_NO_WRITE_SERIALIZATION
+#cmakedefine IM_OSG_SIZE_REDUCTION
+#cmakedefine IM_OSG_NO_WRITE_SERIALIZATION
 
 #endif

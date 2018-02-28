@@ -12,7 +12,7 @@ static bool readRateRange( osgDB::InputStream& is, osgParticle::VariableRateCoun
     obj.setRateRange( min, max ); return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeRateRange( osgDB::OutputStream& os, const osgParticle::VariableRateCounter& obj )
 {
     const osgParticle::rangef& range = obj.getRateRange();

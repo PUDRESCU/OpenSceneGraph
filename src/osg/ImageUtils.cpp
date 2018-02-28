@@ -579,7 +579,7 @@ static void fillSpotLightImage(unsigned char* ptr, const osg::Vec4& centerColour
     }
 }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 osg::Image* createSpotLightImage(const osg::Vec4& centerColour, const osg::Vec4& backgroudColour, unsigned int size, float power)
 {

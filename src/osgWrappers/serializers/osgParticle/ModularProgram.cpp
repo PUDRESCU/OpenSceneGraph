@@ -20,7 +20,7 @@ static bool readOperators( osgDB::InputStream& is, osgParticle::ModularProgram& 
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeOperators( osgDB::OutputStream& os, const osgParticle::ModularProgram& prog )
 {
     unsigned int size = prog.numOperators();

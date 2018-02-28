@@ -348,7 +348,7 @@ protected:
         double                                          _delta;
         osg::Timer_t                                    _animStartTime;
         osg::Timer_t                                    _lastFrameTime;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         osg::ref_ptr<osg::AnimationPath>                _animPath;
         osg::ref_ptr<osgGA::AnimationPathManipulator>   _animPathManipulator;
         osg::ref_ptr<osgGA::CameraManipulator>          _oldManipulator;

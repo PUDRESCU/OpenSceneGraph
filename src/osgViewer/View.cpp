@@ -83,7 +83,7 @@ public:
     osg::NodePath _pathToCoordinateSystemNode;
 };
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 /** callback class to use to allow matrix manipulators to query the application for the local coordinate frame.*/
 class ViewerCoordinateFrameCallback : public osgGA::CameraManipulator::CoordinateFrameCallback
 {
@@ -217,7 +217,7 @@ void View::take(osg::View& rhs)
             _scene = rhs_osgViewer->_scene;
         }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         if (rhs_osgViewer->_cameraManipulator.valid())
         {
             _cameraManipulator = rhs_osgViewer->_cameraManipulator;
@@ -235,7 +235,7 @@ void View::take(osg::View& rhs)
         // clear rhs
         rhs_osgViewer->_frameStamp = 0;
         rhs_osgViewer->_scene = 0;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         rhs_osgViewer->_cameraManipulator = 0;
 #endif
         rhs_osgViewer->_eventHandlers.clear();
@@ -263,7 +263,7 @@ void View::init()
 
     osg::ref_ptr<osgGA::GUIEventAdapter> initEvent = _eventQueue->createEvent();
     initEvent->setEventType(osgGA::GUIEventAdapter::FRAME);
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         _cameraManipulator->init(*initEvent, *this);
@@ -370,7 +370,7 @@ const osgDB::ImagePager* View::getImagePager() const
     return _scene->getImagePager();
 }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 void View::setCameraManipulator(osgGA::CameraManipulator* manipulator, bool resetPosition)
 {
@@ -791,7 +791,7 @@ void View::assignSceneDataToCameras()
 
     osg::Node* sceneData = _scene.valid() ? _scene->getSceneData() : 0;
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (_cameraManipulator.valid())
     {
         _cameraManipulator->setNode(sceneData);
@@ -1173,7 +1173,7 @@ osg::Camera* View::assignRenderToTextureCamera(osg::GraphicsContext* gc, int wid
     return camera.release();
 }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 osg::Camera* View::assignKeystoneDistortionCamera(osg::DisplaySettings* ds, osg::GraphicsContext* gc, int x, int y, int width, int height, GLenum buffer, osg::Texture* texture, Keystone* keystone)
 {
     double screenDistance = ds->getScreenDistance();
@@ -1280,7 +1280,7 @@ void View::StereoSlaveCallback::updateSlave(osg::View& view, osg::View::Slave& s
         slave.updateSlaveImplementation(view);
     }
 }
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 osg::Camera* View::assignStereoCamera(osg::DisplaySettings* ds, osg::GraphicsContext* gc, int x, int y, int width, int height, GLenum buffer, double eyeScale)
 {
@@ -1375,7 +1375,7 @@ static const GLubyte patternCheckerboard[] = {
     0x55, 0x55, 0x55, 0x55,
     0xAA, 0xAA, 0xAA, 0xAA};
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 void View::assignStereoOrKeystoneToCamera(osg::Camera* camera, osg::DisplaySettings* ds)
 {
     if (!camera || camera->getGraphicsContext()==0) return;

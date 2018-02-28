@@ -2,7 +2,7 @@
 
 #include <osgDB/fstream>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osgGA;
 

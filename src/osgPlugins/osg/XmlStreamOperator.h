@@ -1,4 +1,4 @@
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 #ifndef OSGDB_XMLSTREAMOPERATOR
 #define OSGDB_XMLSTREAMOPERATOR
@@ -7,7 +7,7 @@
 #include <osgDB/XmlParser>
 #include <sstream>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 class XmlOutputIterator : public osgDB::OutputIterator
 {
 public:

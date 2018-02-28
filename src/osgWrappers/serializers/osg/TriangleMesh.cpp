@@ -3,7 +3,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define ARRAY_FUNCTIONS( PROP, TYPE ) \
     static bool check##PROP(const osg::TriangleMesh& shape) { \
         return shape.get##PROP()!=NULL; \

@@ -56,7 +56,7 @@ static void readAttributes( osgDB::InputStream& is, osg::StateSet::AttributeList
         }
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static void writeValue( osgDB::OutputStream& os, int value )
 {
     if ( os.isBinary() )
@@ -128,7 +128,7 @@ static bool readModeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeModeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
     writeModes( os, ss.getModeList() );
@@ -153,7 +153,7 @@ static bool readAttributeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeAttributeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
     writeAttributes( os, ss.getAttributeList() );
@@ -186,7 +186,7 @@ static bool readTextureModeList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeTextureModeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
     const osg::StateSet::TextureModeList& tml = ss.getTextureModeList();
@@ -227,7 +227,7 @@ static bool readTextureAttributeList( osgDB::InputStream& is, osg::StateSet& ss 
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeTextureAttributeList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
     const osg::StateSet::TextureAttributeList& tal = ss.getTextureAttributeList();
@@ -264,7 +264,7 @@ static bool readUniformList( osgDB::InputStream& is, osg::StateSet& ss )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeUniformList( osgDB::OutputStream& os, const osg::StateSet& ss )
 {
     const osg::StateSet::UniformList& ul = ss.getUniformList();

@@ -23,7 +23,7 @@
 
 #include <osg/Geode>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osgParticle;
 

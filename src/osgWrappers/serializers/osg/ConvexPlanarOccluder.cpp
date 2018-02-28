@@ -15,7 +15,7 @@ static void readConvexPlanarPolygon( osgDB::InputStream& is, osg::ConvexPlanarPo
     is >> is.END_BRACKET;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static void writeConvexPlanarPolygon( osgDB::OutputStream& os, const osg::ConvexPlanarPolygon& polygon )
 {
     const osg::ConvexPlanarPolygon::VertexList& vertices = polygon.getVertexList();
@@ -43,7 +43,7 @@ static bool readOccluder( osgDB::InputStream& is, osg::ConvexPlanarOccluder& obj
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeOccluder( osgDB::OutputStream& os, const osg::ConvexPlanarOccluder& obj )
 {
     writeConvexPlanarPolygon( os, obj.getOccluder() );
@@ -71,7 +71,7 @@ static bool readHoles( osgDB::InputStream& is, osg::ConvexPlanarOccluder& obj )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeHoles( osgDB::OutputStream& os, const osg::ConvexPlanarOccluder& obj )
 {
     const osg::ConvexPlanarOccluder::HoleList& holes = obj.getHoleList();

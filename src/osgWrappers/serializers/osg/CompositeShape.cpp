@@ -21,7 +21,7 @@ static bool readChildren( osgDB::InputStream& is, osg::CompositeShape& shape )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeChildren( osgDB::OutputStream& os, const osg::CompositeShape& shape )
 {
     unsigned int size = shape.getNumChildren();

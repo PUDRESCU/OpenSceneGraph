@@ -4,7 +4,7 @@
 #include <osgDB/InputStream>
 #include <osgDB/OutputStream>
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define MATERIAL_FUNC( PROP, TYPE ) \
     static bool check##PROP( const osg::Material& attr ) { return true; } \
     static bool read##PROP( osgDB::InputStream& is, osg::Material& attr ) { \

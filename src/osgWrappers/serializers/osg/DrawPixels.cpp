@@ -17,7 +17,7 @@ static bool readArea( osgDB::InputStream& is, osg::DrawPixels& drawable )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::DrawPixels& drawable )
 {
     unsigned int x, y, w, h;

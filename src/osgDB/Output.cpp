@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 using namespace std;
 using namespace osgDB;

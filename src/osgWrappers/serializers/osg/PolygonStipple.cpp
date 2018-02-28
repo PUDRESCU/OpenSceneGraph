@@ -30,7 +30,7 @@ static bool readMask( osgDB::InputStream& is, osg::PolygonStipple& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMask( osgDB::OutputStream& os, const osg::PolygonStipple& attr )
 {
     if ( os.isBinary() )

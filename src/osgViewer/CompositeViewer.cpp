@@ -320,7 +320,7 @@ int CompositeViewer::run()
         ++itr)
     {
         osgViewer::View* view = itr->get();
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         if ((view->getCameraManipulator()==0) && view->getCamera()->getAllowEventFocus())
         {
             view->setCameraManipulator(new osgGA::TrackballManipulator());
@@ -1262,7 +1262,7 @@ void CompositeViewer::eventTraversal()
             ++itr)
         {
             osgGA::Event* event = itr->get();
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
             if (view->getCameraManipulator())
             {
                 view->getCameraManipulator()->handle( event, view, _eventVisitor.get());
@@ -1360,7 +1360,7 @@ void CompositeViewer::updateTraversal()
             _updateVisitor->setTraversalMode(tm);
         }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
         if (view->getCameraManipulator())
         {
@@ -1399,7 +1399,7 @@ void CompositeViewer::getUsage(osg::ApplicationUsage& usage) const
         ++vitr)
     {
         const View* view = vitr->get();
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         if (view->getCameraManipulator())
         {
             view->getCameraManipulator()->getUsage(usage);

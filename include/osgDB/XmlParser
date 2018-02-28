@@ -20,7 +20,7 @@ namespace osgDB {
 
 extern OSGDB_EXPORT std::string trimEnclosingSpaces(const std::string& str);
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 // forward declare
 class XmlNode;

@@ -20,7 +20,7 @@ static bool readMasks( osgDB::InputStream& is, osg::SampleMaski& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMasks( osgDB::OutputStream& os, const osg::SampleMaski& attr )
 {
     os << attr.getMask( 0u ) << attr.getMask( 1u ) << std::endl;

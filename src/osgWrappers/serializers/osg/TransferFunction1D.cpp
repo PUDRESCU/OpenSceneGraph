@@ -24,7 +24,7 @@ static bool readColorMap( osgDB::InputStream& is, osg::TransferFunction1D& func 
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeColorMap( osgDB::OutputStream& os, const osg::TransferFunction1D& func )
 {
     const osg::TransferFunction1D::ColorMap& map = func.getColorMap();

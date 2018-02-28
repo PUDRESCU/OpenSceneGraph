@@ -22,7 +22,7 @@
 #include <osg/StateSet>
 #include <osg/PolygonMode>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgGA {
 

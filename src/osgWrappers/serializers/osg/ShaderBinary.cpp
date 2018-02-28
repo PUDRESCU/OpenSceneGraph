@@ -29,7 +29,7 @@ static bool readData( osgDB::InputStream& is, osg::ShaderBinary& sb )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeData( osgDB::OutputStream& os, const osg::ShaderBinary& sb )
 {
     if ( os.isBinary() )

@@ -73,7 +73,7 @@ static osg::Camera::Attachment readBufferAttachment( osgDB::InputStream& is )
     return attachment;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static void writeBufferAttachment( osgDB::OutputStream& os, const osg::Camera::Attachment& attachment )
 {
     os << os.PROPERTY("Type");
@@ -121,7 +121,7 @@ static bool readRenderOrder( osgDB::InputStream& is, osg::Camera& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeRenderOrder( osgDB::OutputStream& os, const osg::Camera& node )
 {
     writeOrderValue( os, (int)node.getRenderOrder() );
@@ -168,7 +168,7 @@ static bool readBufferAttachmentMap( osgDB::InputStream& is, osg::Camera& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeBufferAttachmentMap( osgDB::OutputStream& os, const osg::Camera& node )
 {
     const osg::Camera::BufferAttachmentMap& map = node.getBufferAttachmentMap();

@@ -27,7 +27,7 @@
 
 #include <osgViewer/Keystone>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osgViewer;
 
@@ -539,7 +539,7 @@ bool KeystoneHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
     }
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 bool Keystone::writeToFile()
 {
     std::string filename;

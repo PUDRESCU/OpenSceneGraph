@@ -77,7 +77,7 @@ static void readContainer2( osgDB::InputStream& is, ContainerType* container )
     }
 
 // writing channel helpers
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static void writeChannel( osgDB::OutputStream& os, osgAnimation::Channel* ch )
 {
     os << os.PROPERTY("Name"); os.writeWrappedString(ch->getName()); os << std::endl;
@@ -121,7 +121,7 @@ static void writeContainer2( osgDB::OutputStream& os, ContainerType* container )
 }
 #endif
 
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 #define WRITE_CHANNEL_FUNC( NAME, CHANNEL, CONTAINER )
 #define WRITE_CHANNEL_FUNC2( NAME, CHANNEL, CONTAINER )
 #else
@@ -197,7 +197,7 @@ static bool readChannels( osgDB::InputStream& is, osgAnimation::Animation& ani )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeChannels( osgDB::OutputStream& os, const osgAnimation::Animation& ani )
 {
     const osgAnimation::ChannelList& channels = ani.getChannels();

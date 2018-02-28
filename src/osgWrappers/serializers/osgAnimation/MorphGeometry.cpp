@@ -22,7 +22,7 @@ static bool readMorphTargets( osgDB::InputStream& is, osgAnimation::MorphGeometr
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMorphTargets( osgDB::OutputStream& os, const osgAnimation::MorphGeometry& geom )
 {
     const osgAnimation::MorphGeometry::MorphTargetList& targets = geom.getMorphTargetList();

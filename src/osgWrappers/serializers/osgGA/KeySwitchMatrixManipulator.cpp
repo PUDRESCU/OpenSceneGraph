@@ -1,6 +1,6 @@
 #include <osgGA/KeySwitchMatrixManipulator>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 #define OBJECT_CAST dynamic_cast
 
@@ -32,7 +32,7 @@ static bool readKeyManipMap( osgDB::InputStream& is, osgGA::KeySwitchMatrixManip
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeKeyManipMap( osgDB::OutputStream& os, const osgGA::KeySwitchMatrixManipulator& kwmm )
 {
     const osgGA::KeySwitchMatrixManipulator::KeyManipMap& kmm = kwmm.getKeyManipMap();    

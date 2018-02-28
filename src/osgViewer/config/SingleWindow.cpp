@@ -102,7 +102,7 @@ void SingleWindow::configure(osgViewer::View& view) const
     view.getCamera()->setDrawBuffer(buffer);
     view.getCamera()->setReadBuffer(buffer);
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (ds->getKeystoneHint())
     {
         if (ds->getKeystoneHint() && !ds->getKeystoneFileNames().empty()) 

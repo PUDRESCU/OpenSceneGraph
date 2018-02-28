@@ -28,7 +28,7 @@ Options::Options(const Options& options,const osg::CopyOp& copyop):
     _pluginStringData(options._pluginStringData),
     _findFileCallback(options._findFileCallback),
     _readFileCallback(options._readFileCallback),
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     _writeFileCallback(options._writeFileCallback),
 #endif
     _fileLocationCallback(options._fileLocationCallback),

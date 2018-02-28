@@ -20,7 +20,7 @@ static bool readParticleSystems( osgDB::InputStream& is, osgParticle::ParticleSy
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeParticleSystems( osgDB::OutputStream& os, const osgParticle::ParticleSystemUpdater& updater )
 {
     unsigned int size = updater.getNumParticleSystems();

@@ -115,7 +115,7 @@ void DisplaySettings::setDisplaySettings(const DisplaySettings& vs)
     _glContextFlags = vs._glContextFlags;
     _glContextProfileMask = vs._glContextProfileMask;
     _swapMethod = vs._swapMethod;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     _keystoneHint = vs._keystoneHint;
     _keystoneFileNames = vs._keystoneFileNames;
     _keystones = vs._keystones;
@@ -156,7 +156,7 @@ void DisplaySettings::merge(const DisplaySettings& vs)
     // merge swap method to higher value
     if( vs._swapMethod > _swapMethod )
         _swapMethod = vs._swapMethod;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     _keystoneHint = _keystoneHint | vs._keystoneHint;
 
     // insert any unique filenames into the local list
@@ -238,7 +238,7 @@ void DisplaySettings::setDefaults()
 
     _swapMethod = SWAP_DEFAULT;
     _syncSwapBuffers = 0;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     _keystoneHint = false;
 #endif
     _OSXMenubarBehavior = MENUBAR_AUTO_HIDE;
@@ -668,7 +668,7 @@ void DisplaySettings::readEnvironmentalVariables()
             _syncSwapBuffers = atoi(ptr);
         }
     }
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if( (ptr = getenv("OSG_KEYSTONE")) != 0)
     {
         if (strcmp(ptr,"OFF")==0)
@@ -818,7 +818,7 @@ void DisplaySettings::readCommandLine(ArgumentParser& arguments)
     {
         _syncSwapBuffers = 1;
     }
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     if (arguments.read("--keystone",str))
     {
         _keystoneHint = true;

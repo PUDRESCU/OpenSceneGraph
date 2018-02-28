@@ -30,7 +30,7 @@ static bool readElements( osgDB::InputStream& is, osg::Uniform& uniform )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeElements( osgDB::OutputStream& os, const osg::Uniform& uniform )
 {
     if ( uniform.getFloatArray()!=NULL )

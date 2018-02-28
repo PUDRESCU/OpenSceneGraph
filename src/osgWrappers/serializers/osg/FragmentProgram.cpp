@@ -23,7 +23,7 @@ static bool readLocalParameters( osgDB::InputStream& is, osg::FragmentProgram& f
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeLocalParameters( osgDB::OutputStream& os, const osg::FragmentProgram& fp )
 {
     const osg::FragmentProgram::LocalParamList& params = fp.getLocalParameters();
@@ -57,7 +57,7 @@ static bool readMatrices( osgDB::InputStream& is, osg::FragmentProgram& fp )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMatrices( osgDB::OutputStream& os, const osg::FragmentProgram& fp )
 {
     const osg::FragmentProgram::MatrixList& matrices = fp.getMatrices();

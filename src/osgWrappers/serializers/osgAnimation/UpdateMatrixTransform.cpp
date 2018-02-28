@@ -24,7 +24,7 @@ static bool readStackedTransforms( osgDB::InputStream& is, osgAnimation::UpdateM
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeStackedTransforms( osgDB::OutputStream& os, const osgAnimation::UpdateMatrixTransform& obj )
 {
     const osgAnimation::StackedTransform& transform = obj.getStackedTransforms();

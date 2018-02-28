@@ -39,7 +39,7 @@ static bool readInfluenceMap( osgDB::InputStream& is, osgAnimation::RigGeometry&
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeInfluenceMap( osgDB::OutputStream& os, const osgAnimation::RigGeometry& geom )
 {
     const osgAnimation::VertexInfluenceMap* map = geom.getInfluenceMap();

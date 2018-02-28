@@ -29,7 +29,7 @@
 #include <osg/Timer>
 #include <osg/ImageUtils>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osgParticle;
 

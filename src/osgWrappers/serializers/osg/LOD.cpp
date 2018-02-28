@@ -18,7 +18,7 @@ static bool readUserCenter( osgDB::InputStream& is, osg::LOD& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeUserCenter( osgDB::OutputStream& os, const osg::LOD& node )
 {
     os << osg::Vec3d(node.getCenter()) << (double)node.getRadius() << std::endl;
@@ -45,7 +45,7 @@ static bool readRangeList( osgDB::InputStream& is, osg::LOD& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeRangeList( osgDB::OutputStream& os, const osg::LOD& node )
 {
     const osg::LOD::RangeList& ranges = node.getRangeList();

@@ -120,7 +120,7 @@ public:
         value = (s_user_lookup_table_##NAME)._lookup.getValue(str.c_str()); } \
         return value; }
         
-#ifdef IM_NO_WRITE_SERIALIZATION
+#ifdef IM_OSG_NO_WRITE_SERIALIZATION
 
 #define USER_WRITE_FUNC(NAME, FUNCNAME)
 
@@ -166,7 +166,7 @@ public:
     virtual bool get(const osg::Object& /*object*/, void* /*value*/) { return false; }
 
     virtual bool read( InputStream&, osg::Object& ) = 0;
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream&, const osg::Object& ) = 0;
 #endif
     virtual const std::string& getName() const = 0;
@@ -200,11 +200,11 @@ class UserSerializer : public BaseSerializer
 public:
     typedef bool (*Checker)( const C& );
     typedef bool (*Reader)( InputStream&, C& );
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     typedef bool (*Writer)( OutputStream&, const C& );
 #endif
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     UserSerializer( const char* name, Checker cf, Reader rf, Writer wf )
     : BaseSerializer(READ_WRITE_PROPERTY), _name(name), _checker(cf), _reader(rf), _writer(wf) {}
 #else
@@ -229,7 +229,7 @@ public:
         return (*_reader)(is, object);
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -256,7 +256,7 @@ protected:
 
 public:
     Reader _reader;
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     Writer _writer;
 #endif
 };
@@ -270,7 +270,7 @@ public:
         : BaseSerializer(READ_WRITE_PROPERTY), _name(name), _defaultValue(def) {}
 
     virtual bool read( InputStream& is, osg::Object& obj ) = 0;
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj ) = 0;
 #endif
     virtual const std::string& getName() const { return _name; }
@@ -312,7 +312,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
 
@@ -373,7 +373,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -425,7 +425,7 @@ public:
         return true;
     }
     
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -495,7 +495,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -547,7 +547,7 @@ public:
         return true;
     }
     
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -614,7 +614,7 @@ public:
         return true;
     }
     
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -694,7 +694,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -766,7 +766,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( osgDB::OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -842,7 +842,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -1017,7 +1017,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -1172,7 +1172,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& list = OBJECT_CAST<const C&>(obj);
@@ -1439,7 +1439,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -1527,7 +1527,7 @@ public:
         return true;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     virtual bool write( osgDB::OutputStream& os, const osg::Object& obj )
     {
         const C& object = OBJECT_CAST<const C&>(obj);
@@ -1577,7 +1577,7 @@ protected:
 #define ADD_SERIALIZER(S) \
     wrapper->addSerializer( (S) )
     
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 #define ADD_USER_SERIALIZER(PROP) \
     wrapper->addSerializer( new osgDB::UserSerializer<MyClass>( \

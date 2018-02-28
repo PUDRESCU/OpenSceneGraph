@@ -919,7 +919,7 @@ void DatabasePager::DatabaseThread::run()
                 fileCache->isFileAppropriateForFileCache(fileName) &&
                 !readFromFileCache)
             {
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
                 fileCache->writeNode(*(loadedModel), fileName, dr_loadOptions.get());
 #endif
             }

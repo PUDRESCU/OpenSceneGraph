@@ -23,7 +23,7 @@ static bool readFileNames( osgDB::InputStream& is, osg::ImageSequence& image )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeFileNames( osgDB::OutputStream& os, const osg::ImageSequence& image )
 {
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();
@@ -58,7 +58,7 @@ static bool readImages( osgDB::InputStream& is, osg::ImageSequence& image )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeImages( osgDB::OutputStream& os, const osg::ImageSequence& image)
 {
     const osg::ImageSequence::ImageDataList& imageDataList = image.getImageDataList();

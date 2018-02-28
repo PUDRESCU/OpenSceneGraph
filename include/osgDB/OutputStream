@@ -30,7 +30,7 @@
 #include <iostream>
 #include <sstream>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 namespace osgDB
 {
@@ -293,7 +293,7 @@ public:
 
     void compress( std::ostream* ostream );
     
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     // Schema handlers
     void writeSchema( std::ostream& fout );
 #endif

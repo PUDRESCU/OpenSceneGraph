@@ -33,7 +33,7 @@ std::string osgDB::trimEnclosingSpaces(const std::string& str)
   return std::string(str, start, (end-start)+1);
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 XmlNode* osgDB::readXmlFile(const std::string& filename,const Options* options)
 {

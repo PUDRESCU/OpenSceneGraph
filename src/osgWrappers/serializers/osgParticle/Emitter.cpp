@@ -5,7 +5,7 @@
 
 extern bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p );
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 extern bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p );
 #endif
 
@@ -22,7 +22,7 @@ static bool readParticleTemplate( osgDB::InputStream& is, osgParticle::Emitter& 
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeParticleTemplate( osgDB::OutputStream& os, const osgParticle::Emitter& emitter )
 {
     const osgParticle::Particle& p = emitter.getParticleTemplate();

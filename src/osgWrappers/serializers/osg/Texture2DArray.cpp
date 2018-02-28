@@ -20,7 +20,7 @@ static bool readImages( osgDB::InputStream& is, osg::Texture2DArray& tex )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeImages( osgDB::OutputStream& os, const osg::Texture2DArray& tex )
 {
     unsigned int size = tex.getNumImages();

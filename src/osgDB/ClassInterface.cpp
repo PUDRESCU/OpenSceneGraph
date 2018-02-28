@@ -23,7 +23,7 @@ const char* getTypeStringFromPtr(const osg::Object*) { return "OBJECT"; }
 osgDB::BaseSerializer::Type getTypeEnumFromPtr(const osg::Image*) { return osgDB::BaseSerializer::RW_IMAGE; }
 const char* getTypeStringFromPtr(const osg::Image*) { return "IMAGE"; }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 ///////////////////////////////////////////////////////////////////
 //
 // PropertyOutputIterator enables the get of class properties
@@ -169,7 +169,7 @@ public:
 ClassInterface::ClassInterface():
     _inputStream(0)
 {
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     _poi = new PropertyOutputIterator;
     _outputStream.setOutputIterator(_poi);
 #endif
@@ -316,7 +316,7 @@ osg::Object* ClassInterface::createObject(const std::string& compoundClassName) 
 
 bool ClassInterface::copyPropertyDataFromObject(const osg::Object* object, const std::string& propertyName, void* valuePtr, unsigned int valueSize, osgDB::BaseSerializer::Type valueType)
 {
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     _poi->flush();
 
     osgDB::BaseSerializer::Type sourceType;

@@ -16,7 +16,7 @@ static bool readArea( osgDB::InputStream& is, osg::Scissor& attr )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::Scissor& attr )
 {
     os << attr.x() << attr.y() << attr.width() << attr.height() << std::endl;

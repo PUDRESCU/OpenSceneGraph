@@ -20,7 +20,7 @@ static bool readPlacers( osgDB::InputStream& is, osgParticle::CompositePlacer& c
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writePlacers( osgDB::OutputStream& os, const osgParticle::CompositePlacer& cp )
 {
     unsigned int size = cp.getNumPlacers();

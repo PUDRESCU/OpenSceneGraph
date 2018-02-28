@@ -23,7 +23,7 @@ static bool readShaderSource( osgDB::InputStream& is, osg::Shader& shader )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeShaderSource( osgDB::OutputStream& os, const osg::Shader& shader )
 {
     std::vector<std::string> lines;

@@ -22,7 +22,7 @@ static bool readPositionList( osgDB::InputStream& is, osg::Billboard& node )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writePositionList( osgDB::OutputStream& os, const osg::Billboard& node )
 {
     const osg::Billboard::PositionList& posList = node.getPositionList();

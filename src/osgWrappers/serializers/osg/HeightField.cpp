@@ -18,7 +18,7 @@ static bool readArea( osgDB::InputStream& is, osg::HeightField& shape )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeArea( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
     os << shape.getNumColumns() << shape.getNumRows() << std::endl;
@@ -51,7 +51,7 @@ static bool readHeights( osgDB::InputStream& is, osg::HeightField& shape )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeHeights( osgDB::OutputStream& os, const osg::HeightField& shape )
 {
     os.writeArray( shape.getFloatArray() );

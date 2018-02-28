@@ -17,7 +17,7 @@
 #include <osgParticle/Emitter>
 #include <osgParticle/Program>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgParticle
 {

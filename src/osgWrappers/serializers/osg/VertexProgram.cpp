@@ -22,7 +22,7 @@ static bool readLocalParameters( osgDB::InputStream& is, osg::VertexProgram& vp 
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeLocalParameters( osgDB::OutputStream& os, const osg::VertexProgram& vp )
 {
     const osg::VertexProgram::LocalParamList& params = vp.getLocalParameters();
@@ -56,7 +56,7 @@ static bool readMatrices( osgDB::InputStream& is, osg::VertexProgram& vp )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 static bool writeMatrices( osgDB::OutputStream& os, const osg::VertexProgram& vp )
 {
     const osg::VertexProgram::MatrixList& matrices = vp.getMatrices();

@@ -14,7 +14,7 @@
 #include <osgUtil/LineSegmentIntersector>
 #include <osg/io_utils>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 using namespace osg;
 using namespace osgGA;

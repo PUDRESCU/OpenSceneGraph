@@ -441,7 +441,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
         double delta = osg::Timer::instance()->delta_s(_lastFrameTime, time);
         _lastFrameTime = time;
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         // If our internal _delta is finally large enough to warrant a ControlPoint
         // insertion, do so now. Be sure and reset the internal _delta, so we can start
         // calculating when the next insert should happen.
@@ -454,7 +454,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
             if (_fout)
             {
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
                 _animPath->write(_animPath->getTimeControlPointMap().find(animationPathTime), _fout);
 #endif
                 _fout.flush();
@@ -483,7 +483,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
                 {
                     _currentlyRecording = true;
                     _animStartTime = osg::Timer::instance()->tick();
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
                     _animPath = new osg::AnimationPath();
 #endif
                     if (!_filename.empty())
@@ -521,7 +521,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
                 return true;
             }
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
             // The user has requested to toggle playback. You'll notice in the code below that
             // we take over the current manipulator; it was originally recommended that we
             // check for a KeySwitchManipulator, create one if not present, and then add this
@@ -538,7 +538,7 @@ bool RecordCameraPathHandler::handle(const osgGA::GUIEventAdapter &ea, osgGA::GU
 
                     if (_animPath.valid() && !_animPath->empty())
                     {
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
                         // In the future this will need to be written continuously, rather
                         // than all at once.
                         osgDB::ofstream out(_filename.c_str());

@@ -499,7 +499,7 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
         case(GL_RGBA8): return 4;
         case(GL_LUMINANCE): return 1;
         case(GL_INTENSITY): return 1;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): return 3;
         case(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT): return 4;
         case(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT): return 4;
@@ -615,7 +615,7 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
 
 unsigned int Image::computePixelSizeInBits(GLenum format,GLenum type)
 {
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
     switch(format)
     {
         case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): return 4;

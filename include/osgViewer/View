@@ -164,7 +164,7 @@ class OSGVIEWER_EXPORT View : public osg::View, public osgGA::GUIActionAdapter
         /* Get the const View's EventQueue.*/
         const osgGA::EventQueue* getEventQueue() const { return _eventQueue.get(); }
         
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
         /** Set the CameraManipulator that moves the View's master Camera position in response to events.
           * The parameter resetPosition determines whether manipulator is set to its home position.*/
@@ -312,7 +312,7 @@ class OSGVIEWER_EXPORT View : public osg::View, public osgGA::GUIActionAdapter
 
         osg::Texture* createDistortionTexture(int width, int height);
         osg::Camera* assignRenderToTextureCamera(osg::GraphicsContext* gc, int width, int height, osg::Texture* texture);
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         osg::Camera* assignKeystoneDistortionCamera(osg::DisplaySettings* ds, osg::GraphicsContext* gc, int x, int y, int width, int height, GLenum buffer, osg::Texture* texture, Keystone* keystone);
         osg::Camera* assignStereoCamera(osg::DisplaySettings* ds, osg::GraphicsContext* gc, int x, int y, int width, int height, GLenum buffer, double eyeScale);
         void assignStereoOrKeystoneToCamera(osg::Camera* camera, osg::DisplaySettings* ds);
@@ -350,7 +350,7 @@ class OSGVIEWER_EXPORT View : public osg::View, public osgGA::GUIActionAdapter
 
         osg::ref_ptr<osgViewer::Scene>          _scene;
         osg::ref_ptr<osgGA::EventQueue>         _eventQueue;
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
         osg::ref_ptr<osgGA::CameraManipulator>  _cameraManipulator;
 #endif
         EventHandlers                           _eventHandlers;

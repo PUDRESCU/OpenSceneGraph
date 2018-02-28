@@ -18,7 +18,7 @@
 #include <osgParticle/ModularEmitter>
 #include <osgParticle/FluidProgram>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 namespace osgParticle
 {

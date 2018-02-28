@@ -81,7 +81,7 @@ bool readParticle( osgDB::InputStream& is, osgParticle::Particle& p )
     return true;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 bool writeParticle( osgDB::OutputStream& os, const osgParticle::Particle& p )
 {
     os << os.BEGIN_BRACKET << std::endl;

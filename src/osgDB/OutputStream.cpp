@@ -22,7 +22,7 @@
 #include <sstream>
 #include <stdlib.h>
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
 using namespace osgDB;
 

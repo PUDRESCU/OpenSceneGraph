@@ -18,7 +18,7 @@
 #include <osgDB/ObjectWrapper>
 #include <stdlib.h>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 #include "AsciiStreamOperator.h"
 #include "XmlStreamOperator.h"
 #endif
@@ -65,7 +65,7 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
         std::string header; fin >> header;
         if ( header=="#Ascii" )
         {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
             return NULL;
 #else
             return new AsciiInputIterator(&fin);
@@ -79,7 +79,7 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
         std::string header; std::getline( fin, header );
         if ( !header.compare(0, 5, "<?xml") )
         {
-#ifdef IM_SIZE_REDUCTION
+#ifdef IM_OSG_SIZE_REDUCTION
             return NULL;
 #else
             return new XmlInputIterator(&fin);
@@ -90,7 +90,7 @@ InputIterator* readInputIterator( std::istream& fin, const Options* options )
     return NULL;
 }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 OutputIterator* writeOutputIterator( std::ostream& fout, const Options* options )
 {
   
@@ -281,7 +281,7 @@ public:
         return node;
     }
 
-#ifndef IM_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
     Options* prepareWriting( WriteResult& result, const std::string& fileName, std::ios::openmode& mode, const Options* options ) const
     {
         std::string ext = osgDB::getLowerCaseFileExtension( fileName );

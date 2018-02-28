@@ -20,7 +20,7 @@
 #include <osg/Node>
 #include <osg/Matrix>
 
-#ifndef IM_SIZE_REDUCTION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 /**
   \class osgGA::UFOManipulator
