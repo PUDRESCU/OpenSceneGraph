@@ -17,8 +17,6 @@
 #include <osg/Image>
 #include <stdlib.h>
 
-#ifndef IM_OSG_SIZE_REDUCTION
-
 namespace osg {
 
 /** Pure virtual AudioSink bass class that is used to connect the audio system with AudioStreams. */
@@ -84,5 +82,4 @@ class OSG_EXPORT AudioStream : public osg::Object
 };
 
 } // namespace
-#endif
 #endif
