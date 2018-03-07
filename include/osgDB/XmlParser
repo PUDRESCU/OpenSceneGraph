@@ -20,7 +20,7 @@ namespace osgDB {
 
 extern OSGDB_EXPORT std::string trimEnclosingSpaces(const std::string& str);
 
-#ifndef IM_OSG_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 // forward declare
 class XmlNode;
@@ -141,18 +141,23 @@ class OSGDB_EXPORT XmlNode : public osg::Referenced
         };
 
         bool read(Input& input);
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
+
         bool write(std::ostream& fout, const std::string& indent = "") const;
 
         bool write(const ControlMap& controlMap, std::ostream& fout, const std::string& indent = "") const;
         bool writeString(const ControlMap& controlMap, std::ostream& fout, const std::string& str) const;
-
+#endif
     protected:
+    
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 
         bool writeChildren(const ControlMap& controlMap, std::ostream& fout, const std::string& indent) const;
         bool writeProperties(const ControlMap& controlMap, std::ostream& fout) const;
-
+#endif
         bool readAndReplaceControl(std::string& contents, Input& input);
 };
+
 #endif
 }
 #endif

@@ -33,7 +33,7 @@ std::string osgDB::trimEnclosingSpaces(const std::string& str)
   return std::string(str, start, (end-start)+1);
 }
 
-#ifndef IM_OSG_NO_WRITE_SERIALIZATION
+#ifndef IM_OSG_SIZE_REDUCTION
 
 XmlNode* osgDB::readXmlFile(const std::string& filename,const Options* options)
 {
@@ -426,6 +426,7 @@ bool XmlNode::read(Input& input)
     return false;
 }
 
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
 bool XmlNode::write(std::ostream& fout, const std::string& indent) const
 {
     ControlMap controlMap;
@@ -522,6 +523,7 @@ bool XmlNode::writeProperties(const ControlMap& controlMap, std::ostream& fout) 
 
     return true;
 }
+#endif
 
 bool XmlNode::readAndReplaceControl(std::string& contents, XmlNode::Input& input)
 {

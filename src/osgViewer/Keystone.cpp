@@ -441,7 +441,10 @@ bool KeystoneHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
         }
         else if (ea.getUnmodifiedKey()=='s')
         {
+#ifndef IM_OSG_NO_WRITE_SERIALIZATION
             _keystone->writeToFile();
+#endif
+          
             return true;
         }
     }
