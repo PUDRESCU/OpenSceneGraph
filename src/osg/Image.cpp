@@ -499,7 +499,6 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
         case(GL_RGBA8): return 4;
         case(GL_LUMINANCE): return 1;
         case(GL_INTENSITY): return 1;
-#ifndef IM_OSG_SIZE_REDUCTION
         case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): return 3;
         case(GL_COMPRESSED_RGBA_S3TC_DXT1_EXT): return 4;
         case(GL_COMPRESSED_RGBA_S3TC_DXT3_EXT): return 4;
@@ -603,7 +602,6 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
         case(GL_BGRA_INTEGER_EXT): return 4;
         case(GL_LUMINANCE_INTEGER_EXT): return 1;
         case(GL_LUMINANCE_ALPHA_INTEGER_EXT): return 2;
-#endif
         default:
         {
             OSG_WARN<<"error pixelFormat = "<<std::hex<<pixelFormat<<std::dec<<std::endl;
@@ -615,7 +613,6 @@ unsigned int Image::computeNumComponents(GLenum pixelFormat)
 
 unsigned int Image::computePixelSizeInBits(GLenum format,GLenum type)
 {
-#ifndef IM_OSG_SIZE_REDUCTION
     switch(format)
     {
         case(GL_COMPRESSED_RGB_S3TC_DXT1_EXT): return 4;
@@ -666,7 +663,7 @@ unsigned int Image::computePixelSizeInBits(GLenum format,GLenum type)
             return 0;
         default: break;
     }
-#endif
+
     switch(format)
     {
         case(GL_LUMINANCE4): return 4;
