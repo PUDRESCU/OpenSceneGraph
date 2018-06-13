@@ -756,6 +756,8 @@ protected:
             setColorArray(colors, osg::Array::BIND_OVERALL);
 
             setDrawCallback(new GraphUpdateCallback(pos, width, height, viewerStats, stats, max, nameBegin, nameEnd));
+          
+            setCullingActive(false);
         }
     };
 

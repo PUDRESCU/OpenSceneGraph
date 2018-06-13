@@ -42,6 +42,7 @@ class Node;
 class Switch;
 class Geode;
 class Camera;
+class OccluderNode;
 
 /** A vector of Nodes pointers which is used to describe the path from a root node to a descendant.*/
 typedef std::vector< Node* > NodePath;
@@ -158,6 +159,9 @@ class OSG_EXPORT Node : public Object
           * Equivalent to dynamic_cast<const Terrain*>(this).*/
         virtual const osgTerrain::Terrain* asTerrain() const { return 0; }
 
+        virtual OccluderNode* asOccluderNode() { return 0; }
+
+        virtual const OccluderNode* asOccluderNode() const { return 0; }
 
         /** Visitor Pattern : calls the apply method of a NodeVisitor with this node's type.*/
         virtual void accept(NodeVisitor& nv);
@@ -334,7 +338,7 @@ class OSG_EXPORT Node : public Object
 
         /** Return true if this node can be culled by view frustum, occlusion or small feature culling during the cull traversal.
           * Note, returns true only if no children have culling disabled, and the local _cullingActive flag is true.*/
-        inline bool isCullingActive() const { return _numChildrenWithCullingDisabled==0 && _cullingActive && getBound().valid(); }
+        inline bool isCullingActive() const { return _numChildrenWithCullingDisabled==0 && _cullingActive;}
 
         /** Get the number of Children of this node which are or have OccluderNode's.*/
         inline unsigned int getNumChildrenWithOccluderNodes() const { return _numChildrenWithOccluderNodes; }
