@@ -1,4 +1,5 @@
 SET(TARGET_SRC
+    CameraParameterNode.cpp
     OrientationConverter.cpp 
     osgconv.cpp
     ShaderBase.cpp
@@ -17,6 +18,7 @@ SET(TARGET_SRC
     GeodePropertyParameterNode.cpp
 )
 SET(TARGET_H
+    CameraParameterNode.h
     OrientationConverter.h
     ShaderBase.h
     ShaderConstants.h
